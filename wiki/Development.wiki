@@ -13,7 +13,7 @@ The source code is stored here on Google Code in a Subversion repository.
 
 == Command-line ==
 
-Take a look at the [http://code.google.com/p/robowarx/source/checkout “Source -> Checkout” page], which shows you an example command-line for getting the latest source code. Usually, for non project members, this is something like:
+Take a look at the [http://code.google.com/p/robowarx/source/checkout “Source → Checkout” page], which shows you an example command-line for getting the latest source code. Usually, for non project members, this is something like:
 
 {{{
 # svn checkout http://robowarx.googlecode.com/svn/trunk/robowarx/
@@ -28,16 +28,16 @@ Keeping your source code up to date after the initial checkout is easy. Simply o
 
 == MonoDevelop ==
 
-In MonoDevelop, you can also use the “File” -> “Checkout” option. In this dialog, switch to the repositories tab and add a new repository. You'll need the following info (for non project members):
+In MonoDevelop, you can also use the “File” → “Checkout” option. In this dialog, switch to the repositories tab and add a new repository. You'll need the following info (for non project members):
  * Protocol: http
  * Server: robowarx.googlecode.com
  * Path: /svn
  * Optionally fill in the name field.
  * Leave the other fields as is.
 
-After clicking OK, click the arrow to expand your new repository, until you can select “trunk” -> “robowarx”. You probably want to point the target directory field at an empty directory somewhere, then click OK.
+After clicking OK, click the arrow to expand your new repository, until you can select “trunk” → “robowarx”. You probably want to point the target directory field at an empty directory somewhere, then click OK.
 
-To keep your code up to date, right click the root node in the solutions sidepane, which should be labeled “Solution RoboWarX”, and select “Version Control” -> “Update”.
+To keep your code up to date, right click the root node in the solutions sidepane, which should be labeled “Solution RoboWarX”, and select “Version Control” → “Update”.
 
 == Visual Studio 2005 ==
 
