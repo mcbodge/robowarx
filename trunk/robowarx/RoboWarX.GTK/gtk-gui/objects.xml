@@ -1,0 +1,10 @@
+<objects>
+  <object type="RoboWarX.GTK.RobotWidget" palette-category="RoboWarX.GTK" allow-children="false" base-type="Gtk.Bin">
+    <itemgroups />
+    <signals />
+  </object>
+  <object type="RoboWarX.GTK.ArenaWidget" palette-category="RoboWarX.GTK" allow-children="false" base-type="Gtk.Bin">
+    <itemgroups />
+    <signals />
+  </object>
+</objects>
