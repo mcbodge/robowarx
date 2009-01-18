@@ -1,0 +1,82 @@
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{10E2457E-E356-4B1E-B2C0-81C1B45E8D54}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>LibRoboWarX</RootNamespace>
+    <AssemblyName>LibRoboWarX</AssemblyName>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Drawing" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="Arena\Arena.cs" />
+    <Compile Include="Arena\ArenaObject.cs" />
+    <Compile Include="Arena\BigExplosion.cs" />
+    <Compile Include="Arena\Exceptions.cs" />
+    <Compile Include="Arena\Explosion.cs" />
+    <Compile Include="Arena\Projectile.cs" />
+    <Compile Include="Arena\Register.cs" />
+    <Compile Include="Arena\Robot.cs" />
+    <Compile Include="Arena\StockRegisters.cs" />
+    <Compile Include="Compiler\Compiler.cs" />
+    <Compile Include="Compiler\Exceptions.cs" />
+    <Compile Include="Compiler\Tokenizer.cs" />
+    <Compile Include="FileFormats\MacBinary.cs" />
+    <Compile Include="FileFormats\RobotFile.cs" />
+    <Compile Include="FileFormats\WinRoboWar5.cs" />
+    <Compile Include="Global\Bytescodes.cs" />
+    <Compile Include="Global\Constants.cs" />
+    <Compile Include="Global\IPluginEntry.cs" />
+    <Compile Include="Global\ITemplateRegister.cs" />
+    <Compile Include="Global\Util.cs" />
+    <Compile Include="Resources.cs" />
+    <Compile Include="VirtualMachine\Exceptions.cs" />
+    <Compile Include="VirtualMachine\Interpreter.cs" />
+    <Compile Include="VirtualMachine\Operators.cs" />
+    <Compile Include="Weapons\Bullet.cs" />
+    <Compile Include="Weapons\Drone.cs" />
+    <Compile Include="Weapons\Hellbore.cs" />
+    <Compile Include="Weapons\Laser.cs" />
+    <Compile Include="Weapons\Mine.cs" />
+    <Compile Include="Weapons\Missile.cs" />
+    <Compile Include="Weapons\Stunner.cs" />
+    <Compile Include="Weapons\TacNuke.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Graphics\bullet.png">
+      <LogicalName>Projectile.Bullet</LogicalName>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

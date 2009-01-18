@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 9.00
+# Visual Studio 2005
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RoboWarX.WinForms", "RoboWarX.WinForms\RoboWarX.WinForms.csproj", "{2AEB7C5C-BBDC-4567-9F95-A94299D971DF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibRoboWarX", "LibRoboWarX\LibRoboWarX.csproj", "{10E2457E-E356-4B1E-B2C0-81C1B45E8D54}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2AEB7C5C-BBDC-4567-9F95-A94299D971DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2AEB7C5C-BBDC-4567-9F95-A94299D971DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2AEB7C5C-BBDC-4567-9F95-A94299D971DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2AEB7C5C-BBDC-4567-9F95-A94299D971DF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{10E2457E-E356-4B1E-B2C0-81C1B45E8D54}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{10E2457E-E356-4B1E-B2C0-81C1B45E8D54}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{10E2457E-E356-4B1E-B2C0-81C1B45E8D54}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{10E2457E-E356-4B1E-B2C0-81C1B45E8D54}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

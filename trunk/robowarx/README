@@ -1,0 +1,32 @@
+This is RoboWarX, a clone of the Macintosh game RoboWar.
+
+RoboWarX is incomplete, at the time of writing. However, simple bots and some
+Tournament I bots have been tested and found to run. There's only half decent
+error handling though, so if you try a too fancy robot it might take the
+entire application down with it!
+
+This is a source code package. There are two solution files, one for
+Visual Studio 2005, and another for MonoDevelop 1.0.
+
+After a build on Windows, run "RoboWarX.WinForms.exe".
+Any other platform that has Mono and GTK# available can use them to run
+"RoboWarX.GTK.exe". (Linux, Mac OS X with some effort, and others.)
+
+Most glaring ommisions: (in order of personal importance)
+ - Interrupts
+ - Many weapons (just bullets and missiles implemented)
+ - Editor
+ - Debugger
+ - Still a couple of special operators and registers
+   (history, channel, signal, for example)
+ - Headless / command-line interface
+ - Sounds
+ - Icons
+ - GUI polish
+ - Smaller things (look for FIXMEs!)
+ - Perhaps a Mac OS X native interface?
+
+You may also find that the Windows part of the code may be outdated.
+
+Have fun!
+-- Stéphan Kochen <stephan@kochen.nl>
