@@ -1,0 +1,477 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<stetic-interface>
+  <configuration>
+    <images-root-path>..</images-root-path>
+    <target-gtk-version>2.10.2</target-gtk-version>
+  </configuration>
+  <import>
+    <widget-library name="../bin/Debug/RoboWarX.GTK.exe" internal="true" />
+  </import>
+  <action-group name="RoboWarX.GTK.BasicActions">
+    <action id="OpenAction">
+      <property name="Type">Action</property>
+      <property name="Label" translatable="yes">_Open...</property>
+      <property name="ShortLabel" translatable="yes">_Open...</property>
+      <property name="StockId">gtk-open</property>
+    </action>
+    <action id="QuitAction">
+      <property name="Type">Action</property>
+      <property name="Label" translatable="yes">_Quit</property>
+      <property name="ShortLabel" translatable="yes">_Quit</property>
+      <property name="StockId">gtk-quit</property>
+    </action>
+    <action id="FileMenuAction">
+      <property name="Type">Action</property>
+      <property name="Label" translatable="yes">_File</property>
+      <property name="ShortLabel" translatable="yes">_File</property>
+    </action>
+    <action id="NewAction">
+      <property name="Type">Action</property>
+      <property name="Label" translatable="yes">_Reset</property>
+      <property name="ShortLabel" translatable="yes">_Reset</property>
+      <property name="StockId">gtk-refresh</property>
+    </action>
+    <action id="PlayAction">
+      <property name="Type">Action</property>
+      <property name="Label" translatable="yes">_Play</property>
+      <property name="ShortLabel" translatable="yes">_Play</property>
+      <property name="StockId">gtk-media-play</property>
+    </action>
+    <action id="PauseAction">
+      <property name="Type">Action</property>
+      <property name="Label" translatable="yes">_Pause</property>
+      <property name="ShortLabel" translatable="yes">_Pause</property>
+      <property name="StockId">gtk-media-pause</property>
+    </action>
+  </action-group>
+  <widget class="Gtk.Window" id="RoboWarX.GTK.MainWindow" design-size="792 563">
+    <property name="MemberName" />
+    <property name="Title" translatable="yes">RoboWarX</property>
+    <property name="WindowPosition">CenterOnParent</property>
+    <property name="DefaultWidth">600</property>
+    <property name="DefaultHeight">320</property>
+    <signal name="DeleteEvent" handler="OnDeleteEvent" />
+    <child>
+      <widget class="Gtk.VBox" id="mainvbox">
+        <property name="MemberName" />
+        <child>
+          <widget class="Gtk.HBox" id="hbox1">
+            <property name="MemberName" />
+            <property name="Spacing">7</property>
+            <property name="BorderWidth">12</property>
+            <child>
+              <widget class="RoboWarX.GTK.ArenaWidget" id="arenaview">
+                <property name="MemberName" />
+              </widget>
+              <packing>
+                <property name="Position">0</property>
+                <property name="AutoSize">False</property>
+                <property name="Expand">False</property>
+                <property name="Fill">False</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="Gtk.VBox" id="vbox1">
+                <property name="MemberName" />
+                <child>
+                  <widget class="Gtk.VBox" id="robotvbox">
+                    <property name="MemberName" />
+                    <property name="Spacing">2</property>
+                    <child>
+                      <widget class="Gtk.Label" id="spacer1">
+                        <property name="MemberName" />
+                      </widget>
+                      <packing>
+                        <property name="PackType">End</property>
+                        <property name="Position">0</property>
+                        <property name="AutoSize">False</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <widget class="Gtk.HBox" id="hbox15">
+                        <property name="MemberName" />
+                        <property name="Spacing">6</property>
+                        <child>
+                          <widget class="Gtk.Label" id="spacer2">
+                            <property name="MemberName" />
+                          </widget>
+                          <packing>
+                            <property name="Position">0</property>
+                            <property name="AutoSize">False</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <widget class="Gtk.Button" id="openbutton">
+                            <property name="MemberName" />
+                            <property name="CanFocus">True</property>
+                            <property name="UseStock">True</property>
+                            <property name="Type">StockItem</property>
+                            <property name="StockId">gtk-open</property>
+                            <property name="label">gtk-open</property>
+                          </widget>
+                          <packing>
+                            <property name="Position">1</property>
+                            <property name="AutoSize">False</property>
+                            <property name="Expand">False</property>
+                            <property name="Fill">False</property>
+                          </packing>
+                        </child>
+                      </widget>
+                      <packing>
+                        <property name="PackType">End</property>
+                        <property name="Position">1</property>
+                        <property name="AutoSize">True</property>
+                        <property name="Expand">False</property>
+                        <property name="Fill">False</property>
+                      </packing>
+                    </child>
+                  </widget>
+                  <packing>
+                    <property name="Position">0</property>
+                    <property name="AutoSize">False</property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="Gtk.HBox" id="hbox8">
+                    <property name="MemberName" />
+                    <property name="Spacing">12</property>
+                    <child>
+                      <widget class="Gtk.HButtonBox" id="hbuttonbox1">
+                        <property name="MemberName" />
+                        <property name="Spacing">6</property>
+                        <property name="Size">3</property>
+                        <child>
+                          <widget class="Gtk.Button" id="newbutton">
+                            <property name="MemberName" />
+                            <property name="CanFocus">True</property>
+                            <property name="UseStock">True</property>
+                            <property name="Type">StockItem</property>
+                            <property name="StockId">gtk-new</property>
+                            <property name="label">gtk-new</property>
+                          </widget>
+                          <packing>
+                            <property name="Expand">False</property>
+                            <property name="Fill">False</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <widget class="Gtk.Button" id="playbutton">
+                            <property name="MemberName" />
+                            <property name="CanFocus">True</property>
+                            <property name="UseStock">True</property>
+                            <property name="Type">StockItem</property>
+                            <property name="StockId">gtk-media-play</property>
+                            <property name="label">gtk-media-play</property>
+                          </widget>
+                          <packing>
+                            <property name="Position">1</property>
+                            <property name="Expand">False</property>
+                            <property name="Fill">False</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <widget class="Gtk.Button" id="pausebutton">
+                            <property name="MemberName" />
+                            <property name="CanFocus">True</property>
+                            <property name="UseStock">True</property>
+                            <property name="Type">StockItem</property>
+                            <property name="StockId">gtk-media-pause</property>
+                            <property name="label">gtk-media-pause</property>
+                          </widget>
+                          <packing>
+                            <property name="Position">2</property>
+                            <property name="Expand">False</property>
+                            <property name="Fill">False</property>
+                          </packing>
+                        </child>
+                      </widget>
+                      <packing>
+                        <property name="Position">0</property>
+                        <property name="AutoSize">False</property>
+                        <property name="Expand">False</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <widget class="Gtk.VBox" id="vbox4">
+                        <property name="MemberName" />
+                        <property name="Homogeneous">True</property>
+                        <property name="Spacing">2</property>
+                        <child>
+                          <widget class="Gtk.Label" id="chrononlabel">
+                            <property name="MemberName" />
+                            <property name="Xalign">0</property>
+                            <property name="LabelProp" translatable="yes">Chronon __ (~_.__ c/s)</property>
+                          </widget>
+                          <packing>
+                            <property name="Position">0</property>
+                            <property name="AutoSize">False</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <widget class="Gtk.Label" id="seedlabel">
+                            <property name="MemberName" />
+                            <property name="Xalign">0</property>
+                            <property name="LabelProp" translatable="yes">&lt;small&gt;Match seed: _________________&lt;/small&gt;</property>
+                            <property name="UseMarkup">True</property>
+                          </widget>
+                          <packing>
+                            <property name="Position">1</property>
+                            <property name="AutoSize">True</property>
+                            <property name="Expand">False</property>
+                            <property name="Fill">False</property>
+                          </packing>
+                        </child>
+                      </widget>
+                      <packing>
+                        <property name="Position">1</property>
+                        <property name="AutoSize">False</property>
+                      </packing>
+                    </child>
+                  </widget>
+                  <packing>
+                    <property name="Position">1</property>
+                    <property name="AutoSize">False</property>
+                    <property name="Expand">False</property>
+                    <property name="Fill">False</property>
+                  </packing>
+                </child>
+              </widget>
+              <packing>
+                <property name="Position">1</property>
+                <property name="AutoSize">False</property>
+              </packing>
+            </child>
+          </widget>
+          <packing>
+            <property name="PackType">End</property>
+            <property name="Position">0</property>
+            <property name="AutoSize">False</property>
+          </packing>
+        </child>
+      </widget>
+    </child>
+  </widget>
+  <widget class="Gtk.Bin" id="RoboWarX.GTK.RobotWidget" design-size="336 52">
+    <property name="MemberName" />
+    <child>
+      <widget class="Gtk.HBox" id="hbox1">
+        <property name="MemberName" />
+        <property name="Spacing">6</property>
+        <child>
+          <widget class="Gtk.DrawingArea" id="iconbox">
+            <property name="MemberName" />
+            <property name="WidthRequest">32</property>
+            <property name="HeightRequest">32</property>
+            <signal name="ExposeEvent" handler="OnIconboxExposeEvent" />
+          </widget>
+          <packing>
+            <property name="Position">0</property>
+            <property name="AutoSize">False</property>
+            <property name="Expand">False</property>
+          </packing>
+        </child>
+        <child>
+          <widget class="Gtk.Label" id="namelabel">
+            <property name="MemberName" />
+            <property name="Xalign">0</property>
+            <property name="LabelProp" translatable="yes">&lt;big&gt;&lt;b&gt;Name&lt;/b&gt;&lt;/big&gt;</property>
+            <property name="UseMarkup">True</property>
+          </widget>
+          <packing>
+            <property name="Position">1</property>
+            <property name="AutoSize">False</property>
+          </packing>
+        </child>
+        <child>
+          <widget class="Gtk.HBox" id="hbox2">
+            <property name="MemberName" />
+            <property name="Spacing">12</property>
+            <child>
+              <widget class="Gtk.Label" id="statuslabel1">
+                <property name="MemberName" />
+                <property name="Xalign">1</property>
+                <property name="LabelProp" translatable="yes">Status:
+Status:</property>
+                <property name="Justify">Right</property>
+              </widget>
+              <packing>
+                <property name="Position">0</property>
+                <property name="AutoSize">False</property>
+                <property name="Expand">False</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="Gtk.Label" id="statuslabel2">
+                <property name="MemberName" />
+                <property name="Xalign">1</property>
+                <property name="LabelProp" translatable="yes">___
+___</property>
+                <property name="Justify">Right</property>
+              </widget>
+              <packing>
+                <property name="Position">1</property>
+                <property name="AutoSize">False</property>
+              </packing>
+            </child>
+          </widget>
+          <packing>
+            <property name="PackType">End</property>
+            <property name="Position">2</property>
+            <property name="AutoSize">False</property>
+            <property name="Expand">False</property>
+          </packing>
+        </child>
+      </widget>
+    </child>
+  </widget>
+  <widget class="Gtk.Bin" id="RoboWarX.GTK.ArenaWidget" design-size="300 300">
+    <property name="MemberName" />
+    <child>
+      <widget class="Gtk.DrawingArea" id="view">
+        <property name="MemberName" />
+        <property name="WidthRequest">300</property>
+        <property name="HeightRequest">300</property>
+        <signal name="ExposeEvent" handler="OnViewExposeEvent" />
+      </widget>
+    </child>
+  </widget>
+  <widget class="Gtk.Dialog" id="RoboWarX.GTK.ErrorDialog" design-size="352 137">
+    <property name="MemberName" />
+    <property name="Title" translatable="yes">Robot error</property>
+    <property name="WindowPosition">CenterOnParent</property>
+    <property name="Modal">True</property>
+    <property name="Buttons">3</property>
+    <property name="HelpButton">False</property>
+    <property name="HasSeparator">False</property>
+    <child internal-child="VBox">
+      <widget class="Gtk.VBox" id="dialog1_VBox">
+        <property name="MemberName" />
+        <property name="BorderWidth">2</property>
+        <child>
+          <widget class="Gtk.HBox" id="hbox2">
+            <property name="MemberName" />
+            <property name="Spacing">12</property>
+            <property name="BorderWidth">7</property>
+            <child>
+              <widget class="Gtk.Image" id="image2">
+                <property name="MemberName" />
+                <property name="Yalign">0</property>
+                <property name="Pixbuf">stock:gtk-dialog-error Dialog</property>
+              </widget>
+              <packing>
+                <property name="Position">0</property>
+                <property name="AutoSize">True</property>
+                <property name="Expand">False</property>
+                <property name="Fill">False</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="Gtk.VBox" id="vbox3">
+                <property name="MemberName" />
+                <property name="Spacing">6</property>
+                <child>
+                  <widget class="Gtk.Label" id="titlelabel">
+                    <property name="MemberName" />
+                    <property name="Xalign">0</property>
+                    <property name="LabelProp" translatable="yes">&lt;big&gt;&lt;b&gt;Error in robot 'Name'&lt;/b&gt;&lt;/big&gt;</property>
+                    <property name="UseMarkup">True</property>
+                  </widget>
+                  <packing>
+                    <property name="Position">0</property>
+                    <property name="AutoSize">False</property>
+                    <property name="Expand">False</property>
+                    <property name="Fill">False</property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="Gtk.Label" id="errorlabel">
+                    <property name="MemberName" />
+                    <property name="Xalign">0</property>
+                    <property name="Yalign">0</property>
+                    <property name="LabelProp" translatable="yes">Error text</property>
+                    <property name="UseMarkup">True</property>
+                  </widget>
+                  <packing>
+                    <property name="Position">1</property>
+                    <property name="AutoSize">False</property>
+                  </packing>
+                </child>
+              </widget>
+              <packing>
+                <property name="Position">1</property>
+                <property name="AutoSize">True</property>
+                <property name="Expand">False</property>
+                <property name="Fill">False</property>
+              </packing>
+            </child>
+          </widget>
+          <packing>
+            <property name="Position">0</property>
+            <property name="AutoSize">False</property>
+          </packing>
+        </child>
+      </widget>
+    </child>
+    <child internal-child="ActionArea">
+      <widget class="Gtk.HButtonBox" id="dialog1_ActionArea">
+        <property name="MemberName" />
+        <property name="Spacing">6</property>
+        <property name="BorderWidth">5</property>
+        <property name="Size">3</property>
+        <property name="LayoutStyle">End</property>
+        <child>
+          <widget class="Gtk.Button" id="buttonJump">
+            <property name="MemberName" />
+            <property name="Sensitive">False</property>
+            <property name="CanDefault">True</property>
+            <property name="CanFocus">True</property>
+            <property name="UseStock">True</property>
+            <property name="Type">StockItem</property>
+            <property name="StockId">gtk-jump-to</property>
+            <property name="ResponseId">-10</property>
+            <property name="label">gtk-jump-to</property>
+          </widget>
+          <packing>
+            <property name="Expand">False</property>
+            <property name="Fill">False</property>
+          </packing>
+        </child>
+        <child>
+          <widget class="Gtk.Button" id="buttonStop">
+            <property name="MemberName" />
+            <property name="CanFocus">True</property>
+            <property name="UseStock">True</property>
+            <property name="Type">StockItem</property>
+            <property name="StockId">gtk-stop</property>
+            <property name="ResponseId">-6</property>
+            <signal name="Clicked" handler="OnButtonStopClicked" />
+            <property name="label">gtk-stop</property>
+          </widget>
+          <packing>
+            <property name="Position">1</property>
+            <property name="Expand">False</property>
+            <property name="Fill">False</property>
+          </packing>
+        </child>
+        <child>
+          <widget class="Gtk.Button" id="buttonClose">
+            <property name="MemberName" />
+            <property name="CanDefault">True</property>
+            <property name="CanFocus">True</property>
+            <property name="UseStock">True</property>
+            <property name="Type">StockItem</property>
+            <property name="StockId">gtk-close</property>
+            <property name="ResponseId">-7</property>
+            <signal name="Clicked" handler="OnButtonCloseClicked" />
+            <property name="label">gtk-close</property>
+          </widget>
+          <packing>
+            <property name="Position">2</property>
+            <property name="Expand">False</property>
+            <property name="Fill">False</property>
+          </packing>
+        </child>
+      </widget>
+    </child>
+  </widget>
+</stetic-interface>
