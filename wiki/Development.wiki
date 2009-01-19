@@ -133,3 +133,11 @@ Alternatively, commit specific files using:
 {{{
 # svn commit <files>
 }}}
+
+== MonoDevelop ==
+
+TO BE WRITTEN
+
+== Visual Studio 2005 ==
+
+TO BE WRITTEN
