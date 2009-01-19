@@ -79,3 +79,57 @@ TO BE WRITTEN: Windows systems with Visual Studio 2005 installed can do this as 
 == MonoDevelop / Visual Studio 2005 ==
 
 Hit the “Build solution” or “Run” button and you should be set.
+
+
+= Making changes =
+
+There's not a lot of magic to making changes with Subversion. Here's a small intro, but remember that there's [http://svnbook.red-bean.com/ far more extensive documentation] on Subversion out there on the internet.
+
+Remember that you can only upload changes if you are a project member, and the directory you are working in was checked out using your Google Code account over HTTPS.
+
+== Command-line ==
+
+You start out by simply making your changes, adding and removing files or directories, etc. Then “commit” them all to the source code repository in one batch.
+
+It's good practice to keep commits concise, as in: don't create 20 new features or fix many bugs in one commit. Keeping it down to single changes per commit helps in:
+ * keeping the revision log clean,
+ * reviewing code changes,
+ * tracing back regressions to a single change.
+
+Therefor, after you've made your changes (and tested them), it's never a bad idea to double check what you're about to commit. The most straight forward way to do this is:
+
+{{{
+# svn status
+}}}
+
+This will show you a list of altered files, prefixed with:
+ * M for modified
+ * D for deleted
+ * ? for files not currently tracked in version control.
+ * (there are more statuses not described here.)
+
+You'll notice any new files will show up as untracked. You'll have to add them using:
+
+{{{
+# svn add <files>
+}}}
+
+For more detailed output of your changes, you can see them all in standard diff format. You probably want to view this output in a pager or write it to a file. For example:
+
+{{{
+# svn diff | less
+}}}
+
+Finally, when you're all set, you can commit using:
+
+{{{
+# svn commit
+}}}
+
+You'll be greeted by a text editor so you can enter a commit message. Write one, save, exit and that's that.
+
+Alternatively, commit specific files using:
+
+{{{
+# svn commit <files>
+}}}
