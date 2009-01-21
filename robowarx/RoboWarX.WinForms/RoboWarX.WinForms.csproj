@@ -79,7 +79,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\LibRoboWarX\LibRoboWarX.mdp">
+    <ProjectReference Include="..\LibRoboWarX\LibRoboWarX.csproj">
       <Project>{10E2457E-E356-4B1E-B2C0-81C1B45E8D54}</Project>
       <Name>LibRoboWarX</Name>
     </ProjectReference>

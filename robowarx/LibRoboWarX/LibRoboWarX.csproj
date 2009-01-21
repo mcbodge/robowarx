@@ -1,4 +1,4 @@
-<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -36,7 +36,6 @@
     <Compile Include="Arena\Arena.cs" />
     <Compile Include="Arena\ArenaObject.cs" />
     <Compile Include="Arena\BigExplosion.cs" />
-    <Compile Include="Arena\Exceptions.cs" />
     <Compile Include="Arena\Explosion.cs" />
     <Compile Include="Arena\Projectile.cs" />
     <Compile Include="Arena\Register.cs" />
@@ -45,16 +44,16 @@
     <Compile Include="Compiler\Compiler.cs" />
     <Compile Include="Compiler\Exceptions.cs" />
     <Compile Include="Compiler\Tokenizer.cs" />
+    <Compile Include="Exceptions.cs" />
     <Compile Include="FileFormats\MacBinary.cs" />
     <Compile Include="FileFormats\RobotFile.cs" />
     <Compile Include="FileFormats\WinRoboWar5.cs" />
-    <Compile Include="Global\Bytescodes.cs" />
-    <Compile Include="Global\Constants.cs" />
-    <Compile Include="Global\IPluginEntry.cs" />
-    <Compile Include="Global\ITemplateRegister.cs" />
-    <Compile Include="Global\Util.cs" />
+    <Compile Include="FileFormats\Global\Bytescodes.cs" />
+    <Compile Include="FileFormats\Global\Constants.cs" />
+    <Compile Include="FileFormats\Global\IPluginEntry.cs" />
+    <Compile Include="FileFormats\Global\ITemplateRegister.cs" />
+    <Compile Include="FileFormats\Global\Util.cs" />
     <Compile Include="Resources.cs" />
-    <Compile Include="VirtualMachine\Exceptions.cs" />
     <Compile Include="VirtualMachine\Interpreter.cs" />
     <Compile Include="VirtualMachine\Operators.cs" />
     <Compile Include="Weapons\Bullet.cs" />
