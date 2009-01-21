@@ -1,0 +1,13 @@
+#summary Things to be done to get command-line mode working
+
+= Introduction =
+
+Here are things that would help get the command-line mode working.  I (Randall) am poking at some of them, but this is the first C# I've ever worked with.
+
+
+= Details =
+
+Needed
+  * Results of battle passed back as command-line/file output
+  * Exceptions to correctly handle stack underflow, divide by zero, etc, and report them as the result of a battle
+  * Battle termination after 1500 chronons
