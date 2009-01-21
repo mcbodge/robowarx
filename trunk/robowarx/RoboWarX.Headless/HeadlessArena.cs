@@ -12,7 +12,7 @@ namespace RoboWarX.Headless
     /// </summary>
     public class HeadlessArena
     {
-        public const string OUTPUT_STRING = "{0},{1},{2},{3},{4},{5},{6}";
+        public const string OUTPUT_STRING = "{0},{1},{2},{3},{4},{5},{6},{7},{8}";
         Arena.Arena arena;
         List<RobotWrapper> robots = new List<RobotWrapper>();
 
@@ -109,7 +109,7 @@ namespace RoboWarX.Headless
             Console.WriteLine(String.Format("Chronon: {0}", arena.chronon.ToString()));
             // Console.WriteLine(String.Format("RunTime: {0}ms", DateTime.Now.Subtract(gameStart).TotalMilliseconds));
             Console.WriteLine(String.Format(OUTPUT_STRING, "Name", "Number", "Energy", 
-                "Damage", "X", "Y", "team"));
+                "Damage", "X", "Y", "team","Alive", "Killer"));
             Console.WriteLine("".PadLeft(40, '-'));
             foreach(RobotWrapper rw in robots) 
                 Console.WriteLine(rw.ToString());
