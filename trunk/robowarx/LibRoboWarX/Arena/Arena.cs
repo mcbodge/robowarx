@@ -30,7 +30,7 @@ namespace RoboWarX.Arena
 
         // This matters when deciding a win
         private bool teamBattle;
-        private int chrononLimit;
+        private int chrononLimit_;
 
         // State. state. state.
         internal int chronon_;
@@ -52,7 +52,7 @@ namespace RoboWarX.Arena
             teamBattle = false;
 
             chronon_ = 0;
-            chrononLimit = -1;
+            chrononLimit_ = -1;
             onlyTrackingShots = 0;
             finished_ = false;
 
@@ -76,6 +76,12 @@ namespace RoboWarX.Arena
             {
                 return finished_;
             }
+        }
+
+        public int chrononLimit
+        {
+            get { return chrononLimit_; }
+            set { chrononLimit_ = value; }
         }
 
         // Check whether a robot is colliding with another or the wall.
@@ -300,7 +306,7 @@ namespace RoboWarX.Arena
             }
 
             chronon_++;
-            if (chrononLimit != -1 && chronon_ >= chrononLimit)
+            if (chrononLimit_ != 0 && chronon_ >= chrononLimit_)
                 finished_ = true;
 
             if (onlyTrackingShots > 0)

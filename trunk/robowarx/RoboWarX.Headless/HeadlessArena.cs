@@ -20,7 +20,11 @@ namespace RoboWarX.Headless
         public int ChrononLimit
         {
             get { return _chrononLimit; }
-            set { _chrononLimit = value; }
+            set { 
+                _chrononLimit = value;
+                if (arena != null)
+                    arena.chrononLimit = value;
+            }
         }
 
         private int _chrononsPerUpdate = 20;
@@ -51,6 +55,7 @@ namespace RoboWarX.Headless
         {
             arena = new Arena.Arena();
             arena.loadDefaults();
+            arena.chrononLimit = _chrononLimit;
         }
 
         /// <summary>
