@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RoboWarX.WinForms", "RoboWa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibRoboWarX", "LibRoboWarX\LibRoboWarX.csproj", "{10E2457E-E356-4B1E-B2C0-81C1B45E8D54}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RoboWarX.Headless", "RoboWarX.Headless\RoboWarX.Headless.csproj", "{DF4F5C0D-1931-46B9-B27E-019B5CEC7602}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,6 +21,10 @@ Global
 		{10E2457E-E356-4B1E-B2C0-81C1B45E8D54}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{10E2457E-E356-4B1E-B2C0-81C1B45E8D54}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{10E2457E-E356-4B1E-B2C0-81C1B45E8D54}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DF4F5C0D-1931-46B9-B27E-019B5CEC7602}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DF4F5C0D-1931-46B9-B27E-019B5CEC7602}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DF4F5C0D-1931-46B9-B27E-019B5CEC7602}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DF4F5C0D-1931-46B9-B27E-019B5CEC7602}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
