@@ -31,14 +31,12 @@ namespace RoboWarX.Headless
             }
             else
             {
-                if (robot.alive)
-                    return String.Format(HeadlessArena.OUTPUT_STRING, 
-                        robot.name, robot.number, robot_.energy, robot_.damage,
-                        robot.x, robot.y, robot.team, robot);
-                else
-                    return String.Format("{0}: killed by {1} at time {2}", robot.name,
-                        robot.killer == null ? "** Suicide ***" : robot.killer.name,
-                        robot.deathTime.ToString());
+                string killerName = robot.alive ? String.Empty : 
+                    robot.killer == null ? "SELF" : robot.killer.name;
+                return String.Format(HeadlessArena.OUTPUT_STRING,
+                    robot.name, robot.number, robot_.energy, robot_.damage,
+                    robot.x, robot.y, robot.team, robot.alive,
+                    killerName);
             }
 
         }
