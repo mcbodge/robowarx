@@ -134,6 +134,7 @@ namespace RoboWarX.Headless
             {
                 case ".bin": result = ClassicMBinRobot.read(filename); break;
                 case ".rwr": result = WinRoboWar5.read(filename); break;
+                case ".rtxt": result = SourceTestLoader.read(filename); break;
             }
             return result;
         }
