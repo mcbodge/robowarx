@@ -4,21 +4,25 @@
       <Entry build="True" name="RoboWarX.GTK" configuration="Debug" />
       <Entry build="True" name="LibRoboWarX" configuration="Debug" />
       <Entry build="True" name="RoboWarX.WinForms" configuration="Debug|Any CPU" />
+      <Entry build="True" name="RoboWarX.Headless" configuration="Debug|Any CPU" />
     </Configuration>
     <Configuration name="Release" ctype="CombineConfiguration">
       <Entry build="True" name="RoboWarX.GTK" configuration="Release" />
       <Entry build="True" name="LibRoboWarX" configuration="Release" />
       <Entry build="True" name="RoboWarX.WinForms" configuration="Debug|Any CPU" />
+      <Entry build="True" name="RoboWarX.Headless" configuration="Debug|Any CPU" />
     </Configuration>
   </Configurations>
   <StartMode startupentry="RoboWarX.GTK" single="True">
     <Execute type="None" entry="RoboWarX.GTK" />
     <Execute type="None" entry="LibRoboWarX" />
     <Execute type="None" entry="RoboWarX.WinForms" />
+    <Execute type="None" entry="RoboWarX.Headless" />
   </StartMode>
   <Entries>
     <Entry filename="RoboWarX.GTK/RoboWarX.GTK.mdp" />
     <Entry filename="LibRoboWarX/LibRoboWarX.mdp" />
     <Entry filename="RoboWarX.WinForms/RoboWarX.WinForms.csproj" />
+    <Entry filename="RoboWarX.Headless/RoboWarX.Headless.csproj" />
   </Entries>
 </Combine>
