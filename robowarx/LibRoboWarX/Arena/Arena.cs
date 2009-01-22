@@ -300,6 +300,13 @@ namespace RoboWarX.Arena
                     who.damage_ = -10;
                     who.deathReason_ = DeathReason.Buggy;
                 }
+                // catch all
+                catch (Exception e)
+                {
+                    errors.Add(new RobotException(who,e.Message, e));
+                    who.damage_ = -10;
+                    who.deathReason_ = DeathReason.Buggy;
+                }
 
                 // This happens when a robot suicides from excessive energy usage or is buggy.
                 checkDeath(who);

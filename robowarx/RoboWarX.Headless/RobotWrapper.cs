@@ -33,12 +33,12 @@ namespace RoboWarX.Headless
             {
                 string killerName = robot.alive ? String.Empty : 
                     robot.killer == null ? "SELF" : robot.killer.name;
+                string killedBy = robot.alive ? String.Empty : robot.deathReason.ToString();
                 return String.Format(HeadlessArena.OUTPUT_STRING,
                     robot.name, robot.number, robot_.energy, robot_.damage,
                     robot.x, robot.y, robot.team, robot.alive,
-                    killerName);
+                    killerName, killedBy);
             }
-
         }
     }
 }
