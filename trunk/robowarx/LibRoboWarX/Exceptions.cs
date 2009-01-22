@@ -39,7 +39,14 @@ namespace RoboWarX
     public class VMachineException : Exception
     {
         private readonly Interpreter interp;
-        
+
+
+        internal VMachineException(Interpreter interp, String msg, Exception innerException)
+            : base(msg, innerException)
+        {
+            this.interp = interp;
+        }
+
         internal VMachineException(Interpreter interp, String msg) : base(msg)
         {
             this.interp = interp;
@@ -72,7 +79,12 @@ namespace RoboWarX
     public class RobotException : VMachineException
     {
         public readonly Robot robot = null;
-        
+
+        internal RobotException(Robot robot, String reason, Exception innerException)
+            : base(robot.interp, reason, innerException)
+        {
+        }
+
         internal RobotException(Robot robot, String reason) : base(robot.interp, reason)
         {
             this.robot = robot;
