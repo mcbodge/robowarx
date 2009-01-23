@@ -44,4 +44,5 @@ Items suffixed with bold names are being worked on by that person.
  * A Mac OS X native interface?
  * Refactoring
    * Consistent naming _(suggest we use CamelCase in line with the rest of .NET, --Stéphan)_
+   * Move the drawing code out of LibRoboWarX, thus removing the System.Drawing dependency.
  * FIXMEs in the code
