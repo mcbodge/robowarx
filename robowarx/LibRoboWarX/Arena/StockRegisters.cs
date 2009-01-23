@@ -8,7 +8,12 @@ namespace RoboWarX.Arena.StockRegisters
     // They may be read or written.
     internal class CustomRegister : Register
     {
-        public override Int16 value { get; set; }
+        private Int16 _value;
+        public override Int16 value
+        {
+            get { return _value; }
+            set { _value = value; }
+        }
 
         internal CustomRegister(char name)
         {

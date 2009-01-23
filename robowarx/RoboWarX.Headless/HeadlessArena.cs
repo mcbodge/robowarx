@@ -100,8 +100,6 @@ namespace RoboWarX.Headless
                 runGame();
         }
 
-
-        private char[] whitespace = new char[] {'\t', '\r', '\n', ' '};
         /// <summary>
         /// Reads a robot from stdin
         /// </summary>
@@ -134,8 +132,6 @@ namespace RoboWarX.Headless
             }
             else
             {
-                gameStart = DateTime.Now;
-
                 while (!arena.finished)
                 {
                     try
@@ -154,8 +150,6 @@ namespace RoboWarX.Headless
                 DisplayState();
             }
         }
-
-        DateTime gameStart;
 
         /// <summary>
         /// Handles an error, current implementation simply displays the error message.
