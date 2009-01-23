@@ -49,9 +49,7 @@ internal class MissileRegister : Register
 
 First thing to note is that both the class itself and it's constructor are internal. Only the MissileEntry class really needs access to those, so they can be kept internal to the same plugin assembly.
 
-There are two important properties register must always set as seen here, these are the “name” property, which contains register's name as it appears in the code, and the “code” property, which contains the register's binary representation, as it appears in the compiled program.
-
-The constructor does not have to perform anything special. In the case of the missile, it does zilch.
+There are two important properties of register must always set as seen here, these are the “name” property, which contains register's name as it appears in the code, and the “code” property, which contains the register's binary representation, as it appears in the compiled program.
 
 Moving on down we find the “value” accessors:
 
