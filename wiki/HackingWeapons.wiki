@@ -38,10 +38,10 @@ The register classes are required to implement the RoboWarX.ITemplateRegister in
 {{{
 internal class MissileRegister : Register
 {
-    public const String name = "MISSILE";
-    public const Int16 code = (Int16)Bytecodes.REG_MISSILE;
-
-    internal MissileRegister() { }
+    internal MissileRegister() { 
+        name = "MISSILE"
+        code = (Int16)Bytecodes.REG_MISSILE;
+    }
 
     [...]
 }
@@ -49,7 +49,7 @@ internal class MissileRegister : Register
 
 First thing to note is that both the class itself and it's constructor are internal. Only the MissileEntry class really needs access to those, so they can be kept internal to the same plugin assembly.
 
-There are two important constants a register must always implement as seen here, these are the “name” atttribute, which contains register's name as it appears in the code, and the “code” attribute, which contains the register's binary representation, as it appears in the compiled program.
+There are two important properties register must always set as seen here, these are the “name” property, which contains register's name as it appears in the code, and the “code” property, which contains the register's binary representation, as it appears in the compiled program.
 
 The constructor does not have to perform anything special. In the case of the missile, it does zilch.
 
