@@ -9,14 +9,7 @@ namespace RoboWarX.Arena
     public abstract class Projectile : ArenaObject
     {
         // Cannot be readonly, because it is initialized after construction
-        private Robot owner_;
-        public Robot owner
-        {
-            get
-            {
-                return owner_;
-            }
-        }
+        public Robot owner { get; private set; }
 
         protected double anglex;
         protected double angley;
@@ -29,7 +22,7 @@ namespace RoboWarX.Arena
 
         public void onSpawn(Robot owner__, double anglex_, double angley_)
         {
-            owner_ = owner__;
+            owner = owner__;
             anglex = anglex_;
             angley = angley_;
         }
@@ -43,27 +36,27 @@ namespace RoboWarX.Arena
         internal void checkHitTarget ()
         {
             // Check if it went off the arena
-            if (x_ < 0 || x_ > Constants.ARENA_SIZE ||
-                y_ < 0 || y_ > Constants.ARENA_SIZE)
+            if (x < 0 || x > Constants.ARENA_SIZE ||
+                y < 0 || y > Constants.ARENA_SIZE)
             {
                 if (onHit(null))
                     return;
             }
 
             // Check for robots
-            foreach (Robot target in parent_.robots)
+            foreach (Robot target in parent.robots)
             {
-                if (target == null || !target.alive_)
+                if (target == null || !target.alive)
                     continue;
 
                 // Quick check of position
-                if (Math.Abs((int)x_ - (int)target.x_) >= Constants.ROBOT_RADIUS ||
-                    Math.Abs((int)y_ - (int)target.y_) >= Constants.ROBOT_RADIUS)
+                if (Math.Abs((int)x - (int)target.x) >= Constants.ROBOT_RADIUS ||
+                    Math.Abs((int)y - (int)target.y) >= Constants.ROBOT_RADIUS)
                     continue;
 
                 // Use full floating point accuracy on final check
-                double dxf = x_ - target.x_;
-                double dyf = y_ - target.y_;
+                double dxf = x - target.x;
+                double dyf = y - target.y;
                 if (dxf * dxf + dyf * dyf >= Constants.ROBOT_RADIUS * Constants.ROBOT_RADIUS)
                     continue;
 
@@ -81,13 +74,13 @@ namespace RoboWarX.Arena
 
             if (collideProjectiles)
             {
-                foreach (ArenaObject target in parent_.objects)
+                foreach (ArenaObject target in parent.objects)
                 {
                     if (target == this)
                         continue;
 
-                    if (Math.Abs((int)x_ - (int)target.x_) >= 5 ||
-                        Math.Abs((int)y_ - (int)target.y_) >= 5)
+                    if (Math.Abs((int)x - (int)target.x) >= 5 ||
+                        Math.Abs((int)y - (int)target.y) >= 5)
                         continue;
 
                     if (onHit(target))

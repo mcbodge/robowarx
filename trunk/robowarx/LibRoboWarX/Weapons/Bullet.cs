@@ -69,10 +69,11 @@ namespace RoboWarX.Weapons.Bullet
     // engulfing themselves in the explosion. Returns 0 if read.
     internal class BulletRegister : Register
     {
-        public const String name = "BULLET";
-        public const Int16 code = (Int16)Bytecodes.REG_BULLET;
-
-        internal BulletRegister() { }
+        
+        internal BulletRegister() {
+            name = "BULLET";
+            code = (Int16)Bytecodes.REG_BULLET;
+        }
 
         public override Int16 value
         {
@@ -127,10 +128,11 @@ namespace RoboWarX.Weapons.Bullet
     // chronon, heading in the direction that the robot’s turret pointed when the shot was fired.
     internal class FireRegister : Register
     {
-        public const String name = "FIRE";
-        public const Int16 code = (Int16)Bytecodes.REG_FIRE;
-
-        internal FireRegister() { }
+        internal FireRegister()
+        {
+            name = "FIRE";
+            code = (Int16)Bytecodes.REG_FIRE;
+        }
 
         public override Int16 value
         {

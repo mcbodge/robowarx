@@ -26,28 +26,28 @@ namespace RoboWarX.Arena
     
     public sealed class HardwareInfo
     {
-        public int energyMax;            // Maximum amount of energy
-        public int damageMax;            // Maximum amount of damage
-        public int shieldMax;            // Maximum shield level for normal discharge
-        public int processorSpeed;       // Instructions per chronon
+        public int energyMax { get; set; }            // Maximum amount of energy
+        public int damageMax { get; set; }            // Maximum amount of damage
+        public int shieldMax { get; set; }            // Maximum shield level for normal discharge
+        public int processorSpeed { get; set; }       // Instructions per chronon
 
-        public BulletType gunType;
-        public bool hasMissiles;           // 1 = has missiles
-        public bool hasTacNukes;           // 1 = has tacNukes
-        public bool hasLasers;             // 1 = lasers
-        public bool hasHellbores;          // 1 = hellbore
-        public bool hasDrones;             // 1 = drone
-        public bool hasMines;              // 1 = mine
-        public bool hasStunners;           // 1 = stunner
+        public BulletType gunType { get; set; }
+        public bool hasMissiles { get; set; }           // 1 = has missiles
+        public bool hasTacNukes { get; set; }           // 1 = has tacNukes
+        public bool hasLasers { get; set; }             // 1 = lasers
+        public bool hasHellbores { get; set; }          // 1 = hellbore
+        public bool hasDrones { get; set; }             // 1 = drone
+        public bool hasMines { get; set; }              // 1 = mine
+        public bool hasStunners { get; set; }           // 1 = stunner
 
-        public bool noNegEnergy;           // 1 = No Negative energy
+        public bool noNegEnergy { get; set; }           // 1 = No Negative energy
 
-        public bool probeFlag;             // 1 = probes
-        public bool deathIconFlag;         // 1 = use icon for death
-        public bool collisionIconFlag;     // 1 = use icon for collision
-        public bool shieldHitIconFlag;     // 1 = use icon for shield hit
-        public bool hitIconFlag;           // 1 = use icon for hit
-        public bool shieldOnIconFlag;      // 1 = use icon for shieldon
+        public bool probeFlag { get; set; }             // 1 = probes
+        public bool deathIconFlag { get; set; }         // 1 = use icon for death
+        public bool collisionIconFlag { get; set; }     // 1 = use icon for collision
+        public bool shieldHitIconFlag { get; set; }     // 1 = use icon for shield hit
+        public bool hitIconFlag { get; set; }           // 1 = use icon for hit
+        public bool shieldOnIconFlag { get; set; }      // 1 = use icon for shieldon
 
         public HardwareInfo()
         {
@@ -141,60 +141,60 @@ namespace RoboWarX.Arena
 
     public sealed class Robot : ArenaObject
     {
-        internal RobotFile file_;
+        public RobotFile file { get; internal set; }
         
-        internal int number_;
-        internal int team_;
+        public int number { get; internal set; }
+        public int team { get; internal set; }
 
-        internal bool alive_;
-        internal DeathReason deathReason_;
-        internal int deathTime_;
-        internal Robot killer_;
-        internal RobotException bug_;
+        public bool alive { get; internal set; }
+        public DeathReason deathReason { get; internal set; }
+        public int deathTime { get; internal set; }
+        public Robot killer { get; internal set; }
+        public RobotException bug { get; internal set; }
 
-        internal int icon;
+        internal int icon { get; set; }
 
-        internal Interpreter interp;
-        internal bool interrupts;
+        internal Interpreter interp { get; set; }
+        internal bool interrupts { get; set; }
 
-        internal HardwareInfo hardware_;
+        public HardwareInfo hardware { get; internal set; }
 
-        internal int energy_;
-        internal int damage_;
-        internal int shield;
-        internal int aim;
-        internal int look;
-        internal int scan;
+        public int energy { get; internal set; }
+        public int damage { get; internal set; }
+        internal int shield { get; set; }
+        internal int aim { get; set; }
+        internal int look { get; set; }
+        internal int scan { get; set; }
 
-        internal bool collision;
-        internal bool wall;
-        internal bool friend;
-        internal int stunned;
-        internal int hit;
+        internal bool collision { get; set; }
+        internal bool wall { get; set; }
+        internal bool friend { get; set; }
+        internal int stunned { get; set; }
+        internal int hit { get; set; }
 
-        internal int kills;
-        internal int survival;
-        internal int[] killTime;
-        
-        internal Int16[] history;
-        
-        internal int channel;
-        internal Int16[] signals;
+        internal int kills { get; set; }
+        internal int survival { get; set; }
+        internal int[] killTime { get; set; }
+
+        internal Int16[] history { get; set; }
+
+        internal int channel { get; set; }
+        internal Int16[] signals { get; set; }
 
         // Some defaults that will be overridden in OnSpawn
         public Robot(Arena P, double X, double Y) : base(P, X, Y)
         {
-            number_ = -1;
+            number = -1;
             
-            team_ = 0;
-            alive_ = true;
-            deathReason_ = DeathReason.Suicided;
+            team = 0;
+            alive = true;
+            deathReason = DeathReason.Suicided;
             icon = 0;
             interrupts = false;
             
-            hardware_ = new HardwareInfo();
-            energy_ = hardware_.energyMax;
-            damage_ = hardware_.damageMax;
+            hardware = new HardwareInfo();
+            energy = hardware.energyMax;
+            damage = hardware.damageMax;
             shield = 0;
             aim = 90;
             look = 0;
@@ -209,8 +209,8 @@ namespace RoboWarX.Arena
             kills = 0;
             survival = 0;
             killTime = new int[6]{ -1, -1, -1, -1, -1, -1 };
-            deathTime_ = -1;
-            killer_ = null;
+            deathTime = -1;
+            killer = null;
             
             // FIXME: actually implement the history
             history = new Int16[50];
@@ -221,96 +221,46 @@ namespace RoboWarX.Arena
 
         public void onSpawn(int number_, RobotFile file_)
         {
-            this.number_ = number_;
-            this.file_ = file_;
+            this.number = number_;
+            this.file = file_;
             
             interp = new Interpreter(new MemoryStream(file_.program));
 
-            hardware_ = file_.hardware;
-            energy_ = hardware_.energyMax;
-            damage_ = hardware_.damageMax;
-        }
-
-        public int number
-        {
-            get { return number_; }
-        }
-        
-        public RobotFile file
-        {
-            get { return file_; }
+            hardware = file_.hardware;
+            energy = hardware.energyMax;
+            damage = hardware.damageMax;
         }
 
         public String name
         {
-            get { return file_.name; }
-        }
-
-        public int team
-        {
-            get { return team_; }
-        }
-
-        public bool alive
-        {
-            get { return alive_; }
-        }
-
-        public DeathReason deathReason
-        {
-            get { return deathReason_; }
-        }
-
-        public HardwareInfo hardware
-        {
-            get { return hardware_; }
-        }
-
-        public int energy
-        {
-            get { return energy_; }
-        }
-
-        public int damage
-        {
-            get { return damage_; }
-        }
-
-        public int deathTime
-        {
-            get { return deathTime_; }
-        }
-
-        public Robot killer
-        {
-            get { return killer_; }
+            get { return file.name; }
         }
 
         // We got hit by someone
         public bool doShotDamage(int amount, Robot from)
         {
             // Attribute kills to proper owner
-            int oldDamage = damage_;
+            int oldDamage = damage;
             doDamage(amount);
-            if (damage_ <= 0 && oldDamage > 0 && this != from
-                && (from.energy_ > -200) && !(team_ != 0 && (team_ == from.team_)))
+            if (damage <= 0 && oldDamage > 0 && this != from
+                && (from.energy > -200) && !(team != 0 && (team == from.team)))
             {
-                deathReason_ = DeathReason.Killed;
+                deathReason = DeathReason.Killed;
                 from.kills++;
-                from.killTime[number_] = parent_.chronon;
-                killer_ = from;
+                from.killTime[number] = parent.chronon;
+                killer = from;
             }
-            return damage_ < oldDamage; // return true if robot took damage
+            return damage < oldDamage; // return true if robot took damage
         }
 
         // Take damage
         public void doDamage(int amount)
         {
             if (shield == 0)
-                damage_ -= amount;
+                damage -= amount;
             else if (shield < amount)
             {
-                damage_ -= amount - shield;
+                damage -= amount - shield;
                 shield = 0;
             }
             else
@@ -321,17 +271,17 @@ namespace RoboWarX.Arena
         internal void explode()
         {
             shield = 0;
-            alive_ = false;
-            deathTime_ = parent.chronon;
+            alive = false;
+            deathTime = parent.chronon;
 
             // Hack for the exploding animation
             aim = 1;
-            speedx = x_;
-            speedy = y_;
+            speedx = x;
+            speedy = y;
 
             // Move out of the way
-            x_ = 5000;
-            y_ = 5000;
+            x = 5000;
+            y = 5000;
         }
 
         // Instantiate a projectile, taking into account the robots aim.
@@ -348,13 +298,13 @@ namespace RoboWarX.Arena
             {
                 double anglex = Util.Sin(aim + 270);
                 double angley = Util.Cos(aim + 270);
-                retval = parent_.spawn(objtype,
-                    x_ + anglex * (Constants.ROBOT_RADIUS + 1),
-                    y_ + angley * (Constants.ROBOT_RADIUS + 1),
+                retval = parent.spawn(objtype,
+                    x + anglex * (Constants.ROBOT_RADIUS + 1),
+                    y + angley * (Constants.ROBOT_RADIUS + 1),
                     this, anglex, angley);
             }
             else
-                retval = parent_.spawn(objtype, x_, y_, this, 0, 0);
+                retval = parent.spawn(objtype, x, y, this, 0, 0);
 
             if (parameters.Length > 0)
             {
@@ -374,40 +324,40 @@ namespace RoboWarX.Arena
 
         public int useEnergy(int amount)
         {
-            amount = Math.Min(amount, hardware_.energyMax);
-            if (hardware_.noNegEnergy)
-                amount = Math.Min(amount, energy_);
+            amount = Math.Min(amount, hardware.energyMax);
+            if (hardware.noNegEnergy)
+                amount = Math.Min(amount, energy);
             if (amount > 600 || amount < 0)
                 throw new HardwareException(this, "Illegal energy usage.");
-            energy_ -= amount;
+            energy -= amount;
             return amount;
         }
 
         // First kind of update, the 'environmental update'
         public override void update()
         {
-            if (alive_ && stunned == 0)
+            if (alive && stunned == 0)
             {
-                if (energy_ < hardware_.energyMax)
-                    energy_ = Math.Min(energy_ + 2, hardware_.energyMax);
-                else if (energy_ > hardware_.energyMax)
+                if (energy < hardware.energyMax)
+                    energy = Math.Min(energy + 2, hardware.energyMax);
+                else if (energy > hardware.energyMax)
                     throw new HardwareException(this, "Maximum energy exceeded.");
 
                 if (shield != 0)
                 {
-                    if (shield > hardware_.shieldMax)
+                    if (shield > hardware.shieldMax)
                         shield -= 2;
                     else if (shield > 0 && (parent.chronon % 2) > 0)
                         shield--;
                     if (shield < 0)
                         shield = 0;
                 }
-                if (energy_ > 0)
+                if (energy > 0)
                     base.update(); // Move
-                if (energy_ < -200)
+                if (energy < -200)
                 {
-                    damage_ = -10;
-                    deathReason_ = DeathReason.Overloaded;
+                    damage = -10;
+                    deathReason = DeathReason.Overloaded;
                 }
             }
         }
@@ -415,7 +365,7 @@ namespace RoboWarX.Arena
         // Second kind of update, where the program is executed
         internal void executeChronon()
         {
-            if (alive_)
+            if (alive)
             {
                 interp.processInterrupts();
 
@@ -423,9 +373,9 @@ namespace RoboWarX.Arena
                     stunned--;
                 else
                 {
-                    if (energy_ > 0)
+                    if (energy > 0)
                     {
-                        int cycleNum = hardware_.processorSpeed;
+                        int cycleNum = hardware.processorSpeed;
                         while (cycleNum > 0)
                         {
                             try
@@ -443,10 +393,10 @@ namespace RoboWarX.Arena
                         }
                     }
 
-                    if (energy_ < -200)
+                    if (energy < -200)
                     {
-                        damage_ = -10;
-                        deathReason_ = DeathReason.Overloaded;
+                        damage = -10;
+                        deathReason = DeathReason.Overloaded;
                     }
                 }
             }
@@ -461,7 +411,7 @@ namespace RoboWarX.Arena
         public override void draw(Graphics gfx)
         {
             Brush color;
-            switch (number_) {
+            switch (number) {
                 case 0:
                     color = Brushes.Red;
                     break;
@@ -485,7 +435,7 @@ namespace RoboWarX.Arena
                     break;
             }
 
-            if (alive_)
+            if (alive)
             {
                 gfx.FillEllipse(color, new Rectangle((int)x - 12, (int)y - 12, 24, 24));
 

@@ -6,55 +6,31 @@ namespace RoboWarX.Arena
     // Base class of all objects on the arena
     public abstract class ArenaObject
     {
-        internal double x_;
-        internal double y_;
-        internal Arena parent_;
+        public double x { get; internal set; }
+        public double y { get; internal set; }
+        public Arena parent { get; internal set; }
 
-        public double speedx;
-        public double speedy;
+        public double speedx { get; set; }
+        public double speedy { get; set; }
 
-        protected ArenaObject(Arena parent__, double x__, double y__)
+        protected ArenaObject(Arena parent, double x, double y)
         {
-            x_ = x__;
-            y_ = y__;
+            this.x = x;
+            this.y = y;
             speedx = 0;
             speedy = 0;
-            parent_ = parent__;
-        }
-
-        public double x
-        {
-            get
-            {
-                return x_;
-            }
-        }
-
-        public double y
-        {
-            get
-            {
-                return y_;
-            }
-        }
-
-        public Arena parent
-        {
-            get
-            {
-                return parent_;
-            }
+            this.parent = parent;
         }
 
         public virtual void update()
         {
-            x_ += speedx;
-            y_ += speedy;
+            x += speedx;
+            y += speedy;
         }
 
         public void destroy()
         {
-            parent_.delObjects.AddLast(this);
+            parent.delObjects.AddLast(this);
         }
 
         // FIXME: Perhaps this should be moved outside of the library?

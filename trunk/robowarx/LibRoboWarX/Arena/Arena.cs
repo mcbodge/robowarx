@@ -14,30 +14,30 @@ namespace RoboWarX.Arena
         // many times the simulation is run.
         public readonly int seed;
         // FIXME: I doubt Random's behavior matches the routines used two decades ago.
-        internal Random prng;
+        internal Random prng { get; set; }
         
         // Registers are loaded into the arena, which in turn loads them into the robot's
         // interpreter
         private List<ITemplateRegister> registers;
-        internal Robot[] robots;
+        internal Robot[] robots { get; set; }
         
         // The object list to walk when updating. EXCLUDES robots!
-        internal LinkedList<ArenaObject> objects;
+        internal LinkedList<ArenaObject> objects { get; set; }
         // Objects scheduled to be added into the update list
-        internal LinkedList<ArenaObject> newObjects;
+        internal LinkedList<ArenaObject> newObjects { get; set; }
         // Objects scheduled to be deleted from the update list
-        internal LinkedList<ArenaObject> delObjects;
+        internal LinkedList<ArenaObject> delObjects { get; set; }
 
         // This matters when deciding a win
         private bool teamBattle;
-        private int chrononLimit_;
+        public int chrononLimit { get; set; }
 
         // State. state. state.
-        internal int chronon_;
+        public int chronon { get; internal set; }
         private byte numBots;
         private byte numAlive;
         private byte onlyTrackingShots; // game has ended, but loop just a tad more
-        private bool finished_;
+        public bool finished { get; private set; }
 
         public Arena(int seed)
         {
@@ -51,38 +51,16 @@ namespace RoboWarX.Arena
 
             teamBattle = false;
 
-            chronon_ = 0;
-            chrononLimit_ = -1;
+            chronon = 0;
+            chrononLimit = -1;
             onlyTrackingShots = 0;
-            finished_ = false;
+            finished = false;
 
             this.seed = seed;
             prng = new Random(seed);
         }
 
         public Arena() : this(new Random().Next()) {}
-
-        public int chronon
-        {
-            get
-            {
-                return chronon_;
-            }
-        }
-
-        public bool finished
-        {
-            get
-            {
-                return finished_;
-            }
-        }
-
-        public int chrononLimit
-        {
-            get { return chrononLimit_; }
-            set { chrononLimit_ = value; }
-        }
 
         // Check whether a robot is colliding with another or the wall.
         // Also sets some critical attributes used by registers, like friend and wall.
@@ -93,43 +71,43 @@ namespace RoboWarX.Arena
 
             foreach (Robot robot in robots)
             {
-                if (robot == null || robot == who || !robot.alive_)
+                if (robot == null || robot == who || !robot.alive)
                     continue;
 
-                deltaX = (long)(who.x_ - robot.x_);
-                deltaY = (long)(who.y_ - robot.y_);
+                deltaX = (long)(who.x - robot.x);
+                deltaY = (long)(who.y - robot.y);
                 if (Math.Abs(deltaX) >= Constants.ROBOT_RADIUS << 1 ||
                     Math.Abs(deltaY) >= Constants.ROBOT_RADIUS << 1 ||
                     deltaX * deltaX + deltaY * deltaY >= (Constants.ROBOT_RADIUS * Constants.ROBOT_RADIUS << 2))
                     continue;
 
-                if (who.energy_ > 0 && who.stunned == 0)
+                if (who.energy > 0 && who.stunned == 0)
                 {
-                    who.x_ -= who.speedx;
-                    who.y_ -= who.speedy;
+                    who.x -= who.speedx;
+                    who.y -= who.speedy;
                 }
                 who.collision = true;
                 robot.collision = true;
-                if (who.team_ > 0 && who.team_ == robot.team_)
+                if (who.team > 0 && who.team == robot.team)
                 {
                     who.friend = true;
                     robot.friend = true;
                 }
             }
 
-            if (who.x_ < Constants.ROBOT_RADIUS || who.x_ > Constants.ARENA_SIZE - Constants.ROBOT_RADIUS)
+            if (who.x < Constants.ROBOT_RADIUS || who.x > Constants.ARENA_SIZE - Constants.ROBOT_RADIUS)
             {
                 who.wall = true;
 
-                who.x_ = (short)Math.Max((ushort)0, who.x_);
-                who.x_ = (short)Math.Min((ushort)Constants.ARENA_SIZE, who.x_);
+                who.x = (short)Math.Max((ushort)0, who.x);
+                who.x = (short)Math.Min((ushort)Constants.ARENA_SIZE, who.x);
             }
-            if (who.y_ < Constants.ROBOT_RADIUS || who.y_ > Constants.ARENA_SIZE - Constants.ROBOT_RADIUS)
+            if (who.y < Constants.ROBOT_RADIUS || who.y > Constants.ARENA_SIZE - Constants.ROBOT_RADIUS)
             {
                 who.wall = true;
 
-                who.y_ = (short)Math.Max((ushort)0, who.y_);
-                who.y_ = (short)Math.Min((ushort)Constants.ARENA_SIZE, who.y_);
+                who.y = (short)Math.Max((ushort)0, who.y);
+                who.y = (short)Math.Min((ushort)Constants.ARENA_SIZE, who.y);
             }
         }
 
@@ -144,7 +122,7 @@ namespace RoboWarX.Arena
 
         private void checkDeath(Robot who)
         {
-            if (who.damage_ > 0 || who.deathTime_ >= 0)
+            if (who.damage > 0 || who.deathTime >= 0)
                 return;
 
             numAlive--;
@@ -156,15 +134,15 @@ namespace RoboWarX.Arena
             {
                 int loop;
                 for (loop = 0; loop < Constants.MAX_ROBOTS; loop++)
-                    if (robots[loop] != null && robots[loop].alive_)
+                    if (robots[loop] != null && robots[loop].alive)
                         break;
 
-                int firstTeam = robots[loop].team_;
+                int firstTeam = robots[loop].team;
                 if (firstTeam == 0)
                     return;
                 else
                     foreach (Robot robot in robots)
-                        if (robot != null && robot.team_ != firstTeam && robot.alive_)
+                        if (robot != null && robot.team != firstTeam && robot.alive)
                             return;
             }
 
@@ -174,7 +152,7 @@ namespace RoboWarX.Arena
 
         private void calcKillPoints(Robot who)
         {
-            if (who.alive_)
+            if (who.alive)
                 who.kills = (short)(
                     (who.killTime[0] != -1 ? 1 : 0) +
                     (who.killTime[1] != -1 ? 1 : 0) +
@@ -184,12 +162,12 @@ namespace RoboWarX.Arena
                     (who.killTime[5] != -1 ? 1 : 0));
             else
                 who.kills = (short)(
-                    (who.killTime[0] != -1 && who.deathTime_ - who.killTime[0] >= 20 ? 1 : 0) +
-                    (who.killTime[1] != -1 && who.deathTime_ - who.killTime[1] >= 20 ? 1 : 0) +
-                    (who.killTime[2] != -1 && who.deathTime_ - who.killTime[2] >= 20 ? 1 : 0) +
-                    (who.killTime[3] != -1 && who.deathTime_ - who.killTime[3] >= 20 ? 1 : 0) +
-                    (who.killTime[4] != -1 && who.deathTime_ - who.killTime[4] >= 20 ? 1 : 0) +
-                    (who.killTime[5] != -1 && who.deathTime_ - who.killTime[5] >= 20 ? 1 : 0));
+                    (who.killTime[0] != -1 && who.deathTime - who.killTime[0] >= 20 ? 1 : 0) +
+                    (who.killTime[1] != -1 && who.deathTime - who.killTime[1] >= 20 ? 1 : 0) +
+                    (who.killTime[2] != -1 && who.deathTime - who.killTime[2] >= 20 ? 1 : 0) +
+                    (who.killTime[3] != -1 && who.deathTime - who.killTime[3] >= 20 ? 1 : 0) +
+                    (who.killTime[4] != -1 && who.deathTime - who.killTime[4] >= 20 ? 1 : 0) +
+                    (who.killTime[5] != -1 && who.deathTime - who.killTime[5] >= 20 ? 1 : 0));
 
             // Give every robot alive, if there's less than 4 and more than 1, a survival point.
             // If there's only one robot, wait 5 chronons before awarding a survival point.
@@ -198,13 +176,13 @@ namespace RoboWarX.Arena
                 if (numAlive == 3)
                 {
                     foreach (Robot robot in robots)
-                        if (robot != null && robot.alive_)
+                        if (robot != null && robot.alive)
                             robot.survival = 1;
                 }
                 else if (numAlive == 2)
                 {
                     foreach (Robot robot in robots)
-                        if (robot != null && robot.alive_)
+                        if (robot != null && robot.alive)
                             robot.survival = 2;
                 }
             }
@@ -225,7 +203,7 @@ namespace RoboWarX.Arena
         // Step a full chronon for all objects
         public void stepChronon()
         {
-            if (finished_)
+            if (finished)
                 throw new StateException("Game has already finished.");
 
             // Reset some variables at the start of a chronon
@@ -261,12 +239,12 @@ namespace RoboWarX.Arena
                 catch (RobotException e)
                 {
                     errors.Add(e);
-                    robot.damage_ = -10;
-                    robot.deathReason_ = DeathReason.Buggy;
+                    robot.damage = -10;
+                    robot.deathReason = DeathReason.Buggy;
                     checkDeath(robot);
                 }
 
-                if (robot.alive_)
+                if (robot.alive)
                     checkCollisions(robot);
 
                 calcKillPoints(robot);
@@ -274,7 +252,7 @@ namespace RoboWarX.Arena
 
             foreach (Robot robot in robots)
             {
-                if (robot == null || !robot.alive_)
+                if (robot == null || !robot.alive)
                     continue;
 
                 doCollisionDamage(robot);
@@ -297,24 +275,24 @@ namespace RoboWarX.Arena
                 catch (RobotException e)
                 {
                     errors.Add(e);
-                    who.damage_ = -10;
-                    who.deathReason_ = DeathReason.Buggy;
+                    who.damage = -10;
+                    who.deathReason = DeathReason.Buggy;
                 }
                 // catch all
                 catch (Exception e)
                 {
                     errors.Add(new RobotException(who,e.Message, e));
-                    who.damage_ = -10;
-                    who.deathReason_ = DeathReason.Buggy;
+                    who.damage = -10;
+                    who.deathReason = DeathReason.Buggy;
                 }
 
                 // This happens when a robot suicides from excessive energy usage or is buggy.
                 checkDeath(who);
             }
 
-            chronon_++;
-            if (chrononLimit_ != 0 && chronon_ >= chrononLimit_)
-                finished_ = true;
+            chronon++;
+            if (chrononLimit > 0 && chronon >= chrononLimit)
+                finished = true;
 
             if (onlyTrackingShots > 0)
             {
@@ -322,7 +300,7 @@ namespace RoboWarX.Arena
 
                 // Conclude after 20 chronons
                 if (onlyTrackingShots == 0)
-                    finished_ = true;
+                    finished = true;
             }
             
             // Finish the chronon and throw every exception in one go.
