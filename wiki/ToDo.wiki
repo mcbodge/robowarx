@@ -4,6 +4,8 @@
 
 RoboWarX is very incomplete. This is a to-do list in wiki form, to replace the original README. Hopefully, this helps track things a bit better, and maybe even cross reference to useful info for whoever wants to tackle an item.
 
+Items suffixed with bold names are being worked on by that person.
+
 
 = The list =
 
@@ -13,8 +15,8 @@ RoboWarX is very incomplete. This is a to-do list in wiki form, to replace the o
    * Stunners
    * TacNukes
    * Mines
-   * Lasers (undocumented, thus low prio)
-   * Drones (undocumented, thus low prio)
+   * Lasers _(undocumented, thus low prio)_
+   * Drones _(undocumented, thus low prio)_
  * Editors
    * Hardware editor
    * Source code editor
@@ -25,92 +27,21 @@ RoboWarX is very incomplete. This is a to-do list in wiki form, to replace the o
    * PRINT
    * DEBUG
    * SND
-   * MRB (undocumented, thus low prio)
+   * MRB _(undocumented, thus low prio)_
  * Registers (besides weapons listed above)
    * CHANNEL
    * HISTORY
    * SIGNAL
-   * *To be written: others?*
+   * _(To be written: others?)_
  * Debugger
    * Jump to source
    * Interactive stepping
    * Runtime stack and register inspection
- * Headless / command-line interface
+ * Headless / command-line interface - *Jeff*
  * Sounds
  * Icons
- * GUI polish
+ * GUI polish - *Stéphan*
  * A Mac OS X native interface?
-
-
-= Source code FIXMEs =
-
-These were extracted from r11 at 2009-01-21. (Is it at all useful to list them here?)
-
-{{{
-./LibRoboWarX/Arena/Arena.cs:16:        // FIXME: I doubt Random's behavior matches the routines used two decades ago.
-./LibRoboWarX/Arena/Arena.cs:237:            // FIXME: handle non-robot extension errors in a special way.
-./LibRoboWarX/Arena/Arena.cs:346:            // FIXME: prevent non-arena code from spawning robots?
-./LibRoboWarX/Arena/Arena.cs:361:            // FIXME: Can this be done during a match?
-./LibRoboWarX/Arena/Arena.cs:372:            // FIXME: construct a list of starting positions in the constructor
-./LibRoboWarX/Arena/Arena.cs:417:            // FIXME: Can this be done during a match?
-./LibRoboWarX/Arena/Projectile.cs:75:            // FIXME: Cache?
-./LibRoboWarX/Arena/StockRegisters.cs:76:    // FIXME: interrupt support
-./LibRoboWarX/Arena/StockRegisters.cs:135:    // FIXME: interrupt support
-./LibRoboWarX/Arena/StockRegisters.cs:167:    // FIXME: interrupt support
-./LibRoboWarX/Arena/StockRegisters.cs:200:    // FIXME: interrupt support
-./LibRoboWarX/Arena/StockRegisters.cs:490:    // FIXME: interrupt support
-./LibRoboWarX/Arena/StockRegisters.cs:688:                // FIXME: "not all code paths return a value".. Huh?
-./LibRoboWarX/Arena/StockRegisters.cs:729:    // FIXME: interrupt support
-./LibRoboWarX/Arena/StockRegisters.cs:806:    // FIXME: interrupt support
-./LibRoboWarX/Arena/StockRegisters.cs:877:    // FIXME: interrupt support
-./LibRoboWarX/Arena/StockRegisters.cs:910:    // FIXME: interrupt support
-./LibRoboWarX/Arena/StockRegisters.cs:993:    // FIXME: interrupt support
-./LibRoboWarX/Arena/StockRegisters.cs:1041:    // FIXME: interrupt support
-./LibRoboWarX/Arena/StockRegisters.cs:1170:    // FIXME: interrupt support
-./LibRoboWarX/Arena/StockRegisters.cs:1212:    // FIXME: interrupt support
-./LibRoboWarX/Arena/StockRegisters.cs:1241:    // FIXME: interrupt support
-./LibRoboWarX/Arena/Robot.cs:215:            // FIXME: actually implement the history
-./LibRoboWarX/Arena/Robot.cs:218:            // FIXME: actually implement signals
-./LibRoboWarX/Arena/ArenaObject.cs:60:        // FIXME: Perhaps this should be moved outside of the library?
-./LibRoboWarX/FileFormats/WinRoboWar5.cs:53:            // FIXME: do I have to support case 20?
-./LibRoboWarX/FileFormats/WinRoboWar5.cs:70:            // FIXME: shieldicon (1 byte)
-./LibRoboWarX/FileFormats/WinRoboWar5.cs:71:            // FIXME: deathicon (1 byte)
-./LibRoboWarX/FileFormats/WinRoboWar5.cs:72:            // FIXME: hiticon (1 byte)
-./LibRoboWarX/FileFormats/WinRoboWar5.cs:73:            // FIXME: blockicon (1 byte)
-./LibRoboWarX/FileFormats/WinRoboWar5.cs:74:            // FIXME: collisionicon (1 byte)
-./LibRoboWarX/FileFormats/WinRoboWar5.cs:75:            // FIXME: cursor position (4 bytes)
-./LibRoboWarX/FileFormats/WinRoboWar5.cs:76:            // FIXME: 10 x 4 bytes, "Sound # Start"
-./LibRoboWarX/FileFormats/WinRoboWar5.cs:77:            // FIXME: 10 x 4 bytes, "Icon # Start"
-./LibRoboWarX/FileFormats/WinRoboWar5.cs:80:            // FIXME: 10 x 1 bytes, "Sound # Exists"
-./LibRoboWarX/FileFormats/WinRoboWar5.cs:81:            // FIXME: 10 x 1 bytes, "Icon # Exists"
-./LibRoboWarX/FileFormats/WinRoboWar5.cs:83:            // FIXME: language (1 byte)
-./LibRoboWarX/FileFormats/WinRoboWar5.cs:99:            // FIXME: read source code
-./LibRoboWarX/FileFormats/MacBinary.cs:311:            // FIXME: check CRC
-./LibRoboWarX/FileFormats/MacBinary.cs:452:                    // FIXME: set up icon
-./LibRoboWarX/FileFormats/MacBinary.cs:464:                    // FIXME: set up icon
-./LibRoboWarX/FileFormats/MacBinary.cs:477:                    // FIXME: set up sound
-./LibRoboWarX/Weapons/Drone.cs:7:    // FIXME: undocumented
-./LibRoboWarX/Weapons/Drone.cs:8:    // FIXME: implement
-./LibRoboWarX/Weapons/Laser.cs:7:    // FIXME: undocumented
-./LibRoboWarX/Weapons/Laser.cs:8:    // FIXME: implement
-./LibRoboWarX/Weapons/TacNuke.cs:7:    // FIXME: undocumented
-./LibRoboWarX/Weapons/TacNuke.cs:8:    // FIXME: implement
-./LibRoboWarX/Weapons/Bullet.cs:32:            // FIXME: do we need to check destruction here?
-./LibRoboWarX/Weapons/Bullet.cs:61:            // FIXME: Cache? I believe the Resources class does this already.
-./LibRoboWarX/Weapons/Stunner.cs:14:    // FIXME: implement
-./LibRoboWarX/Weapons/Hellbore.cs:14:    // FIXME: implement
-./LibRoboWarX/Weapons/Mine.cs:13:    // FIXME: implement
-./LibRoboWarX/Compiler/Compiler.cs:178:                        // FIXME: implement StoWarnings directive
-./LibRoboWarX/Global/Util.cs:14:        // FIXME: this should probably be restricted.
-./LibRoboWarX/VirtualMachine/Interpreter.cs:83:            // FIXME
-./LibRoboWarX/VirtualMachine/Operators.cs:242:            /* FIXME
-./LibRoboWarX/VirtualMachine/Operators.cs:323:            /* FIXME
-./LibRoboWarX/VirtualMachine/Operators.cs:330:        /* FIXME
-./LibRoboWarX/VirtualMachine/Operators.cs:441:            /* FIXME
-./LibRoboWarX/VirtualMachine/Operators.cs:487:            /* FIXME
-./LibRoboWarX/VirtualMachine/Operators.cs:496:            /* FIXME
-./RoboWarX.GTK/MainWindow.cs:38:            // FIXME: Have to wait until MonoDevelop 2.0 for UIManager integration, it seems.
-./RoboWarX.GTK/MainWindow.cs:190:                    /* FIXME: implement closing
-./RoboWarX.GTK/ArenaWidget.cs:16:        // FIXME:  The following are not implemented, but would be neat
-./RoboWarX.GTK/BasicActions.cs:3:/* FIXME: this should probably be moved into the MainWindow itself. */
-}}}
+ * Refactoring
+   * Consistent naming _(suggest we use CamelCase in line with the rest of .NET, --Stéphan)_
+ * FIXMEs in the code
