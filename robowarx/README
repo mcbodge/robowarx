@@ -6,7 +6,7 @@ error handling though, so if you try a too fancy robot it might take the
 entire application down with it!
 
 This is a source code package. There are two solution files, one for
-Visual Studio 2005, and another for MonoDevelop 1.0.
+Visual Studio 2008, and another for MonoDevelop 1.0.
 
 After a build on Windows, run "RoboWarX.WinForms.exe".
 Any other platform that has Mono and GTK# available can use them to run
@@ -19,7 +19,6 @@ Most glaring ommisions: (in order of personal importance)
  - Debugger
  - Still a couple of special operators and registers
    (history, channel, signal, for example)
- - Headless / command-line interface
  - Sounds
  - Icons
  - GUI polish

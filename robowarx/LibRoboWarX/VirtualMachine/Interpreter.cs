@@ -60,10 +60,7 @@ namespace RoboWarX.VM
         // Add the provided register to the registerMap attribute
         public void loadRegister(ITemplateRegister register)
         {
-            FieldInfo finfo = register.GetType().GetField("code");
-            if (finfo == null)
-                throw new RegisterExtensionException("Register requires a code field.");
-            Int16 code = (Int16)finfo.GetValue(register);
+            Int16 code = register.code;
 
             if (registerMap.ContainsKey(code))
                 throw new ArgumentException("Register already loaded.");

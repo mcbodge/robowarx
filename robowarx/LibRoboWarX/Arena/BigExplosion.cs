@@ -32,9 +32,9 @@ namespace RoboWarX.Arena
                 long z = 36 + Constants.ROBOT_RADIUS;
                 z = z * z;
                 
-                foreach (Robot robot in parent_.robots)
+                foreach (Robot robot in parent.robots)
                 {
-                    if (robot == null || !robot.alive_)
+                    if (robot == null || !robot.alive)
                         break;
                     long x_ = (long)robot.x - (long)x;
                     long y_ = (long)robot.y - (long)y;

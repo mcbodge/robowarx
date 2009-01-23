@@ -9,6 +9,15 @@ namespace RoboWarX
         // Implementors should additionally define these.
         // const String name;
         // const Int16 code;
+        string[] names
+        {
+            get;
+        }
+
+        Int16 code
+        {
+            get;
+        }
 
         // Accessor used when the register is assigned or dereferenced
         Int16 value

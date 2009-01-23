@@ -7,11 +7,25 @@ namespace RoboWarX.Arena
     // Convenience base class for registers.
     public abstract class Register : ITemplateRegister
     {
-        private Robot robot_;
-        private Int16 interrupt_;
+        protected Robot robot { get; private set; }
+        public Int16 interrupt { private get; set; }
 
         // const String name;
         // const Int16 code;
+
+        public virtual String[] names
+        {
+            get
+            {
+                return new string[] { name };
+            }
+        }
+
+        public virtual Int16 code { get; protected set; }
+
+
+
+        protected virtual string name { get; set; }
 
         public abstract Int16 value
         {
@@ -24,34 +38,18 @@ namespace RoboWarX.Arena
             set;
         }
 
-        public Int16 interrupt
-        {
-            set
-            {
-                interrupt_ = value;
-            }
-        }
-
-        protected Robot robot
-        {
-            get
-            {
-                return robot_;
-            }
-        }
-
         protected Interpreter interp
         {
             get
             {
-                return robot_.interp;
+                return robot.interp;
             }
         }
 
 
         internal void assign(Robot robot__)
         {
-            robot_ = robot__;
+            robot = robot__;
         }
 
         internal void fireInterrupt()

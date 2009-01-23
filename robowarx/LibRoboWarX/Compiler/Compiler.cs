@@ -22,21 +22,7 @@ namespace RoboWarX.Compiler
         // Add the provided register to the registers attribute
         public void loadRegister(ITemplateRegister register)
         {
-            String[] names;
-            
-            FieldInfo finfo = register.GetType().GetField("name");
-            if (finfo == null)
-            {
-                finfo = register.GetType().GetField("names");
-                if (finfo == null)
-                    throw new ArgumentException("Register requires a name or names field");
-                
-                names = finfo.GetValue(register) as String[];
-            }
-            else
-                names = new String[1] { finfo.GetValue(register) as String };
-            
-            foreach (String name in names)
+            foreach (String name in register.names)
             {
                 if (registers.ContainsKey(name))
                     throw new ArgumentException("Register already loaded");
@@ -223,12 +209,7 @@ namespace RoboWarX.Compiler
                 // Check for registers
                 if (registers.ContainsKey(token))
                 {
-                    FieldInfo finfo = registers[token].GetType().GetField("code");
-                    if (finfo == null)
-                        throw new ArgumentException("Register requires a code field");
-                    Int16 code = (Int16)finfo.GetValue(registers[token]);
-
-                    program.Add(code);
+                    program.Add(registers[token].code);
                 }
                 // Check for register references
                 else if (indirect)

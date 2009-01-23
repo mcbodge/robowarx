@@ -8,21 +8,12 @@ namespace RoboWarX.Arena.StockRegisters
     // They may be read or written.
     internal class CustomRegister : Register
     {
-        public readonly String name;
-        public readonly Int16 code;
-        
-        private Int16 value_;
+        public override Int16 value { get; set; }
 
         internal CustomRegister(char name)
         {
             this.name = name.ToString();
             this.code = (Int16) ((int)Bytecodes.REG_PRIV_MIN + (name - 'A'));
-        }
-
-        public override Int16 value
-        {
-            get { return value_; }
-            set { value_ = value; }
         }
 
         public override Int16 param
@@ -40,10 +31,10 @@ namespace RoboWarX.Arena.StockRegisters
     // missiles are fired in the direction that the turret is pointing.
     internal class AimRegister : Register
     {
-        public const String name = "AIM";
-        public const Int16 code = (Int16)Bytecodes.REG_AIM;
-
-        internal AimRegister() {}
+        internal AimRegister() {
+            name = "AIM";
+            code = (Int16)Bytecodes.REG_AIM;
+        }
 
         public override Int16 value
         {
@@ -76,10 +67,16 @@ namespace RoboWarX.Arena.StockRegisters
     // FIXME: interrupt support
     internal class BottomRegister : Register
     {
-        public static readonly String[] names = new String[] { "BOT", "BOTTOM" };
-        public const Int16 code = (Int16)Bytecodes.REG_BOTTOM;
-
-        internal BottomRegister() {}
+        public override string[] names
+        {
+            get
+            {
+                return new String[] { "BOT", "BOTTOM" };
+            }
+        }
+        internal BottomRegister() {
+            code = (Int16)Bytecodes.REG_BOTTOM;
+        }
 
         public override Int16 value
         {
@@ -100,10 +97,10 @@ namespace RoboWarX.Arena.StockRegisters
     // The robot’s broadcasting and receiving channel. May be read
     internal class ChannelRegister : Register
     {
-        public const String name = "CHANNEL";
-        public const Int16 code = (Int16)Bytecodes.REG_CHANNEL;
-
-        internal ChannelRegister() {}
+        internal ChannelRegister() {
+            name = "CHANNEL";
+            code = (Int16)Bytecodes.REG_CHANNEL;
+        }
 
         public override Int16 value
         {
@@ -135,14 +132,15 @@ namespace RoboWarX.Arena.StockRegisters
     // FIXME: interrupt support
     internal class ChrononRegister : Register
     {
-        public const String name = "CHRONON";
-        public const Int16 code = (Int16)Bytecodes.REG_CHRONON;
-
-        internal ChrononRegister() {}
+        internal ChrononRegister()
+        {
+            name = "CHRONON";
+            code = (Int16)Bytecodes.REG_CHRONON;
+        }
 
         public override Int16 value
         {
-            get { return (Int16)robot.parent_.chronon_; }
+            get { return (Int16)robot.parent.chronon; }
             set {}
         }
 
@@ -167,10 +165,10 @@ namespace RoboWarX.Arena.StockRegisters
     // FIXME: interrupt support
     internal class CollisionRegister : Register
     {
-        public const String name = "COLLISION";
-        public const Int16 code = (Int16)Bytecodes.REG_COLLISION;
-
-        internal CollisionRegister() {}
+        internal CollisionRegister() {
+            name = "COLLISION";
+            code = (Int16)Bytecodes.REG_COLLISION;
+        }
 
         public override Int16 value
         {
@@ -200,14 +198,15 @@ namespace RoboWarX.Arena.StockRegisters
     // FIXME: interrupt support
     internal class DamageRegister : Register
     {
-        public const String name = "DAMAGE";
-        public const Int16 code = (Int16)Bytecodes.REG_DAMAGE;
 
-        internal DamageRegister() {}
+        internal DamageRegister() {
+            name = "DAMAGE";
+            code = (Int16)Bytecodes.REG_DAMAGE;
+        }
 
         public override Int16 value
         {
-            get { return (Int16)robot.damage_; }
+            get { return (Int16)robot.damage; }
             set {}
         }
 
@@ -231,10 +230,10 @@ namespace RoboWarX.Arena.StockRegisters
     // somewhat buggy and had not been documented.)
     internal class DopplerRegister : Register
     {
-        public const String name = "DOPPLER";
-        public const Int16 code = (Int16)Bytecodes.REG_DOPPLER;
-
-        internal DopplerRegister() {}
+        internal DopplerRegister() {
+            name = "DOPPLER";
+            code = (Int16)Bytecodes.REG_DOPPLER;
+        }
 
         public override Int16 value
         {
@@ -259,15 +258,15 @@ namespace RoboWarX.Arena.StockRegisters
 
                 int dist = int.MaxValue;
                 Robot target = null;
-                foreach (Robot other in robot.parent_.robots)
+                foreach (Robot other in robot.parent.robots)
                 {
                     if (other == null || !other.alive || other == robot)
                         continue;
                     
-                    long a = (long)robot.x_;
-                    long b = (long)robot.y_;
-                    long c = (long)other.x_;
-                    long d = (long)other.y_;
+                    long a = (long)robot.x;
+                    long b = (long)robot.y;
+                    long c = (long)other.x;
+                    long d = (long)other.y;
                     // /(m * m + n * n) deleted because it seems to equal 1
                     double t = (m * c + n * d - m * a - n * b);
                     // in sights
@@ -283,13 +282,13 @@ namespace RoboWarX.Arena.StockRegisters
                 
                 if (target != null)
                 {
-                    if (robot.team_ > 0 && robot.team_ == target.team_)
+                    if (robot.team > 0 && robot.team == target.team)
                         return 0;  // Don't shoot own team member
                     if (target.energy < 0 || target.stunned > 0 || target.collision || target.wall)
                         return 0;
                     
-                    long a = (long)(robot.x_ - target.x_); // a = rx
-                    long b = (long)(robot.y_ - target.y_); // b = ry
+                    long a = (long)(robot.x - target.x); // a = rx
+                    long b = (long)(robot.y - target.y); // b = ry
                     long c = (long)(a * target.speedx + b * target.speedy); // c = r•v
                     double t = Math.Pow(target.speedx, 2) + Math.Pow(target.speedy, 2) -
                          (double)(c * c) / (double)(a * a + b * b);
@@ -320,14 +319,14 @@ namespace RoboWarX.Arena.StockRegisters
     // begins energy is set to the maximum energy value specified in the Hardware Store.
     internal class EnergyRegister : Register
     {
-        public const String name = "ENERGY";
-        public const Int16 code = (Int16)Bytecodes.REG_ENERGY;
-
-        internal EnergyRegister() {}
+        internal EnergyRegister() {
+            name = "ENERGY";
+            code = (Int16)Bytecodes.REG_ENERGY;
+        }
 
         public override Int16 value
         {
-            get { return (Int16)robot.energy_; }
+            get { return (Int16)robot.energy; }
             set {}
         }
 
@@ -347,10 +346,12 @@ namespace RoboWarX.Arena.StockRegisters
     // has taken place with another robot on your same team.
     internal class FriendRegister : Register
     {
-        public const String name = "FRIEND";
-        public const Int16 code = (Int16)Bytecodes.REG_FRIEND;
 
-        internal FriendRegister() {}
+        internal FriendRegister()
+        {
+            name = "FRIEND";
+            code = (Int16)Bytecodes.REG_FRIEND;
+        }
 
         public override Int16 value
         {
@@ -395,14 +396,14 @@ namespace RoboWarX.Arena.StockRegisters
     // Hacker beware!
     internal class HistoryRegister : Register
     {
-        public const String name = "HISTORY";
-        public const Int16 code = (Int16)Bytecodes.REG_HISTORY;
         
         private int index;
 
         internal HistoryRegister()
         {
             index = 0;
+            name = "HISTORY";
+            code = (Int16)Bytecodes.REG_HISTORY;
         }
 
         public override Int16 value
@@ -435,10 +436,10 @@ namespace RoboWarX.Arena.StockRegisters
     // robots apart.
     internal class IDRegister : Register
     {
-        public const String name = "ID";
-        public const Int16 code = (Int16)Bytecodes.REG_ID;
-
-        internal IDRegister() {}
+        internal IDRegister() {
+            name = "ID";
+            code = (Int16)Bytecodes.REG_ID;
+        }
 
         public override Int16 value
         {
@@ -460,10 +461,11 @@ namespace RoboWarX.Arena.StockRegisters
     // itself or for crushing other robots during a collision.
     internal class KillsRegister : Register
     {
-        public const String name = "KILLS";
-        public const Int16 code = (Int16)Bytecodes.REG_KILLS;
-
-        internal KillsRegister() {}
+        
+        internal KillsRegister() {
+            name = "KILLS";
+            code = (Int16)Bytecodes.REG_KILLS;
+        }
 
         public override Int16 value
         {
@@ -490,10 +492,12 @@ namespace RoboWarX.Arena.StockRegisters
     // FIXME: interrupt support
     internal class LeftRegister : Register
     {
-        public const String name = "LEFT";
-        public const Int16 code = (Int16)Bytecodes.REG_LEFT;
 
-        internal LeftRegister() {}
+        internal LeftRegister()
+        {
+            name = "LEFT";
+            code = (Int16)Bytecodes.REG_LEFT;
+        }
 
         public override Int16 value
         {
@@ -516,10 +520,11 @@ namespace RoboWarX.Arena.StockRegisters
     // LOOK defaults to 0. LOOK may be read or written.
     internal class LookRegister : Register
     {
-        public const String name = "LOOK";
-        public const Int16 code = (Int16)Bytecodes.REG_LOOK;
-
-        internal LookRegister() {}
+        internal LookRegister()
+        {
+            name = "LOOK";
+            code = (Int16)Bytecodes.REG_LOOK;
+        }
 
         public override Int16 value
         {
@@ -548,10 +553,12 @@ namespace RoboWarX.Arena.StockRegisters
     // chronon.
     internal class MoveXRegister : Register
     {
-        public const String name = "MOVEX";
-        public const Int16 code = (Int16)Bytecodes.REG_MOVEX;
 
-        internal MoveXRegister() {}
+        internal MoveXRegister()
+        {
+            name = "MOVEX";
+            code = (Int16)Bytecodes.REG_MOVEX;
+        }
 
         public override Int16 value
         {
@@ -559,10 +566,10 @@ namespace RoboWarX.Arena.StockRegisters
             set
             {
                 int energy = robot.useEnergy(Math.Abs(value) * 2);
-                double newx = robot.x_ + Math.Sign(value) * Math.Floor((float)energy / 2);
+                double newx = robot.x + Math.Sign(value) * Math.Floor((float)energy / 2);
                 newx = Math.Min(newx, Constants.ARENA_SIZE);
                 newx = Math.Max(newx, 0);
-                robot.x_ = newx;
+                robot.x = newx;
             }
         }
 
@@ -581,10 +588,12 @@ namespace RoboWarX.Arena.StockRegisters
     // move in the same chronon.
     internal class MoveYRegister : Register
     {
-        public const String name = "MOVEY";
-        public const Int16 code = (Int16)Bytecodes.REG_MOVEY;
 
-        internal MoveYRegister() {}
+        internal MoveYRegister()
+        {
+            name = "MOVEY";
+            code = (Int16)Bytecodes.REG_MOVEY;
+        }
 
         public override Int16 value
         {
@@ -592,10 +601,10 @@ namespace RoboWarX.Arena.StockRegisters
             set
             {
                 int energy = robot.useEnergy(Math.Abs(value) * 2);
-                double newy = robot.y_ + Math.Sign(value) * Math.Floor((float)energy / 2);
+                double newy = robot.y + Math.Sign(value) * Math.Floor((float)energy / 2);
                 newy = Math.Min(newy, Constants.ARENA_SIZE);
                 newy = Math.Max(newy, 0);
-                robot.y_ = newy;
+                robot.y = newy;
             }
         }
         
@@ -619,21 +628,21 @@ namespace RoboWarX.Arena.StockRegisters
     {
         enum ProbeTarget { Damage, Energy, Shield, ID, TeamMates, Aim, Look, Scan }
         
-        public const String name = "PROBE";
-        public const Int16 code = (Int16)Bytecodes.REG_PROBE;
         
         private ProbeTarget register;
 
         internal ProbeRegister()
         {
             register = ProbeTarget.Damage;
+            name = "PROBE";
+            code = (Int16)Bytecodes.REG_PROBE;
         }
 
         public override Int16 value
         {
             get
             {
-                if (!robot.hardware_.probeFlag)
+                if (!robot.hardware.probeFlag)
                     throw new HardwareException(this.robot, "Probes not enabled.");
 
                 // Sin and cos of angle
@@ -641,18 +650,18 @@ namespace RoboWarX.Arena.StockRegisters
                 double n = Util.Cos(robot.aim + robot.look + 270);
                 
                 // Coordinates for this robot
-                long a = (long)robot.x_;
-                long b = (long)robot.y_;
+                long a = (long)robot.x;
+                long b = (long)robot.y;
                 
                 Robot target = null;
                 int dist = int.MaxValue;
-                foreach (Robot other in robot.parent_.robots)
+                foreach (Robot other in robot.parent.robots)
                 {
                     if (other == null || !other.alive || other == robot)
                         continue;
                     
-                    long c = (long)other.x_;
-                    long d = (long)other.y_;
+                    long c = (long)other.x;
+                    long d = (long)other.y;
                     double t = (m * c + n * d - m * a -n * b) / (m * m + n * n);
                     // in sights
                     if (t > 0 && Math.Pow(m * t + a - c, 2) + Math.Pow(n * t + b - d, 2) < 
@@ -664,7 +673,7 @@ namespace RoboWarX.Arena.StockRegisters
                 }
                 if (target == null)
                     return 0;
-                if (robot.team_ > 0 && robot.team_ == target.team_)
+                if (robot.team > 0 && robot.team == target.team)
                     return 0; // Don't probe team member
                 
                 switch (register)
@@ -675,9 +684,9 @@ namespace RoboWarX.Arena.StockRegisters
                 case ProbeTarget.ID: return (Int16)target.number;
                 case ProbeTarget.TeamMates: 
                     Int16 retval = 0;
-                    foreach (Robot other in robot.parent_.robots)
-                        if (other != null && other != target && other.alive_ &&
-                                other.team_ == target.team_)
+                    foreach (Robot other in robot.parent.robots)
+                        if (other != null && other != target && other.alive &&
+                                other.team == target.team)
                             retval++;
                     return retval;
                 case ProbeTarget.Aim: return (Int16)target.aim;
@@ -729,10 +738,11 @@ namespace RoboWarX.Arena.StockRegisters
     // FIXME: interrupt support
     internal class RadarRegister : Register
     {
-        public const String name = "RADAR";
-        public const Int16 code = (Int16)Bytecodes.REG_RADAR;
-
-        internal RadarRegister() {}
+        
+        internal RadarRegister() {
+            name = "RADAR";
+            code = (Int16)Bytecodes.REG_RADAR;
+        }
 
         public override Int16 value
         {
@@ -773,10 +783,10 @@ namespace RoboWarX.Arena.StockRegisters
     // A random number from 0 to 359. May only be read.
     internal class RandomRegister : Register
     {
-        public const String name = "RANDOM";
-        public const Int16 code = (Int16)Bytecodes.REG_RANDOM;
-
-        internal RandomRegister() {}
+        internal RandomRegister() {
+            name = "RANDOM";
+            code = (Int16)Bytecodes.REG_RANDOM;
+        }
 
         public override Int16 value
         {
@@ -806,10 +816,12 @@ namespace RoboWarX.Arena.StockRegisters
     // FIXME: interrupt support
     internal class RangeRegister : Register
     {
-        public const String name = "RANGE";
-        public const Int16 code = (Int16)Bytecodes.REG_RANGE;
 
-        internal RangeRegister() {}
+        internal RangeRegister()
+        {
+            name = "RANGE";
+            code = (Int16)Bytecodes.REG_RANGE;
+        }
 
         public override Int16 value
         {
@@ -823,12 +835,12 @@ namespace RoboWarX.Arena.StockRegisters
                 double n = Util.Cos(robot.aim + robot.look + 270);
                 
                 // Coordinates for this robot
-                long a = (long)robot.x_;
-                long b = (long)robot.y_;
+                long a = (long)robot.x;
+                long b = (long)robot.y;
                 
                 foreach (Robot other in robot.parent.robots)
                 {
-                    if (other == null || other == robot || !other.alive_)
+                    if (other == null || other == robot || !other.alive)
                         continue;
                     
                     // Coordinates for other robot
@@ -850,7 +862,7 @@ namespace RoboWarX.Arena.StockRegisters
                 }
                 
                 // Don't shoot own team member
-                if (target != null && robot.team_ != 0 && robot.team_ == target.team_)
+                if (target != null && robot.team != 0 && robot.team == target.team)
                     return 0;
                 return (Int16)retval;
             }
@@ -877,10 +889,11 @@ namespace RoboWarX.Arena.StockRegisters
     // FIXME: interrupt support
     internal class RightRegister : Register
     {
-        public const String name = "RIGHT";
-        public const Int16 code = (Int16)Bytecodes.REG_RIGHT;
-
-        internal RightRegister() {}
+        internal RightRegister()
+        {
+            name = "RIGHT";
+            code = (Int16)Bytecodes.REG_RIGHT;
+        }
 
         public override Int16 value
         {
@@ -910,18 +923,19 @@ namespace RoboWarX.Arena.StockRegisters
     // FIXME: interrupt support
     internal class RobotsRegister : Register
     {
-        public const String name = "ROBOTS";
-        public const Int16 code = (Int16)Bytecodes.REG_ROBOTS;
-
-        internal RobotsRegister() {}
+        internal RobotsRegister()
+        {
+            name = "ROBOTS";
+            code = (Int16)Bytecodes.REG_ROBOTS;
+        }
 
         public override Int16 value
         {
             get
             {
                 Int16 retval = 0;
-                foreach (Robot r in robot.parent_.robots)
-                    if (r != null && r.alive_)
+                foreach (Robot r in robot.parent.robots)
+                    if (r != null && r.alive)
                         retval++;
                 return retval;
             }
@@ -944,10 +958,10 @@ namespace RoboWarX.Arena.StockRegisters
     // to 0. SCAN may be read or written.
     internal class ScanRegister : Register
     {
-        public const String name = "SCAN";
-        public const Int16 code = (Int16)Bytecodes.REG_SCAN;
-
-        internal ScanRegister() {}
+        internal ScanRegister() {
+            name = "SCAN";
+            code = (Int16)Bytecodes.REG_SCAN;
+        }
 
         public override Int16 value
         {
@@ -993,10 +1007,12 @@ namespace RoboWarX.Arena.StockRegisters
     // FIXME: interrupt support
     internal class ShieldRegister : Register
     {
-        public const String name = "SHIELD";
-        public const Int16 code = (Int16)Bytecodes.REG_SHIELD;
 
-        internal ShieldRegister() {}
+        internal ShieldRegister()
+        {
+            name = "SHIELD";
+            code = (Int16)Bytecodes.REG_SHIELD;
+        }
 
         public override Int16 value
         {
@@ -1008,10 +1024,10 @@ namespace RoboWarX.Arena.StockRegisters
                 int v = Math.Min((int)value, 150);
 
                 int old = robot.shield;
-                if (robot.hardware_.noNegEnergy && v > robot.energy_ + old)
-                    v = robot.energy_ + old;
+                if (robot.hardware.noNegEnergy && v > robot.energy + old)
+                    v = robot.energy + old;
                 robot.shield = v;
-                robot.energy_ += Math.Min(old - v, robot.hardware_.energyMax);
+                robot.energy += Math.Min(old - v, robot.hardware.energyMax);
             }
         }
 
@@ -1041,22 +1057,24 @@ namespace RoboWarX.Arena.StockRegisters
     // FIXME: interrupt support
     internal class SignalRegister : Register
     {
-        public const String name = "SIGNAL";
-        public const Int16 code = (Int16)Bytecodes.REG_SIGNAL;
 
-        internal SignalRegister() {}
+        internal SignalRegister()
+        {
+            name = "SIGNAL";
+            code = (Int16)Bytecodes.REG_SIGNAL;
+        }
 
         public override Int16 value
         {
             get { return robot.signals[robot.channel]; }
             set
             {
-                if (robot.team_ == 0)
+                if (robot.team == 0)
                     robot.signals[robot.channel] = value;
                 else
                 {
-                    foreach (Robot other in robot.parent_.robots)
-                        if (other != null && other.alive && robot.team_ == other.team_)
+                    foreach (Robot other in robot.parent.robots)
+                        if (other != null && other.alive && robot.team == other.team)
                             other.signals[robot.channel] = value;
                 }
             }
@@ -1079,10 +1097,12 @@ namespace RoboWarX.Arena.StockRegisters
     // costs 24 energy.
     internal class SpeedXRegister : Register
     {
-        public const String name = "SPEEDX";
-        public const Int16 code = (Int16)Bytecodes.REG_SPEEDX;
 
-        internal SpeedXRegister() {}
+        internal SpeedXRegister()
+        {
+            name = "SPEEDX";
+            code = (Int16)Bytecodes.REG_SPEEDX;
+        }
 
         public override Int16 value
         {
@@ -1093,11 +1113,11 @@ namespace RoboWarX.Arena.StockRegisters
                 if (value > 20) value = 20;
                 else if (value < -20) value = -20;
                 int cost = Math.Abs(value - old) << 1;
-                if (robot.hardware_.noNegEnergy && cost > robot.energy_) {
-                    int delta = robot.energy_ / 2;
+                if (robot.hardware.noNegEnergy && cost > robot.energy) {
+                    int delta = robot.energy / 2;
                     if (value < old) robot.speedx -= delta;
                     else robot.speedx += delta;
-                    robot.energy_ = 0;
+                    robot.energy = 0;
                 }
                 else
                 {
@@ -1121,10 +1141,12 @@ namespace RoboWarX.Arena.StockRegisters
     // while negative values move up. SPEEDY has the same limits and characteristics as SPEEDX.
     internal class SpeedYRegister : Register
     {
-        public const String name = "SPEEDY";
-        public const Int16 code = (Int16)Bytecodes.REG_SPEEDY;
 
-        internal SpeedYRegister() {}
+        internal SpeedYRegister()
+        {
+            name = "SPEEDY";
+            code = (Int16)Bytecodes.REG_SPEEDY;
+        }
 
         public override Int16 value
         {
@@ -1135,11 +1157,11 @@ namespace RoboWarX.Arena.StockRegisters
                 if (value > 20) value = 20;
                 else if (value < -20) value = -20;
                 int cost = Math.Abs(value - old) << 1;
-                if (robot.hardware_.noNegEnergy && cost > robot.energy_) {
-                    int delta = robot.energy_ / 2;
+                if (robot.hardware.noNegEnergy && cost > robot.energy) {
+                    int delta = robot.energy / 2;
                     if (value < old) robot.speedy -= delta;
                     else robot.speedy += delta;
-                    robot.energy_ = 0;
+                    robot.energy = 0;
                 }
                 else
                 {
@@ -1170,21 +1192,22 @@ namespace RoboWarX.Arena.StockRegisters
     // FIXME: interrupt support
     internal class TeamMatesRegister : Register
     {
-        public const String name = "TEAMMATES";
-        public const Int16 code = (Int16)Bytecodes.REG_TEAMMATES;
-
-        internal TeamMatesRegister() {}
+        internal TeamMatesRegister()
+        {
+            name = "TEAMMATES";
+            code = (Int16)Bytecodes.REG_TEAMMATES;
+        }
 
         public override Int16 value
         {
             get
             {
-                if (robot.team_ == 0)
+                if (robot.team == 0)
                     return 0;
                 Int16 retval = 0;
-                foreach (Robot other in robot.parent_.robots)
-                    if (other != null && other != robot && other.alive_ &&
-                            other.team_ == robot.team_)
+                foreach (Robot other in robot.parent.robots)
+                    if (other != null && other != robot && other.alive &&
+                            other.team == robot.team)
                         retval++;
                 return retval;
             }
@@ -1212,10 +1235,11 @@ namespace RoboWarX.Arena.StockRegisters
     // FIXME: interrupt support
     internal class TopRegister : Register
     {
-        public const String name = "TOP";
-        public const Int16 code = (Int16)Bytecodes.REG_TOP;
-
-        internal TopRegister() {}
+        
+        internal TopRegister() {
+            name = "TOP";
+            code = (Int16)Bytecodes.REG_TOP;
+        }
 
         public override Int16 value
         {
@@ -1241,10 +1265,12 @@ namespace RoboWarX.Arena.StockRegisters
     // FIXME: interrupt support
     internal class WallRegister : Register
     {
-        public const String name = "WALL";
-        public const Int16 code = (Int16)Bytecodes.REG_WALL;
 
-        internal WallRegister() {}
+        internal WallRegister()
+        {
+            name = "WALL";
+            code = (Int16)Bytecodes.REG_WALL;
+        }
 
         public override Int16 value
         {
@@ -1266,10 +1292,11 @@ namespace RoboWarX.Arena.StockRegisters
     // side; 300 is the right. X may be read but may not be written (no unrestricted teleporting!).
     internal class XRegister : Register
     {
-        public const String name = "X";
-        public const Int16 code = (Int16)Bytecodes.REG_X;
-
-        internal XRegister() {}
+        
+        internal XRegister() {
+            name = "X";
+            code = (Int16)Bytecodes.REG_X;
+        }
 
         public override Int16 value
         {
@@ -1291,10 +1318,11 @@ namespace RoboWarX.Arena.StockRegisters
     // but not written.
     internal class YRegister : Register
     {
-        public const String name = "Y";
-        public const Int16 code = (Int16)Bytecodes.REG_Y;
-
-        internal YRegister() {}
+        
+        internal YRegister() {
+            name = "Y";
+            code = (Int16)Bytecodes.REG_Y;
+        }
 
         public override Int16 value
         {
