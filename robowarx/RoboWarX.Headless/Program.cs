@@ -59,6 +59,11 @@ namespace RoboWarX.Headless
                     else
                         return false;
                 }
+                // check for interactive mode
+                else if (args[i] == "-i")
+                {
+                    ha.InteractiveMode = true;
+                }
                 // show help when requested
                 else if (args[i].ToLower() == "-h")
                 {

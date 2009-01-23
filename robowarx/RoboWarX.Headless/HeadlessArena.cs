@@ -4,6 +4,8 @@ using System.Text;
 using RoboWarX.FileFormats;
 using RoboWarX.Arena;
 using System.Threading;
+using System.IO;
+using System.Linq;
 
 namespace RoboWarX.Headless
 {
@@ -13,29 +15,38 @@ namespace RoboWarX.Headless
     public class HeadlessArena
     {
         public const string OUTPUT_STRING = "{0},{1},{2},{3},{4},{5},{6},{7},{8},{9}";
+        private const int DEFAULT_CHRONON_LIMIT = 0;
+        private const int DEFAULT_CHRONONS_PER_UPDATE = 20;
+        private const string EOF_STR = "\x04";
+        private const string EOM_STR = "\x04";
+        private const string QUIT_STR = "\x03";
         Arena.Arena arena;
         List<RobotWrapper> robots = new List<RobotWrapper>();
 
-        private int _chrononLimit = 0;
+        private int chrononLimit;
+        /// <summary>
+        /// Indicates the maximum chronon for the match
+        /// </summary>
         public int ChrononLimit
         {
-            get { return _chrononLimit; }
-            set { 
-                _chrononLimit = value;
+            get { return chrononLimit; }
+            set
+            {
+                chrononLimit = value;
                 if (arena != null)
                     arena.chrononLimit = value;
             }
         }
-
-        private int _chrononsPerUpdate = 20;
         /// <summary>
         /// Indicates how fast the simulation should run
         /// </summary>
-        public int ChrononsPerUpdate
-        {
-            get { return _chrononsPerUpdate; }
-            set { _chrononsPerUpdate = value; }
-        }
+        public int ChrononsPerUpdate { get; set; }
+
+        /// <summary>
+        /// Indicates that this should be run in interactive mode. That means that
+        /// robots should be taken from stdin.
+        /// </summary>
+        public bool InteractiveMode { get; set; }
 
         /// <summary>
         /// Adds a robot to the arena.
@@ -48,6 +59,8 @@ namespace RoboWarX.Headless
 
         public HeadlessArena()
         {
+            ChrononLimit = DEFAULT_CHRONON_LIMIT;
+            ChrononsPerUpdate = DEFAULT_CHRONONS_PER_UPDATE;
             new_game();
         }
 
@@ -55,25 +68,81 @@ namespace RoboWarX.Headless
         {
             arena = new Arena.Arena();
             arena.loadDefaults();
-            arena.chrononLimit = _chrononLimit;
+            arena.chrononLimit = ChrononLimit;
+            robots.Clear();
         }
 
         /// <summary>
         /// Runs the game according to the parameters
         /// </summary>
         public void Run() {
-            if(robots.Count == 0 ) {
+            if (InteractiveMode)
+            {
+                bool continueRunning = true;
+                while (continueRunning)
+                {
+                    // read robots until we see EOM
+                    string readLine;
+                    while ((readLine = Console.ReadLine()) != EOM_STR)
+                    {
+                        // quit when told
+                        if (readLine == QUIT_STR)
+                            return;
+                        // read off a robot, first line should be the name
+                        ReadRobot(readLine);
+                    }
+                    runGame();
+                    new_game();
+
+                }
+            }
+            else
+                runGame();
+        }
+
+
+        private char[] whitespace = new char[] {'\t', '\r', '\n', ' '};
+        /// <summary>
+        /// Reads a robot from stdin
+        /// </summary>
+        /// <returns>False if the quit character was seen, true otherwise.</returns>
+        private bool ReadRobot(string name)
+        {
+            StringBuilder roboFile = new StringBuilder();
+            string readLine;
+            while ((readLine = Console.ReadLine()) != EOF_STR)
+            {
+                if (readLine == QUIT_STR)
+                    return false;
+                roboFile.AppendLine(readLine);
+            }
+            using(MemoryStream ms = new MemoryStream(ASCIIEncoding.ASCII.GetBytes(roboFile.ToString()))) {
+                AddRobot(SourceTestLoader.read(name, ms));
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Runs the currently loaded arena
+        /// </summary>
+        private void runGame()
+        {
+            if (robots.Count == 0)
+            {
                 Console.WriteLine("No Robots! Nothing to run");
             }
-            else {
+            else
+            {
                 gameStart = DateTime.Now;
-                DisplayState();
-                while(!arena.finished) {
+
+                while (!arena.finished)
+                {
                     try
                     {
                         arena.stepChronon();
 
-                        if (_chrononsPerUpdate > 0 && arena.chronon % _chrononsPerUpdate == 0)
+                        if (ChrononsPerUpdate > 0 && arena.chronon % ChrononsPerUpdate == 0)
                             DisplayState();
                     }
                     catch (Exception e)
