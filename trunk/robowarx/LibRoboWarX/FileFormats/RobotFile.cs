@@ -22,6 +22,7 @@ namespace RoboWarX.FileFormats
 
         public String code;
 
+        // Constructor adheres to RoboWar defaults
         public RobotFile()
         {
             name = "New Robot";
@@ -42,6 +43,7 @@ namespace RoboWarX.FileFormats
             code = "";
         }
 
+        // Convenience function that takes the code field and compiles to the program field
         public void compile()
         {
             MemoryStream output = new MemoryStream();
@@ -86,6 +88,30 @@ namespace RoboWarX.FileFormats
             gfx.DrawLine(Pens.Black, x, y,
                 x + (int)((Constants.ROBOT_RADIUS - 1) * Math.Sin(aim * Constants.DEG_TO_RAD)),
                 y - (int)((Constants.ROBOT_RADIUS - 1) * Math.Cos(aim * Constants.DEG_TO_RAD)));
+        }
+        
+        
+        // Convenience function to construct a RobotFile from a file
+        public static RobotFile OpenFile(String filename)
+        {
+            RobotFile f = new RobotFile();
+            FileStream s = new FileStream(filename, FileMode.Open, FileAccess.Read);
+
+            // Sane default in case the file does not contain the robot name
+            f.name = Path.GetFileNameWithoutExtension(filename);
+
+            // Determine which file format class to use based on extension
+            Type format;
+            switch (System.IO.Path.GetExtension(filename).ToLower())
+            {
+            case ".bin":    ClassicMBinRobot.read(f, s);    break;
+            case ".rwr":    WinRoboWar5.read(f, s);         break;
+            case ".rtxt":   SourceTestLoader.read(f, s);    break;
+            case ".rbin":   BinaryTestLoader.read(f, s);    break;
+            default: throw new ArgumentException("Not a robot file.");    
+            }
+            
+            return f;
         }
     }
 }

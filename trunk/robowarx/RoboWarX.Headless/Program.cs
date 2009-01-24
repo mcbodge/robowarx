@@ -75,17 +75,12 @@ namespace RoboWarX.Headless
                 {
                     try
                     {
-                        RobotFile rf = open_robot(args[i]);
-                        if (rf != null)
-                            ha.AddRobot(rf);
-                        else
-                        {
-                            showError(String.Format("Unable to load robot file: {0}", args[i]));
-                        }
+                        ha.AddRobot(RobotFile.OpenFile(args[i]));
                     }
                     catch (Exception e)
                     {
-                        showError(e.Message);
+                        showError(String.Format("Unable to load robot file: {0}\n {1}",
+                                                args[i], e.Message));
                     }
                 }
 
@@ -130,19 +125,5 @@ namespace RoboWarX.Headless
             Console.WriteLine("Usage: RoboWarCL.exe [-cpu <chronons per update>]\n\t[-cl <chrononLimit>] <filename1> <filename2> ...");
             Console.WriteLine("Defaults:\n\t20 chronon's per update, no chronon-limit ");
         }
-
-        // Batch open a bunch of robots
-        private static RobotFile open_robot(String filename)
-        {
-            RobotFile result = null;
-            switch (Path.GetExtension(filename).ToLower())
-            {
-                case ".bin": result = ClassicMBinRobot.read(filename); break;
-                case ".rwr": result = WinRoboWar5.read(filename); break;
-                case ".rtxt": result = SourceTestLoader.read(filename); break;
-            }
-            return result;
-        }
-
     }
 }

@@ -415,13 +415,10 @@ namespace RoboWarX.FileFormats
         private const String resTurretType = "TURT";
         private const int resTurretID = 1000;
 
-        public static RobotFile read(String filename)
+        public static void read(RobotFile f, Stream s)
         {
-            FileStream fo = new FileStream(filename, FileMode.Open, FileAccess.Read);
-            MacBinary mbin = new MacBinary(fo);
+            MacBinary mbin = new MacBinary(s);
 
-            // This will be the output
-            RobotFile f = new RobotFile();
             f.name = mbin.filename;
 
             if (mbin.res.Contains(resPasswordType) && mbin.res[resPasswordType].Contains(resPasswordID))
@@ -528,8 +525,11 @@ namespace RoboWarX.FileFormats
                     }
                 }
             }
-
-            return f;
+        }
+        
+        public static void write(RobotFile f, Stream s)
+        {
+            // FIXME
         }
     }
 }

@@ -49,20 +49,12 @@ namespace RoboWarX.WinForms
         {
             foreach (String filename in filenames)
             {
-                RobotFile result = null;
-                switch (Path.GetExtension(filename).ToLower())
-                {
-                    case ".bin": result = ClassicMBinRobot.read(filename); break;
-                    case ".rwr": result = WinRoboWar5.read(filename); break;
-                }
+                RobotFile result = RobotFile.OpenFile(filename);
 
-                if (result != null)
-                {
-                    Robot robot = arena.loadRobot(result);
-                    robotlist[robot.number].robot = robot;
-                    robotlist[robot.number].update_info();
-                    arenaview.Invalidate();
-                }
+                Robot robot = arena.loadRobot(result);
+                robotlist[robot.number].robot = robot;
+                robotlist[robot.number].update_info();
+                arenaview.Invalidate();
             }
         }
 

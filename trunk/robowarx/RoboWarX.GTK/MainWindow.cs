@@ -167,45 +167,36 @@ namespace RoboWarX.GTK
         {
             foreach (String filename in filenames)
             {
-                RobotFile result = null;
-                switch (System.IO.Path.GetExtension(filename).ToLower())
-                {
-                    case ".bin": result = ClassicMBinRobot.read(filename); break;
-                    case ".rwr": result = WinRoboWar5.read(filename); break;
-                    case ".rtxt": result = SourceTestLoader.read(filename); break;
-                }
+                RobotFile result = RobotFile.OpenFile(filename);
 
-                if (result != null)
-                {
-                    // Assign a number first, before adding to the lists
-                    Robot robot = arena.loadRobot(result);
-                    files[robot.number] = result;
-                    
-                    RobotWidget widget = new RobotWidget();
-                    robotlist[robot.number] = widget;
-                    robotvbox.PackStart(widget, false, true, 0);
-                    widget.robot = robot;
-                    widget.update_info();
-                    
-                    /* FIXME: implement closing
-                    Gtk.VBox rvbox = new Gtk.VBox();
-                    widget.AddChild(rvbox);
-                    rvbox.Homogeneous = true;
-                    
-                    Gtk.Button closebutton = new Gtk.Button(Stock.Close);
-                    Gtk.Action closeaction = robotactions[robot.number].getRobotAction("CloseAction");
-                    closeaction.ConnectProxy(closebutton);
-                    rvbox.PackStart(closebutton);
-                    */
-                    
-                    widget.ShowAll();
-                    
-                    Gtk.HSeparator rsep = new Gtk.HSeparator();
-                    robotvbox.PackStart(rsep, false, true, 0);
-                    rsep.ShowAll();
-                    
-                    arenaview.QueueDraw();
-                }
+                // Assign a number first, before adding to the lists
+                Robot robot = arena.loadRobot(result);
+                files[robot.number] = result;
+                
+                RobotWidget widget = new RobotWidget();
+                robotlist[robot.number] = widget;
+                robotvbox.PackStart(widget, false, true, 0);
+                widget.robot = robot;
+                widget.update_info();
+                
+                /* FIXME: implement closing
+                Gtk.VBox rvbox = new Gtk.VBox();
+                widget.AddChild(rvbox);
+                rvbox.Homogeneous = true;
+                
+                Gtk.Button closebutton = new Gtk.Button(Stock.Close);
+                Gtk.Action closeaction = robotactions[robot.number].getRobotAction("CloseAction");
+                closeaction.ConnectProxy(closebutton);
+                rvbox.PackStart(closebutton);
+                */
+                
+                widget.ShowAll();
+                
+                Gtk.HSeparator rsep = new Gtk.HSeparator();
+                robotvbox.PackStart(rsep, false, true, 0);
+                rsep.ShowAll();
+                
+                arenaview.QueueDraw();
             }
         }
         
