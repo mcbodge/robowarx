@@ -69,6 +69,7 @@
     <Compile Include="Compiler\Exceptions.cs" />
     <Compile Include="Compiler\Tokenizer.cs" />
     <Compile Include="Exceptions.cs" />
+    <Compile Include="FileFormats\BinaryTestLoader.cs" />
     <Compile Include="FileFormats\MacBinary.cs" />
     <Compile Include="FileFormats\RobotFile.cs" />
     <Compile Include="FileFormats\SourceTestLoader.cs" />

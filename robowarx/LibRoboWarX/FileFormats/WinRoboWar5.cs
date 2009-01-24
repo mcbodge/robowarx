@@ -28,16 +28,12 @@ namespace RoboWarX.FileFormats
     // Class for disecting a RoboWar5 file
     public static class WinRoboWar5
     {
-        public static RobotFile read(String filename)
+        public static void read(RobotFile f, Stream s)
         {
-            FileStream fo = new FileStream(filename, FileMode.Open, FileAccess.Read);
             byte[] buf = new byte[141];
-            if (fo.Read(buf, 0, 141) != 141)
+            if (s.Read(buf, 0, 141) != 141)
                 throw new IOException("Could not read header.");
 
-            RobotFile f = new RobotFile();
-
-            f.name = Path.GetFileNameWithoutExtension(filename);
             f.hardware.energyMax = WinUtil.read16(buf, 0);
             f.hardware.damageMax = WinUtil.read16(buf, 2);
             f.hardware.shieldMax = WinUtil.read16(buf, 4);
@@ -84,9 +80,9 @@ namespace RoboWarX.FileFormats
 
             // Read the byte code
             int programlen = codestart - programstart;
-            fo.Seek(programstart, SeekOrigin.Begin);
+            s.Seek(programstart, SeekOrigin.Begin);
             byte[] temp = new byte[programlen];
-            if (fo.Read(temp, 0, programlen) != programlen)
+            if (s.Read(temp, 0, programlen) != programlen)
                 throw new IOException("Could not read program.");
             // Swap byte order
             f.program = new byte[programlen];
@@ -97,8 +93,11 @@ namespace RoboWarX.FileFormats
             }
 
             // FIXME: read source code
-
-            return f;
+        }
+        
+        public static void write(RobotFile f, Stream s)
+        {
+            // FIXME
         }
     }
 }

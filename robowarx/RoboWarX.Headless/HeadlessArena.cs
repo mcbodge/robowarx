@@ -114,9 +114,12 @@ namespace RoboWarX.Headless
                     return false;
                 roboFile.AppendLine(readLine);
             }
-            using(MemoryStream ms = new MemoryStream(ASCIIEncoding.ASCII.GetBytes(roboFile.ToString()))) {
-                AddRobot(SourceTestLoader.read(name, ms));
-            }
+            MemoryStream ms = new MemoryStream(ASCIIEncoding.ASCII.GetBytes(roboFile.ToString()));
+            
+            RobotFile result = new RobotFile();
+            result.name = name;
+            SourceTestLoader.read(result, ms);
+            AddRobot(result);
 
             return true;
         }
