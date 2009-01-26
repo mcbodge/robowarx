@@ -158,6 +158,7 @@ namespace RoboWarX.Headless
                     }
                 }
                 DisplayState();
+		Console.WriteLine("".PadLeft(40, '#'));
             }
         }
 
