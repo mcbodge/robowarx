@@ -16,8 +16,9 @@ Note that the end of a battle is indicated by 40 hash (#) marks on a line.
 
 =Arguments=
 The application should be run as follows:
+{{{
 RoboWarCL.exe [-cpu number] [-cl number] [-i] robotFile1 [robotFile2 robotFile3...]
-
+}}}
   * *-cpu number* Sets the number of chronon's per battle update. If this is a positive value a snapshot of the current state of the battle will be written to the console every *number* chronons. If this is zero or negative, there will only be a single update at the end of the battle. The default value is 20.
   * *-cl number* Sets the chronon limit for the battle.  If this is a positive value, the battle is halted once the chronon specified by *number* has been reached. If this is zero or negative, the battle will run until completion (or indefinitely if a bot has an infinite loop). The default value is 0.
   * *-i* Sets the application to run in interactive mode as described below.
@@ -39,6 +40,4 @@ In interactive mode the application will wait for 1 or more robots to be piped i
 You may repeat the above format for as many robots as you are adding. Finally, send a second *EOT* character to the stream to trigger an arena run.
 
 You may close the application at any time by sending SIGINT (ctrl+c) or ETX (ascii code 0x03).
-
-
 
