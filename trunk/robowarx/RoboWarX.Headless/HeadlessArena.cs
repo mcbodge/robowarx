@@ -89,7 +89,14 @@ namespace RoboWarX.Headless
                         if (readLine == QUIT_STR)
                             return;
                         // read off a robot, first line should be the name
-                        ReadRobot(readLine);
+                        try
+                        {
+                            ReadRobot(readLine);
+                        }
+                        catch (Exception e)
+                        {
+                            Console.WriteLine(String.Format("Error adding robot: {0}", e.Message));
+                        }
                     }
                     runGame();
                     new_game();
