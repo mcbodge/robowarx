@@ -64,7 +64,8 @@ namespace RoboWarX.GTK {
             this.hbox1.Spacing = 7;
             this.hbox1.BorderWidth = ((uint)(12));
             // Container child hbox1.Gtk.Box+BoxChild
-            this.arenaview = null;
+            this.arenaview = new RoboWarX.GTK.ArenaWidget();
+            this.arenaview.Name = "arenaview";
             this.hbox1.Add(this.arenaview);
             Gtk.Box.BoxChild w1 = ((Gtk.Box.BoxChild)(this.hbox1[this.arenaview]));
             w1.Position = 0;
