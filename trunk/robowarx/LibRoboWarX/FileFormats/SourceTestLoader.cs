@@ -50,41 +50,34 @@ namespace RoboWarX.FileFormats
                 string hardwareSpecifier = line.Trim().Substring(HARDWARE_STRING.Length);
                 // split off the values and look for
                 string[] values = hardwareSpecifier.Split(':').Select(str => str.Trim()).ToArray();
-                if (values.Length == 2)
-                {
-                    PropertyInfo property = f.hardware.GetType().GetProperty(values[0]);
-                    // basic checks and errors
-                    if (property != null)
-                    {
-                        if (property.CanWrite)
-                        {
-                            object convertedValue;
-                            try
-                            {
-                                // parse if it's an enum, use built-in converters otherwise.
-                                if (property.PropertyType.IsEnum)
-                                    convertedValue = Enum.Parse(property.PropertyType, values[1], true);
-                                else
-                                    convertedValue = Convert.ChangeType(values[1], property.PropertyType);
-                                property.SetValue(f.hardware, convertedValue, null);
-                            }
-                            catch
-                            {
-                                throw new CompilerException(String.Format(
-                                    "Unable to set hardware specifier {0}, was expecting a {1} received {2}",
-                                    values[0], property.PropertyType.Name, values[1]));
-                            }
-                        }
-                        else
-                            throw new CompilerException(String.Format(
-                                "Unable to set hardware specifier {0} it is read-only", values[0]));
-                    }
-                    else
-                        throw new CompilerException(
-                            String.Format("Unable to find hardware specifier named: {0}", values[0]));
-                }
-                else
+                if (values.Length != 2)
                     throw new CompilerException(String.Format("MalFormed hardware specifier: {0}", line));
+                
+                PropertyInfo property = f.hardware.GetType().GetProperty(values[0]);
+                // basic checks and errors
+                if (property == null)
+                    throw new CompilerException(
+                        String.Format("Unable to find hardware specifier named: {0}", values[0]));
+
+                if (!property.CanWrite)
+                    throw new CompilerException(String.Format(
+                        "Unable to set hardware specifier {0} it is read-only", values[0]));
+                object convertedValue;
+                try
+                {
+                    // parse if it's an enum, use built-in converters otherwise.
+                    if (property.PropertyType.IsEnum)
+                        convertedValue = Enum.Parse(property.PropertyType, values[1], true);
+                    else
+                        convertedValue = Convert.ChangeType(values[1], property.PropertyType);
+                    property.SetValue(f.hardware, convertedValue, null);
+                }
+                catch
+                {
+                    throw new CompilerException(String.Format(
+                        "Unable to set hardware specifier {0}, was expecting a {1} received {2}",
+                        values[0], property.PropertyType.Name, values[1]));
+                }
             
             }
         }
