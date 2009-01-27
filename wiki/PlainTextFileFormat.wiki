@@ -1,4 +1,4 @@
-#summary One-sentence summary of this page.
+#summary Details about the plain-text file format.
 
 = Introduction =
 This is just a stub for an article that could contain more general information on the plain-text file format.
