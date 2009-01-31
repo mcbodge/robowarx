@@ -12,7 +12,6 @@ namespace RoboWarX
             Assembly a = Assembly.GetExecutingAssembly();
             foreach (FieldInfo f in container.GetFields())
             {
-                Console.WriteLine(String.Format("Checking {0}.{1}", container.Name, f.Name));
                 if (f.FieldType != typeof(Image)) continue;
                 f.SetValue(null, Image.FromStream(a.GetManifestResourceStream(
                         String.Format("{0}.{1}", container.Name, f.Name)))); 
