@@ -71,8 +71,14 @@ namespace RoboWarX.Weapons.Hellbore
     // enabled at the hardware store.
     internal class HellboreRegister : Register
     {
+        public override string[] names
+        {
+            get
+            {
+                return new String[] { "HELL", "HELLBORE" };
+            }
+        }
         internal HellboreRegister() {
-            name = "HELLBORE";
             code = (Int16)Bytecodes.REG_HELLBORE;
         }
 
