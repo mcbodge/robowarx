@@ -10,8 +10,8 @@
     <Configuration name="Release" ctype="CombineConfiguration">
       <Entry build="True" name="RoboWarX.GTK" configuration="Release" />
       <Entry build="True" name="LibRoboWarX" configuration="Release" />
-      <Entry build="True" name="RoboWarX.WinForms" configuration="Debug|Any CPU" />
-      <Entry build="True" name="RoboWarX.Headless" configuration="Debug|Any CPU" />
+      <Entry build="True" name="RoboWarX.WinForms" configuration="Release|Any CPU" />
+      <Entry build="True" name="RoboWarX.Headless" configuration="Release|Any CPU" />
       <Entry build="True" name="RoboWarX.DumpTest" configuration="Release" />
     </Configuration>
   </Configurations>
