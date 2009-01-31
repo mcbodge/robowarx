@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Reflection;
 using System.Collections.Generic;
 using RoboWarX;
@@ -408,14 +409,24 @@ namespace RoboWarX.Arena
             }
         }
 
+        private delegate void DrawOffsetHelper(int ox, int oy);
         public override void draw(Graphics gfx)
         {
-            if (alive)
-                file.draw(gfx, (int)x, (int)y, number, icon, aim);
-            
-            else if (aim > 0)
+            // Determine the basic image to use
+            Image basicimage;
+            if (shield > 0)
             {
-                Image basicimage;
+                switch (number) {
+                default: basicimage = Resources.Robot.Basic1Shield; break;
+                case 1:  basicimage = Resources.Robot.Basic2Shield; break;
+                case 2:  basicimage = Resources.Robot.Basic3Shield; break;
+                case 3:  basicimage = Resources.Robot.Basic4Shield; break;
+                case 4:  basicimage = Resources.Robot.Basic5Shield; break;
+                case 5:  basicimage = Resources.Robot.Basic6Shield; break;
+                }
+            }
+            else
+            {
                 switch (number) {
                 default: basicimage = Resources.Robot.Basic1; break;
                 case 1:  basicimage = Resources.Robot.Basic2; break;
@@ -424,25 +435,54 @@ namespace RoboWarX.Arena
                 case 4:  basicimage = Resources.Robot.Basic5; break;
                 case 5:  basicimage = Resources.Robot.Basic6; break;
                 }
+            }
+            
+            if (alive)
+            {
+                // FIXME: we should just call RobotFile.draw here.
+                gfx.DrawImage(basicimage, (int)x - 16, (int)y - 16);
                 
-                Brush color = Brushes.Black;
-                Rectangle r = new Rectangle((int)speedx - 12, (int)speedy - 12, 24, 24);
-                r.Offset(2 * aim, aim);
-                gfx.FillPie(color, r, 0, 45);
-                r.Offset(-aim, aim);
-                gfx.FillPie(color, r, 45, 45);
-                r.Offset(-2 * aim, 0);
-                gfx.FillPie(color, r, 90, 45);
-                r.Offset(-aim, -aim);
-                gfx.FillPie(color, r, 135, 45);
-                r.Offset(0, -2 * aim);
-                gfx.FillPie(color, r, 180, 45);
-                r.Offset(aim, -aim);
-                gfx.FillPie(color, r, 225, 45);
-                r.Offset(2 * aim, 0);
-                gfx.FillPie(color, r, 270, 45);
-                r.Offset(aim, aim);
-                gfx.FillPie(color, r, 315, 45);
+                // FIXME: different turret types
+                // FIXME: possibly invert color like the original?
+                gfx.DrawLine(Pens.Black, (int)x, (int)y,
+                    (int)(x + ((Constants.ROBOT_RADIUS - 1) * Math.Sin(aim * Constants.DEG_TO_RAD))),
+                    (int)(y - ((Constants.ROBOT_RADIUS - 1) * Math.Cos(aim * Constants.DEG_TO_RAD))));
+            }
+            
+            else if (aim > 0)
+            {
+                // Create a brush to fill pie pieces with. Don't do wrapping / tiling.
+                TextureBrush brush = new TextureBrush(basicimage, WrapMode.Clamp);
+            
+                // The texture starts at (0,0). Here, we initialy position it correctly.
+                brush.TranslateTransform((int)speedx - 16, (int)speedy - 16);
+            
+                // Our pie bounds. This is needs to fit a circle that fully encompasses the icon.
+                Rectangle r = new Rectangle((int)speedx - 23, (int)speedy - 23, 46, 46);
+            
+                // We need to offset both the texture and the rectangle each time. :(  
+                // Utility function, ahoy!
+                DrawOffsetHelper offset = delegate(int ox, int oy) {
+                    r.Offset(ox, oy);
+                    brush.TranslateTransform(ox, oy);
+                };
+            
+                offset(2 * aim, aim);
+                gfx.FillPie(brush, r, 0, 45);
+                offset(-aim, aim);
+                gfx.FillPie(brush, r, 45, 45);
+                offset(-2 * aim, 0);
+                gfx.FillPie(brush, r, 90, 45);
+                offset(-aim, -aim);
+                gfx.FillPie(brush, r, 135, 45);
+                offset(0, -2 * aim);
+                gfx.FillPie(brush, r, 180, 45);
+                offset(aim, -aim);
+                gfx.FillPie(brush, r, 225, 45);
+                offset(2 * aim, 0);
+                gfx.FillPie(brush, r, 270, 45);
+                offset(aim, aim);
+                gfx.FillPie(brush, r, 315, 45);
             }
         }
     }
