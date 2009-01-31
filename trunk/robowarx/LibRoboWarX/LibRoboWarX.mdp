@@ -15,7 +15,30 @@
   </Configurations>
   <Contents>
     <File name="AssemblyInfo.cs" subtype="Code" buildaction="Compile" />
+    <File name="Graphics/armedmine.png" subtype="Code" buildaction="EmbedAsResource" resource_id="Projectile.ArmedMine" />
+    <File name="Graphics/basic1.png" subtype="Code" buildaction="EmbedAsResource" resource_id="Robot.Basic1" />
+    <File name="Graphics/basic1shield.png" subtype="Code" buildaction="EmbedAsResource" resource_id="Robot.Basic1 />
+    <File name="Graphics/basic2.png" subtype="Code" buildaction="EmbedAsResource" resource_id="Robot.Basic2 />
+    <File name="Graphics/basic2shield.png" subtype="Code" buildaction="EmbedAsResource" resource_id="Robot.Basic2 />
+    <File name="Graphics/basic3.png" subtype="Code" buildaction="EmbedAsResource" resource_id="Robot.Basic3 />
+    <File name="Graphics/basic3shield.png" subtype="Code" buildaction="EmbedAsResource" resource_id="Robot.Basic3 />
+    <File name="Graphics/basic4.png" subtype="Code" buildaction="EmbedAsResource" resource_id="Robot.Basic4 />
+    <File name="Graphics/basic4shield.png" subtype="Code" buildaction="EmbedAsResource" resource_id="Robot.Basic4 />
+    <File name="Graphics/basic5.png" subtype="Code" buildaction="EmbedAsResource" resource_id="Robot.Basic5 />
+    <File name="Graphics/basic5shield.png" subtype="Code" buildaction="EmbedAsResource" resource_id="Robot.Basic5 />
+    <File name="Graphics/basic6.png" subtype="Code" buildaction="EmbedAsResource" resource_id="Robot.Basic6 />
+    <File name="Graphics/basic6shield.png" subtype="Code" buildaction="EmbedAsResource" resource_id="Robot.Basic6 />
     <File name="Graphics/bullet.png" subtype="Code" buildaction="EmbedAsResource" resource_id="Projectile.Bullet" />
+    <File name="Graphics/droned.png" subtype="Code" buildaction="EmbedAsResource" resource_id="Projectile.DroneDown" />
+    <File name="Graphics/dronedl.png" subtype="Code" buildaction="EmbedAsResource" resource_id="Projectile.DroneDownLeft" />
+    <File name="Graphics/dronedr.png" subtype="Code" buildaction="EmbedAsResource" resource_id="Projectile.DroneDownRight" />
+    <File name="Graphics/dronel.png" subtype="Code" buildaction="EmbedAsResource" resource_id="Projectile.DroneLeft" />
+    <File name="Graphics/droner.png" subtype="Code" buildaction="EmbedAsResource" resource_id="Projectile.DroneRight" />
+    <File name="Graphics/droneu.png" subtype="Code" buildaction="EmbedAsResource" resource_id="Projectile.DroneUp" />
+    <File name="Graphics/droneul.png" subtype="Code" buildaction="EmbedAsResource" resource_id="Projectile.DroneUpLeft" />
+    <File name="Graphics/droneur.png" subtype="Code" buildaction="EmbedAsResource" resource_id="Projectile.DroneUpRight" />
+    <File name="Graphics/hellbore.png" subtype="Code" buildaction="EmbedAsResource" resource_id="Projectile.Hellbore" />
+    <File name="Graphics/newmine.png" subtype="Code" buildaction="EmbedAsResource" resource_id="Projectile.NewMine" />
     <File name="FileFormats/RobotFile.cs" subtype="Code" buildaction="Compile" />
     <File name="FileFormats/MacBinary.cs" subtype="Code" buildaction="Compile" />
     <File name="FileFormats/WinRoboWar5.cs" subtype="Code" buildaction="Compile" />

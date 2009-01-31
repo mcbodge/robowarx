@@ -92,8 +92,77 @@
     <Compile Include="Weapons\TacNuke.cs" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Graphics\armedmine.png">
+      <LogicalName>Projectile.ArmedMine</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Graphics\basic1.png">
+      <LogicalName>Robot.Basic1</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Graphics\basic1shield.png">
+      <LogicalName>Robot.Basic1Shield</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Graphics\basic2.png">
+      <LogicalName>Robot.Basic2</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Graphics\basic2shield.png">
+      <LogicalName>Robot.Basic2Shield</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Graphics\basic3.png">
+      <LogicalName>Robot.Basic3</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Graphics\basic3shield.png">
+      <LogicalName>Robot.Basic3Shield</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Graphics\basic4.png">
+      <LogicalName>Robot.Basic4</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Graphics\basic4shield.png">
+      <LogicalName>Robot.Basic4Shield</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Graphics\basic5.png">
+      <LogicalName>Robot.Basic5</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Graphics\basic5shield.png">
+      <LogicalName>Robot.Basic5Shield</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Graphics\basic6.png">
+      <LogicalName>Robot.Basic6</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Graphics\basic6shield.png">
+      <LogicalName>Robot.Basic6Shield</LogicalName>
+    </EmbeddedResource>
     <EmbeddedResource Include="Graphics\bullet.png">
       <LogicalName>Projectile.Bullet</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Graphics\droned.png">
+      <LogicalName>Projectile.DroneDown</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Graphics\dronedl.png">
+      <LogicalName>Projectile.DroneDownLeft</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Graphics\dronedr.png">
+      <LogicalName>Projectile.DroneDownRight</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Graphics\dronel.png">
+      <LogicalName>Projectile.DroneLeft</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Graphics\droner.png">
+      <LogicalName>Projectile.DroneRight</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Graphics\droneu.png">
+      <LogicalName>Projectile.DroneUp</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Graphics\droneul.png">
+      <LogicalName>Projectile.DroneUpLeft</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Graphics\droneur.png">
+      <LogicalName>Projectile.DroneUpRight</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Graphics\hellbore.png">
+      <LogicalName>Projectile.Hellbore</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Graphics\newmine.png">
+      <LogicalName>Projectile.NewMine</LogicalName>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
