@@ -73,7 +73,7 @@ namespace RoboWarX.GTK
                 int w, h;
                 args.Event.Window.GetSize(out w, out h);
                 Graphics g = Gtk.DotNet.Graphics.FromDrawable(args.Event.Window);
-                robot_.file.draw(g, w / 2, h / 2, robot_.number, 0, 90);
+                robot_.file.draw(g, w / 2, h / 2, robot_.number, 0, null);
             }
             args.RetVal = true;
         }
