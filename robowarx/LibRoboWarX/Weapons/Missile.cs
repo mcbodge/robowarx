@@ -68,6 +68,8 @@ namespace RoboWarX.Weapons.Missile
 
             set
             {
+                if (value <= 0)
+                    return;
                 if (!robot.hardware.hasMissiles)
                     throw new HardwareException(this.robot, "Missiles not enabled.");
                 int power = robot.useEnergy(value);
