@@ -59,7 +59,7 @@ namespace RoboWarX.Weapons.Bullet
         public override void draw(System.Drawing.Graphics gfx)
         {
             // FIXME: Cache? I believe the Resources class does this already.
-            gfx.DrawImage(Resources.GetImage("Projectile.Bullet"),
+            gfx.DrawImage(Resources.Projectile.Bullet,
                           new Point((int)x - 2, (int)y - 2));
         }
     }
