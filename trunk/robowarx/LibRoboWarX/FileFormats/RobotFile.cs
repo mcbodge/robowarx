@@ -54,40 +54,29 @@ namespace RoboWarX.FileFormats
             program = output.ToArray();
         }
 
-        // Draw a specific state (color index, icon, aim, position) of this robot
-        // to the Graphics object
-        public void draw(Graphics gfx, int x, int y, int num, int icon, int aim)
+        // Draw the robot's default icon.
+        public void draw(Graphics gfx, int x, int y, int num, int icon, int? aim)
         {
-            Brush color;
+            Image basicimage;
             switch (num) {
-                case 0:
-                    color = Brushes.Red;
-                    break;
-                case 1:
-                    color = Brushes.Cyan;
-                    break;
-                case 2:
-                    color = Brushes.Green;
-                    break;
-                case 3:
-                    color = Brushes.Blue;
-                    break;
-                case 4:
-                    color = Brushes.Magenta;
-                    break;
-                case 5:
-                    color = Brushes.Yellow;
-                    break;
-                default:
-                    color = Brushes.Black;
-                    break;
+            default: basicimage = Resources.Robot.Basic1; break;
+            case 1:  basicimage = Resources.Robot.Basic2; break;
+            case 2:  basicimage = Resources.Robot.Basic3; break;
+            case 3:  basicimage = Resources.Robot.Basic4; break;
+            case 4:  basicimage = Resources.Robot.Basic5; break;
+            case 5:  basicimage = Resources.Robot.Basic6; break;
             }
-
-            gfx.FillEllipse(color, new Rectangle(x - 12, y - 12, 24, 24));
-
-            gfx.DrawLine(Pens.Black, x, y,
-                x + (int)((Constants.ROBOT_RADIUS - 1) * Math.Sin(aim * Constants.DEG_TO_RAD)),
-                y - (int)((Constants.ROBOT_RADIUS - 1) * Math.Cos(aim * Constants.DEG_TO_RAD)));
+            gfx.DrawImage(basicimage, x - 16, y - 16);
+            
+            if (aim.HasValue)
+            {
+                double aim_ = (double)aim; // leave me alone, compiler!
+                // FIXME: different turret types
+                // FIXME: possibly invert color like the original?
+                gfx.DrawLine(Pens.Black, x, y,
+                    x + (int)((Constants.ROBOT_RADIUS - 1) * Math.Sin(aim_ * Constants.DEG_TO_RAD)),
+                    y - (int)((Constants.ROBOT_RADIUS - 1) * Math.Cos(aim_ * Constants.DEG_TO_RAD)));
+            }
         }
         
         

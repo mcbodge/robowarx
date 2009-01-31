@@ -410,41 +410,22 @@ namespace RoboWarX.Arena
 
         public override void draw(Graphics gfx)
         {
-            Brush color;
-            switch (number) {
-                case 0:
-                    color = Brushes.Red;
-                    break;
-                case 1:
-                    color = Brushes.Cyan;
-                    break;
-                case 2:
-                    color = Brushes.Green;
-                    break;
-                case 3:
-                    color = Brushes.Blue;
-                    break;
-                case 4:
-                    color = Brushes.Magenta;
-                    break;
-                case 5:
-                    color = Brushes.Yellow;
-                    break;
-                default:
-                    color = Brushes.Black;
-                    break;
-            }
-
             if (alive)
-            {
-                gfx.FillEllipse(color, new Rectangle((int)x - 12, (int)y - 12, 24, 24));
-
-                gfx.DrawLine(Pens.Black, (int)x, (int)y,
-                    (int)x + (int)((Constants.ROBOT_RADIUS - 1) * Math.Sin(aim * Constants.DEG_TO_RAD)),
-                    (int)y - (int)((Constants.ROBOT_RADIUS - 1) * Math.Cos(aim * Constants.DEG_TO_RAD)));
-            }
+                file.draw(gfx, (int)x, (int)y, number, icon, aim);
+            
             else if (aim > 0)
             {
+                Image basicimage;
+                switch (number) {
+                default: basicimage = Resources.Robot.Basic1; break;
+                case 1:  basicimage = Resources.Robot.Basic2; break;
+                case 2:  basicimage = Resources.Robot.Basic3; break;
+                case 3:  basicimage = Resources.Robot.Basic4; break;
+                case 4:  basicimage = Resources.Robot.Basic5; break;
+                case 5:  basicimage = Resources.Robot.Basic6; break;
+                }
+                
+                Brush color = Brushes.Black;
                 Rectangle r = new Rectangle((int)speedx - 12, (int)speedy - 12, 24, 24);
                 r.Offset(2 * aim, aim);
                 gfx.FillPie(color, r, 0, 45);
