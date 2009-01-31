@@ -14,17 +14,14 @@ namespace RoboWarX.FileFormats
 
         public static void read(RobotFile f, Stream s)
         {
-            // a buffer for the stream contents
             StringBuilder sb = new StringBuilder();
-            StringBuilder hardwareSpecifiers = new StringBuilder();
-
-            // read the stream
-            byte[] buffer = new byte[BUFFER_SIZE];
-            int len;
-            while ((len = s.Read(buffer, 0, BUFFER_SIZE)) > 0)
+            StreamReader sr = new StreamReader(s);
+            
+            string line;
+            while ((line = sr.ReadLine()) != null)
             {
-                string line = ASCIIEncoding.ASCII.GetString(buffer, 0, len); 
-                sb.Append(line);
+                // buffer
+                sb.AppendLine(line);
 
                 // lets check to see if this is a hardware specifier
                 setHardware(f, line);
@@ -33,8 +30,6 @@ namespace RoboWarX.FileFormats
 
             // Immediately compile for convenience
             f.compile();
-            
-
         }
 
         /// <summary>
