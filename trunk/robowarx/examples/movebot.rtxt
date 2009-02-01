@@ -1,0 +1,43 @@
+{ MoveBot
+  Created 11/21/89 by David Harris.
+    This robot moves about the screen,
+    maintaining shields and searching for a
+    target. It fires when it sights anything.
+}
+
+#!!hardware hasMissiles: true
+
+START:
+     1 speedx' store
+     1 speedy' store
+     25 shield' store
+
+MAIN:
+     aim 5 + aim' store           # Rotate Turret
+     x 50 < xmin if                    # X minimum
+     y 50 < ymin if                    # Y minimum
+     x 250 > xmax if                   # X maximum
+     y 250 > ymax if                   # Y maximum
+     range 0 > shoot if           # Shoot if range >0
+     25 shield' store
+     main jump
+
+XMIN:
+     random 3 mod 1 + speedx' store
+     return
+
+YMIN:
+       random 3 mod 1 + speedy' store
+     return
+
+XMAX:
+     -1 random 3 mod - speedx' store
+     return
+
+YMAX:
+     -1 random 3 mod - speedy' store
+     return
+
+SHOOT:
+     energy 2 / missile' store
+     return

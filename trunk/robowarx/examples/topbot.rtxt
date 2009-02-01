@@ -1,0 +1,30 @@
+# TopBot
+# Probably written by David Harris
+
+Start:
+       0 aim' store            # point turret up
+       -4 speedy' store        # start moving up
+
+SeekTop:
+       range 0 > KillTarget if # shoot at target
+       y 30 < ReachedTop if    # at top yet?
+       SeekTop jump            # repeat
+
+ReachedTop:
+       drop                    # return address
+       0 speedy' store         # stop moving
+       90 aim' store           # point gun right
+
+MainLoop:
+       range 0 > KillTarget if # shoot at target
+       aim 5 + aim' store      # rotate turret
+       aim 270 > RotateBack if # half circle
+       MainLoop jump           # repeat forever
+
+KillTarget:
+       20 fire' store          # fire a bullet
+       return                  # and continue
+
+RotateBack:
+       90 aim' store
+       return

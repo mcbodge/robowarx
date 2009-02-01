@@ -1,0 +1,6 @@
+# SimpleRobot
+
+Main:
+    Aim 5 +    # Rotate 5 degrees
+    Aim' STORE
+    Main JUMP  # Repeat

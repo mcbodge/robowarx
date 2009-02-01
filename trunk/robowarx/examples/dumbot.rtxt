@@ -1,0 +1,19 @@
+{
+    DumBot
+    Created 12/27/89 by David Harris
+    This robot maintains shields, rotates its
+    turret, and fires when it finds a target.
+}
+
+#!!hardware hasMissiles: true
+
+Main:
+    50 shield' store
+    aim 7 + aim' store
+    range 0 >
+       missilesub if
+    main jump
+
+MissileSub:
+    50 missile' store
+    return
