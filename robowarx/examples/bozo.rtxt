@@ -1,0 +1,11 @@
+# Bozo
+# Written 8/22/93 by David Harris
+# This robot uses interrupts.
+    killem RANGE' SETINT
+    INTON
+main:
+    AIM 5 + AIM' STORE
+    main JUMP
+killem:
+    50 FIRE' STORE
+    RTI

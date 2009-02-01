@@ -1,0 +1,27 @@
+#  Tim's Robot
+#
+#   Designed by the same person
+#   Who, at the present, due to the presence
+#   of altogether too many Electric Monks,
+#   believes that he is a banana and that Dodo
+#   is more powerful than Mac II, thereby
+#   causing his programming ability to
+#   deteriorate. Oh well.
+
+    random aim' store
+
+Main:
+    range 0 = rotate shoot ife
+    main jump
+
+rotate:
+    aim 17 + aim' store
+    return
+
+shoot:
+    energy 20 > reallyshoot if
+    return
+
+reallyshoot:
+    energy fire' store
+    return

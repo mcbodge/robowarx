@@ -1,6 +1,0 @@
-# Simple robot that rotates it's turret
-
-Start:
-AIM 20 + AIM' STORE
-Start JUMP
-

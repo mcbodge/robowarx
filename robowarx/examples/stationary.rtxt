@@ -1,0 +1,6 @@
+# Robot Stationary
+# 12/30/89 By David Harris
+
+main:
+    aim 10 + aim' store
+    main jump
