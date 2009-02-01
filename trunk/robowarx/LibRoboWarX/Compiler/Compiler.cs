@@ -243,6 +243,7 @@ namespace RoboWarX.Compiler
             // Error on forward references to labels that didn't end up resolved
             if (unresolved.Count > 0)
             {
+                // Straight using unresolved.Keys for String.Join doesn't work, apparently.
                 string[] labelnames = new string[unresolved.Count];
                 unresolved.Keys.CopyTo(labelnames, 0);
                 throw new CompilerException("Unresolved labels remaining after compilation: " + 
