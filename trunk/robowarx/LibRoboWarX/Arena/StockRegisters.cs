@@ -14,7 +14,9 @@ namespace RoboWarX.Arena.StockRegisters
             this.code = (Int16) ((int)Bytecodes.REG_PRIV_MIN + (name - 'A'));
         }
         
-        public override Int16 value { get; set; }
+        // FIXME: mono doesn't like autoimpl property overrides
+        private Int16 value_;
+        public override Int16 value { get { return value_; } set { value_ = value; } }
 
         public override Object Clone() { return new CustomRegister(name[0]); }
     }

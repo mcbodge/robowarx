@@ -25,7 +25,7 @@ namespace RoboWarX.Arena
             get { return 0; }
             set
             {
-                throw RobotException(robot, "Illegal interrupt name");
+                throw new RobotException(robot, "Illegal interrupt name");
             }
         }
         public virtual Int16 interrupt
@@ -33,7 +33,7 @@ namespace RoboWarX.Arena
             get { return -1; }
             set
             {
-                throw RobotException(robot, "Illegal interrupt name");
+                throw new RobotException(robot, "Illegal interrupt name");
             }
         }
 
@@ -45,10 +45,15 @@ namespace RoboWarX.Arena
     
     public abstract class InterruptRegister : Register
     {
-        public override Int16 param { get; set; }
-        public override Int16 interrupt { get; set; }
-        internal void fireInterrupt() {}
-        public virtual bool checkInterrupt() {}
-        public virtual void updateInterruptState() {}
+        // FIXME: mono doesn't like autoimpl property overrides
+        private Int16 param_;
+        public override Int16 param { get { return param_; } set { param_ = value;} }
+        
+        // FIXME: ditto
+        private Int16 interrupt_;
+        public override Int16 interrupt { get { return interrupt_; } set { interrupt_ = value;} }
+        
+        public override bool checkInterrupt() { return false; }
+        public override void updateInterruptState() {}
     }
 }

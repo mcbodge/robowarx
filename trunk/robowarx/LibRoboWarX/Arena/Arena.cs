@@ -386,7 +386,7 @@ namespace RoboWarX.Arena
             foreach (ITemplateRegister register in registers)
             {
                 Register clone = register.Clone() as Register;
-                clone.assign(robot);
+                clone.robot = robot;
                 robot.interp.loadRegister(clone);
             }
 
