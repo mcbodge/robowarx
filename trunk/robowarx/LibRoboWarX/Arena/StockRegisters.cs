@@ -8,27 +8,15 @@ namespace RoboWarX.Arena.StockRegisters
     // They may be read or written.
     internal class CustomRegister : Register
     {
-        private Int16 _value;
-        public override Int16 value
-        {
-            get { return _value; }
-            set { _value = value; }
-        }
-
         internal CustomRegister(char name)
         {
             this.name = name.ToString();
             this.code = (Int16) ((int)Bytecodes.REG_PRIV_MIN + (name - 'A'));
         }
-
-        public override Int16 param
-        {
-            set {}
-        }
+        
+        public override Int16 value { get; set; }
 
         public override Object Clone() { return new CustomRegister(name[0]); }
-        public override bool checkInterrupt() { return false; }
-        public override void updateInterruptState() {}
     }
     
     // Angle turret points. May be read or written. The angle is in degrees, oriented like a\
@@ -52,14 +40,7 @@ namespace RoboWarX.Arena.StockRegisters
             }
         }
 
-        public override Int16 param
-        {
-            set {}
-        }
-
         public override Object Clone() { return new AimRegister(); }
-        public override bool checkInterrupt() { return false; }
-        public override void updateInterruptState() {}
     }
     
     // This register is used exclusively for interrupts. It has no effect if written and returns 0
@@ -72,13 +53,7 @@ namespace RoboWarX.Arena.StockRegisters
     // FIXME: interrupt support
     internal class BottomRegister : Register
     {
-        public override string[] names
-        {
-            get
-            {
-                return new String[] { "BOT", "BOTTOM" };
-            }
-        }
+        public override string[] names { get { return new String[] { "BOT", "BOTTOM" }; } }
         internal BottomRegister() {
             code = (Int16)Bytecodes.REG_BOTTOM;
         }
@@ -89,14 +64,7 @@ namespace RoboWarX.Arena.StockRegisters
             set {}
         }
 
-        public override Int16 param
-        {
-            set {}
-        }
-
         public override Object Clone() { return new BottomRegister(); }
-        public override bool checkInterrupt() { return false; }
-        public override void updateInterruptState() {}
     }
     
     // The robot’s broadcasting and receiving channel. May be read
@@ -118,14 +86,7 @@ namespace RoboWarX.Arena.StockRegisters
             }
         }
 
-        public override Int16 param
-        {
-            set {}
-        }
-
         public override Object Clone() { return new ChannelRegister(); }
-        public override bool checkInterrupt() { return false; }
-        public override void updateInterruptState() {}
     }
     
     // Returns the number of chronons elapsed in the current battle. CHRONON may only be read.
@@ -149,14 +110,7 @@ namespace RoboWarX.Arena.StockRegisters
             set {}
         }
 
-        public override Int16 param
-        {
-            set {}
-        }
-
         public override Object Clone() { return new ChrononRegister(); }
-        public override bool checkInterrupt() { return false; }
-        public override void updateInterruptState() {}
     }
 
     // May only be read. If another robot has collided with the current robot, the COLLISION
@@ -181,14 +135,7 @@ namespace RoboWarX.Arena.StockRegisters
             set {}
         }
 
-        public override Int16 param
-        {
-            set {}
-        }
-
         public override Object Clone() { return new CollisionRegister(); }
-        public override bool checkInterrupt() { return false; }
-        public override void updateInterruptState() {}
     }
     
     // Robot’s current damage rating. May only be read. When the battle begins, the damage rating
@@ -203,7 +150,6 @@ namespace RoboWarX.Arena.StockRegisters
     // FIXME: interrupt support
     internal class DamageRegister : Register
     {
-
         internal DamageRegister() {
             name = "DAMAGE";
             code = (Int16)Bytecodes.REG_DAMAGE;
@@ -215,14 +161,7 @@ namespace RoboWarX.Arena.StockRegisters
             set {}
         }
 
-        public override Int16 param
-        {
-            set {}
-        }
-
         public override Object Clone() { return new DamageRegister(); }
-        public override bool checkInterrupt() { return false; }
-        public override void updateInterruptState() {}
     }
     
     // This register is used to help tracking routines. It is used in conjunction with the RANGE
@@ -307,14 +246,7 @@ namespace RoboWarX.Arena.StockRegisters
             set {}
         }
 
-        public override Int16 param
-        {
-            set {}
-        }
-
         public override Object Clone() { return new DopplerRegister(); }
-        public override bool checkInterrupt() { return false; }
-        public override void updateInterruptState() {}
     }
     
     // Robot’s current energy. May be read, but not written. ENERGY returns the amount of energy
@@ -335,14 +267,7 @@ namespace RoboWarX.Arena.StockRegisters
             set {}
         }
 
-        public override Int16 param
-        {
-            set {}
-        }
-
         public override Object Clone() { return new EnergyRegister(); }
-        public override bool checkInterrupt() { return false; }
-        public override void updateInterruptState() {}
     }
     
     // Is the robot sensed in a collision on your team? FRIEND can only be read. If the collision
@@ -351,7 +276,6 @@ namespace RoboWarX.Arena.StockRegisters
     // has taken place with another robot on your same team.
     internal class FriendRegister : Register
     {
-
         internal FriendRegister()
         {
             name = "FRIEND";
@@ -364,14 +288,7 @@ namespace RoboWarX.Arena.StockRegisters
             set {}
         }
 
-        public override Int16 param
-        {
-            set {}
-        }
-
         public override Object Clone() { return new FriendRegister(); }
-        public override bool checkInterrupt() { return false; }
-        public override void updateInterruptState() {}
     }
     
     // Maintains a history of results and observations between battles. Each robot has 50 history
@@ -401,7 +318,6 @@ namespace RoboWarX.Arena.StockRegisters
     // Hacker beware!
     internal class HistoryRegister : Register
     {
-        
         private int index;
 
         internal HistoryRegister()
@@ -433,8 +349,6 @@ namespace RoboWarX.Arena.StockRegisters
         }
 
         public override Object Clone() { return new HistoryRegister(); }
-        public override bool checkInterrupt() { return false; }
-        public override void updateInterruptState() {}
     }
     
     // Robot's unique ID number. Each robot in the Arena has an ID from 0-5; it can be used to tell
@@ -452,21 +366,13 @@ namespace RoboWarX.Arena.StockRegisters
             set {}
         }
 
-        public override Int16 param
-        {
-            set {}
-        }
-
         public override Object Clone() { return new IDRegister(); }
-        public override bool checkInterrupt() { return false; }
-        public override void updateInterruptState() {}
     }
     
     // The number of kills the robot has made in this battle. A robot gets no credit for killing
     // itself or for crushing other robots during a collision.
     internal class KillsRegister : Register
     {
-        
         internal KillsRegister() {
             name = "KILLS";
             code = (Int16)Bytecodes.REG_KILLS;
@@ -478,14 +384,7 @@ namespace RoboWarX.Arena.StockRegisters
             set {}
         }
 
-        public override Int16 param
-        {
-            set {}
-        }
-
         public override Object Clone() { return new KillsRegister(); }
-        public override bool checkInterrupt() { return false; }
-        public override void updateInterruptState() {}
     }
     
     // This register is used exclusively for interrupts. It has no effect if written and returns 0
@@ -497,7 +396,6 @@ namespace RoboWarX.Arena.StockRegisters
     // FIXME: interrupt support
     internal class LeftRegister : Register
     {
-
         internal LeftRegister()
         {
             name = "LEFT";
@@ -510,14 +408,7 @@ namespace RoboWarX.Arena.StockRegisters
             set {}
         }
 
-        public override Int16 param
-        {
-            set {}
-        }
-
         public override Object Clone() { return new LeftRegister(); }
-        public override bool checkInterrupt() { return false; }
-        public override void updateInterruptState() {}
     }
 
     // Targeting offset from AIM. The RANGE command returns a distance to the nearest robot in the
@@ -542,14 +433,7 @@ namespace RoboWarX.Arena.StockRegisters
             }
         }
 
-        public override Int16 param
-        {
-            set {}
-        }
-
         public override Object Clone() { return new LookRegister(); }
-        public override bool checkInterrupt() { return false; }
-        public override void updateInterruptState() {}
     }
 
     // Used to move the robot a given distance in the X direction without changing SPEEDX. Returns
@@ -558,7 +442,6 @@ namespace RoboWarX.Arena.StockRegisters
     // chronon.
     internal class MoveXRegister : Register
     {
-
         internal MoveXRegister()
         {
             name = "MOVEX";
@@ -577,15 +460,8 @@ namespace RoboWarX.Arena.StockRegisters
                 robot.x = newx;
             }
         }
-
-        public override Int16 param
-        {
-            set {}
-        }
                     
         public override Object Clone() { return new MoveXRegister(); }
-        public override bool checkInterrupt() { return false; }
-        public override void updateInterruptState() {}
     }
 
     // Used to move the robot a given distance in the Y direction without changing SPEEDY. MOVEY
@@ -593,7 +469,6 @@ namespace RoboWarX.Arena.StockRegisters
     // move in the same chronon.
     internal class MoveYRegister : Register
     {
-
         internal MoveYRegister()
         {
             name = "MOVEY";
@@ -613,14 +488,7 @@ namespace RoboWarX.Arena.StockRegisters
             }
         }
         
-        public override Int16 param
-        {
-            set {}
-        }
-        
         public override Object Clone() { return new MoveYRegister(); }
-        public override bool checkInterrupt() { return false; }
-        public override void updateInterruptState() {}
     }
 
     // Long range probe of opponent's systems. Returns information about the target in the
@@ -632,8 +500,6 @@ namespace RoboWarX.Arena.StockRegisters
     internal class ProbeRegister : Register
     {
         enum ProbeTarget { Damage, Energy, Shield, ID, TeamMates, Aim, Look, Scan }
-        
-        
         private ProbeTarget register;
 
         internal ProbeRegister()
@@ -725,8 +591,6 @@ namespace RoboWarX.Arena.StockRegisters
         }
         
         public override Object Clone() { return new ProbeRegister(); }
-        public override bool checkInterrupt() { return false; }
-        public override void updateInterruptState() {}
     }
 
     // Range to nearest bullet, missile, mine, stunner or TacNuke in the path of AIM. May only be
@@ -743,7 +607,6 @@ namespace RoboWarX.Arena.StockRegisters
     // FIXME: interrupt support
     internal class RadarRegister : Register
     {
-        
         internal RadarRegister() {
             name = "RADAR";
             code = (Int16)Bytecodes.REG_RADAR;
@@ -775,14 +638,7 @@ namespace RoboWarX.Arena.StockRegisters
             set {}
         }
 
-        public override Int16 param
-        {
-            set {}
-        }
-
         public override Object Clone() { return new RadarRegister(); }
-        public override bool checkInterrupt() { return false; }
-        public override void updateInterruptState() {}
     }
 
     // A random number from 0 to 359. May only be read.
@@ -799,14 +655,7 @@ namespace RoboWarX.Arena.StockRegisters
             set {}
         }
 
-        public override Int16 param
-        {
-            set {}
-        }
-
         public override Object Clone() { return new RandomRegister(); }
-        public override bool checkInterrupt() { return false; }
-        public override void updateInterruptState() {}
     }
     
     // Range to nearest target in sights. May only be read. If there is a target in the direction
@@ -819,9 +668,8 @@ namespace RoboWarX.Arena.StockRegisters
     // anything.
     //
     // FIXME: interrupt support
-    internal class RangeRegister : Register
+    internal class RangeRegister : InterruptRegister
     {
-
         internal RangeRegister()
         {
             name = "RANGE";
@@ -874,14 +722,7 @@ namespace RoboWarX.Arena.StockRegisters
             set {}
         }
 
-        public override Int16 param
-        {
-            set {}
-        }
-
         public override Object Clone() { return new RangeRegister(); }
-        public override bool checkInterrupt() { return false; }
-        public override void updateInterruptState() {}
     }
     
     // This register is used exclusively for interrupts. It has no effect if written and returns 0
@@ -906,14 +747,7 @@ namespace RoboWarX.Arena.StockRegisters
             set {}
         }
 
-        public override Int16 param
-        {
-            set {}
-        }
-
         public override Object Clone() { return new RightRegister(); }
-        public override bool checkInterrupt() { return false; }
-        public override void updateInterruptState() {}
     }
     
     // Number of robots alive. Returns the number of robots alive in the arena, including the robot
@@ -947,14 +781,7 @@ namespace RoboWarX.Arena.StockRegisters
             set {}
         }
 
-        public override Int16 param
-        {
-            set {}
-        }
-
         public override Object Clone() { return new RobotsRegister(); }
-        public override bool checkInterrupt() { return false; }
-        public override void updateInterruptState() {}
     }
 
     // Similar to LOOK, the radar offset from the AIM. The RADAR command searches for projectiles
@@ -979,14 +806,7 @@ namespace RoboWarX.Arena.StockRegisters
             }
         }
 
-        public override Int16 param
-        {
-            set {}
-        }
-
         public override Object Clone() { return new ScanRegister(); }
-        public override bool checkInterrupt() { return false; }
-        public override void updateInterruptState() {}
     }
 
     // Robot’s current shield level. May be read or written. If read, it returns the current level
@@ -1036,14 +856,7 @@ namespace RoboWarX.Arena.StockRegisters
             }
         }
 
-        public override Int16 param
-        {
-            set {}
-        }
-
         public override Object Clone() { return new ShieldRegister(); }
-        public override bool checkInterrupt() { return false; }
-        public override void updateInterruptState() {}
     }
     
     // The signal value on the robot’s current channel. May be read or written. If it is read, it
@@ -1062,7 +875,6 @@ namespace RoboWarX.Arena.StockRegisters
     // FIXME: interrupt support
     internal class SignalRegister : Register
     {
-
         internal SignalRegister()
         {
             name = "SIGNAL";
@@ -1085,14 +897,7 @@ namespace RoboWarX.Arena.StockRegisters
             }
         }
 
-        public override Int16 param
-        {
-            set {}
-        }
-
         public override Object Clone() { return new SignalRegister(); }
-        public override bool checkInterrupt() { return false; }
-        public override void updateInterruptState() {}
     }
     
     // Speed of robot in left-right direction. May be read or written. Positive speeds move right,
@@ -1102,7 +907,6 @@ namespace RoboWarX.Arena.StockRegisters
     // costs 24 energy.
     internal class SpeedXRegister : Register
     {
-
         internal SpeedXRegister()
         {
             name = "SPEEDX";
@@ -1132,21 +936,13 @@ namespace RoboWarX.Arena.StockRegisters
             }
         }
 
-        public override Int16 param
-        {
-            set {}
-        }
-
         public override Object Clone() { return new SpeedXRegister(); }
-        public override bool checkInterrupt() { return false; }
-        public override void updateInterruptState() {}
     }
     
     // Speed of robot in up-down direction. May be read or written. Positive values move down,
     // while negative values move up. SPEEDY has the same limits and characteristics as SPEEDX.
     internal class SpeedYRegister : Register
     {
-
         internal SpeedYRegister()
         {
             name = "SPEEDY";
@@ -1176,14 +972,7 @@ namespace RoboWarX.Arena.StockRegisters
             }
         }
 
-        public override Int16 param
-        {
-            set {}
-        }
-
         public override Object Clone() { return new SpeedYRegister(); }
-        public override bool checkInterrupt() { return false; }
-        public override void updateInterruptState() {}
     }
     
     // Number of living teammates, not including self. May only be read.
@@ -1218,15 +1007,8 @@ namespace RoboWarX.Arena.StockRegisters
             }
             set {}
         }
-
-        public override Int16 param
-        {
-            set {}
-        }
-
+        
         public override Object Clone() { return new TeamMatesRegister(); }
-        public override bool checkInterrupt() { return false; }
-        public override void updateInterruptState() {}
     }
     
     // This register is used exclusively for interrupts. It has no effect if written and returns 0
@@ -1240,7 +1022,6 @@ namespace RoboWarX.Arena.StockRegisters
     // FIXME: interrupt support
     internal class TopRegister : Register
     {
-        
         internal TopRegister() {
             name = "TOP";
             code = (Int16)Bytecodes.REG_TOP;
@@ -1252,14 +1033,7 @@ namespace RoboWarX.Arena.StockRegisters
             set {}
         }
 
-        public override Int16 param
-        {
-            set {}
-        }
-
         public override Object Clone() { return new TopRegister(); }
-        public override bool checkInterrupt() { return false; }
-        public override void updateInterruptState() {}
     }
 
     // Is the robot touching the electrified walls? Returns 1 when read if the robot is touching
@@ -1270,7 +1044,6 @@ namespace RoboWarX.Arena.StockRegisters
     // FIXME: interrupt support
     internal class WallRegister : Register
     {
-
         internal WallRegister()
         {
             name = "WALL";
@@ -1283,21 +1056,13 @@ namespace RoboWarX.Arena.StockRegisters
             set {}
         }
 
-        public override Int16 param
-        {
-            set {}
-        }
-
         public override Object Clone() { return new WallRegister(); }
-        public override bool checkInterrupt() { return false; }
-        public override void updateInterruptState() {}
     }
     
     // X position of robot. May range from 0 to 300 (the boundaries of the board). 0 is the left
     // side; 300 is the right. X may be read but may not be written (no unrestricted teleporting!).
     internal class XRegister : Register
     {
-        
         internal XRegister() {
             name = "X";
             code = (Int16)Bytecodes.REG_X;
@@ -1309,21 +1074,13 @@ namespace RoboWarX.Arena.StockRegisters
             set {}
         }
 
-        public override Int16 param
-        {
-            set {}
-        }
-
         public override Object Clone() { return new XRegister(); }
-        public override bool checkInterrupt() { return false; }
-        public override void updateInterruptState() {}
     }
     
     // Y position of robot. May range from 0 to 300. 0 is the top; 300 is the bottom. Y may be read
     // but not written.
     internal class YRegister : Register
     {
-        
         internal YRegister() {
             name = "Y";
             code = (Int16)Bytecodes.REG_Y;
@@ -1335,14 +1092,7 @@ namespace RoboWarX.Arena.StockRegisters
             set {}
         }
 
-        public override Int16 param
-        {
-            set {}
-        }
-
         public override Object Clone() { return new YRegister(); }
-        public override bool checkInterrupt() { return false; }
-        public override void updateInterruptState() {}
     }
 
     // Stock plugin entry
