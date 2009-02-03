@@ -28,13 +28,14 @@ namespace RoboWarX.Weapons.Stunner
     internal class StunnerObject : Projectile
     {
         private int energy;
-        
-        public const bool offset = true;
-        public const bool collideProjectiles = false;
+
+        public override bool offset { get { return true; } }
+        public override bool collideProjectiles { get { return false; } }
 
         public StunnerObject(Arena.Arena P, double X, double Y) : base(P, X, Y) { }
+        public StunnerObject() { }
 
-        public void onShoot(int energy_)
+        public override void onShoot(int energy_, params object[] args)
         {
             energy = energy_;
             speedx = anglex * 7;
@@ -98,7 +99,7 @@ namespace RoboWarX.Weapons.Stunner
                     throw new HardwareException(this.robot, "Stunners not enabled.");
                 int power = robot.useEnergy(value);
                 if (power > 0)
-                    robot.shoot(typeof(StunnerObject), power);
+                    robot.shoot(new StunnerObject(), power);
             }
         }
 

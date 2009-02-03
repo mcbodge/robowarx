@@ -10,12 +10,12 @@ namespace RoboWarX.Weapons.Missile
     {
         private int energy;
 
-        public const bool offset = true;
-        public const bool collideProjectiles = false;
+        public override bool offset { get { return true; } }
+        public override bool collideProjectiles  { get { return false; } }
 
         public MissileObject(Arena.Arena P, double X, double Y) : base(P, X, Y) { }
-
-        public void onShoot(int energy_)
+        public MissileObject() { }
+        public override void onShoot(int energy_, params object[] args)
         {
             energy = energy_;
             speedx = anglex * 5.0;
@@ -74,7 +74,7 @@ namespace RoboWarX.Weapons.Missile
                     throw new HardwareException(this.robot, "Missiles not enabled.");
                 int power = robot.useEnergy(value);
                 if (power > 0)
-                    robot.shoot(typeof(MissileObject), power);
+                    robot.shoot(new MissileObject(), power);
             }
         }
 

@@ -22,6 +22,8 @@ namespace RoboWarX.Arena
             this.parent = parent;
         }
 
+        protected ArenaObject() { }
+
         public virtual void update()
         {
             x += speedx;

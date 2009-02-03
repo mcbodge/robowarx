@@ -14,11 +14,11 @@ namespace RoboWarX.Arena
         protected double anglex;
         protected double angley;
 
-        // Implementors should additionally define these.
-        // public const bool offset;
-        // public const bool collideProjectiles;
+        public abstract bool collideProjectiles { get; }
+        public abstract bool offset { get; }
 
         protected Projectile(Arena P, double X, double Y) : base(P, X, Y) { }
+        protected Projectile() { }
 
         public void onSpawn(Robot owner__, double anglex_, double angley_)
         {
@@ -26,6 +26,8 @@ namespace RoboWarX.Arena
             anglex = anglex_;
             angley = angley_;
         }
+
+        public abstract void onShoot(int energy, params object[] additionalArgs);
 
         public override void update()
         {
@@ -63,14 +65,6 @@ namespace RoboWarX.Arena
                 if (onHit(target))
                     return;
             }
-
-            // Check for other projectiles
-            // FIXME: Cache?
-            FieldInfo finfo = this.GetType().GetField("collideProjectiles");
-            if (finfo == null)
-                throw new ArenaObjectExtensionException(
-                    "Projectile requires a collideProjectiles field.");
-            bool collideProjectiles = (bool)finfo.GetValue(this);
 
             if (collideProjectiles)
             {
