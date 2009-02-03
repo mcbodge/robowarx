@@ -11,17 +11,17 @@ namespace RoboWarX.Weapons.Bullet
         private int energy;
         private BulletType type;
 
-        public const bool offset = true;
-        public const bool collideProjectiles = false;
+        public override bool offset { get { return true; } }
+        public override bool collideProjectiles { get { return false; } }
 
         public BulletObject(Arena.Arena P, double X, double Y) : base(P, X, Y) { }
-
-        public void onShoot(int energy_, BulletType type_)
+        public BulletObject() { }
+        public override void onShoot(int energy_, params object[] args)
         {
             energy = energy_;
-            type = type_;
+            type = (BulletType)args[0];
             // Because a bullet updates twice, effective speed is 12
-            speedx = anglex * 6.0;
+            speedx = anglex * 6.0; 
             speedy = angley * 6.0;
         }
 
@@ -87,7 +87,7 @@ namespace RoboWarX.Weapons.Bullet
                     throw new HardwareException(this.robot, "Normal bullets not available.");
                 int power = robot.useEnergy(value);
                 if (power > 0)
-                    robot.shoot(typeof(BulletObject), power, BulletType.Normal);
+                    robot.shoot(new BulletObject(), power, BulletType.Normal);
             }
         }
 
@@ -145,7 +145,7 @@ namespace RoboWarX.Weapons.Bullet
                     throw new HardwareException(this.robot, "Gun not enabled.");
                 int power = robot.useEnergy(value);
                 if (power > 0)
-                    robot.shoot(typeof(BulletObject), power, robot.hardware.gunType);
+                    robot.shoot(new BulletObject(), power, robot.hardware.gunType);
             }
         }
 

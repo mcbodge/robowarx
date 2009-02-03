@@ -24,12 +24,12 @@ namespace RoboWarX.Weapons.Hellbore
     // Hellbore projectile class
     internal class HellboreObject : Projectile
     {
-        public const bool offset = true;
-        public const bool collideProjectiles = false;
+        public override bool offset { get { return true; } }
+        public override bool collideProjectiles { get { return false; } }
 
         public HellboreObject(Arena.Arena P, double X, double Y) : base(P, X, Y) { }
-
-        public void onShoot(int energy_)
+        public HellboreObject() { }
+        public override void onShoot(int energy_, params object[] args )
         {
             speedx = anglex * energy_ / 2.0;
             speedy = angley * energy_ / 2.0;
@@ -97,7 +97,7 @@ namespace RoboWarX.Weapons.Hellbore
                     throw new HardwareException(this.robot, "Hellbores not enabled.");
                 int power = robot.useEnergy(value);
                 if (power > 0)
-                    robot.shoot(typeof(HellboreObject), power);
+                    robot.shoot(new HellboreObject(), power);
             }
         }
 

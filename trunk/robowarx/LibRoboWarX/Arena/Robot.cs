@@ -286,41 +286,31 @@ namespace RoboWarX.Arena
         }
 
         // Instantiate a projectile, taking into account the robots aim.
-        public ArenaObject shoot(Type objtype, params object[] parameters)
+        public ArenaObject shoot(Projectile projectile, int energy, params object[] parameters)
         {
-            FieldInfo finfo = objtype.GetField("offset");
-            if (finfo == null)
-                throw new ArenaObjectExtensionException(
-                    "Object requires an offset field to be shot");
-            bool offset = (bool)finfo.GetValue(null);
-
-            ArenaObject retval;
-            if (offset)
+            if (projectile.offset)
             {
                 double anglex = Util.Sin(aim + 270);
                 double angley = Util.Cos(aim + 270);
-                retval = parent.spawn(objtype,
-                    x + anglex * (Constants.ROBOT_RADIUS + 1),
-                    y + angley * (Constants.ROBOT_RADIUS + 1),
-                    this, anglex, angley);
+                projectile.parent = parent;
+                projectile.x = x + anglex * (Constants.ROBOT_RADIUS + 1);
+                projectile.y = y + angley * (Constants.ROBOT_RADIUS + 1);
+                projectile.onSpawn(this, anglex, angley);
             }
             else
-                retval = parent.spawn(objtype, x, y, this, 0, 0);
+            {
+                projectile.parent = parent;
+                projectile.x = x;
+                projectile.y = y;
+                projectile.onSpawn(this, 0, 0);
+            }
 
             if (parameters.Length > 0)
             {
-                List<Type> types = new List<Type>(Math.Max(3, parameters.Length));
-                foreach (object parameter in parameters)
-                    types.Add(parameter.GetType());
-                MethodInfo minfo = objtype.GetMethod("onShoot", types.ToArray());
-                if (minfo == null)
-                    throw new ArenaObjectExtensionException(
-                        "Cannot find a suitable onShoot method for object.");
-
-                minfo.Invoke(retval, parameters);
+                projectile.onShoot(energy, parameters);
             }
 
-            return retval;
+            return projectile;
         }
 
         public int useEnergy(int amount)
