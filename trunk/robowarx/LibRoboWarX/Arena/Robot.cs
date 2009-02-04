@@ -288,27 +288,25 @@ namespace RoboWarX.Arena
         // Instantiate a projectile, taking into account the robots aim.
         public ArenaObject shoot(Projectile projectile, int energy, params object[] parameters)
         {
+            projectile.parent = parent;
             if (projectile.offset)
             {
                 double anglex = Util.Sin(aim + 270);
                 double angley = Util.Cos(aim + 270);
-                projectile.parent = parent;
                 projectile.x = x + anglex * (Constants.ROBOT_RADIUS + 1);
                 projectile.y = y + angley * (Constants.ROBOT_RADIUS + 1);
                 projectile.onSpawn(this, anglex, angley);
             }
             else
             {
-                projectile.parent = parent;
                 projectile.x = x;
                 projectile.y = y;
                 projectile.onSpawn(this, 0, 0);
             }
 
             if (parameters.Length > 0)
-            {
                 projectile.onShoot(energy, parameters);
-            }
+            parent.RegisterObject(projectile);
 
             return projectile;
         }

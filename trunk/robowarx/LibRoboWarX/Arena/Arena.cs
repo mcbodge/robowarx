@@ -340,6 +340,11 @@ namespace RoboWarX.Arena
             return retval;
         }
 
+        internal void RegisterObject(ArenaObject obj)
+        {
+            newObjects.AddLast(obj);
+        }
+
         // Load registers implemented by DLLs in the current directory
         public void loadDefaults()
         {
