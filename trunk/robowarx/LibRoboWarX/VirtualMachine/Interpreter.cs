@@ -8,21 +8,41 @@ namespace RoboWarX.VM
 {
     public partial class Interpreter
     {
-        internal Stack<Int16> stack;
+        // Complete map of bytecodes to registers
         private Dictionary<Int16, ITemplateRegister> registerMap;
+        // Complete list of registers
         private List<ITemplateRegister> registerList;
-
-        internal List<Int16> program;
-        internal Int16 pc; // program counter
         
-        private Int16[] vector; // vector storage in robowar
+        // Ordered list of interrupts, split at the 800 threshold
+        private SortedList<int, ITemplateRegister> interruptList;
+        private SortedList<int, ITemplateRegister> lateInterruptList;
+        // Queue of pending interrupts
+        // We can't use the Queue type here, because even the queue is kept sorted according to
+        // the interrupt's order.
+        private SortedList<int, ITemplateRegister> interruptQueue;
+        // Interrupts enabled?
+        private bool interruptsEnabled;
+
+        // The program
+        internal List<Int16> program;
+        // The program stack
+        internal Stack<Int16> stack;
+        // The program counter
+        internal Int16 pc;
+        
+        // Vector storage
+        private Int16[] vector;
 
         public Interpreter()
         {
-            stack = new Stack<Int16>(100);
             registerMap = new Dictionary<Int16, ITemplateRegister>(67);
             registerList = new List<ITemplateRegister>(67);
+            interruptList = new SortedList<int,ITemplateRegister>(11);
+            lateInterruptList = new SortedList<int,ITemplateRegister>(3);
+            interruptQueue = new SortedList<int,ITemplateRegister>(11);
+            interruptsEnabled = false;
             program = new List<Int16>(512);
+            stack = new Stack<Int16>(100);
             pc = 0;
             vector = new Int16[101];
         }
@@ -67,6 +87,13 @@ namespace RoboWarX.VM
 
             registerMap.Add(code, register);
             registerList.Add(register);
+            if (register.order != -1)
+            {
+                if (register.order < 800)
+                    interruptList.Add(register.order, register);
+                else
+                    lateInterruptList.Add(register.order, register);
+            }
         }
 
         // Load registers implemented by DLLs in the current directory
@@ -77,7 +104,76 @@ namespace RoboWarX.VM
 
         public void processInterrupts()
         {
-            // FIXME
+            // Lower than 800 loop
+            foreach (ITemplateRegister reg in interruptList.Values)
+            {
+                // Interrupt target set?
+                if (reg.interrupt == -1) continue;
+                // Interrupt already queued?
+                if (interruptQueue.ContainsValue(reg)) continue;
+                // Perform the actual check
+                if (reg.checkInterrupt())
+                    interruptQueue.Add(reg.order, reg);
+            }
+            
+            // If an interrupt fires here, then late interrupts do not receive our love.
+            if (checkPendingInterrupts())
+                return;
+            // Even with interrupts disabled, the above queue fills up.
+            if (!interruptsEnabled)
+                return;
+            
+            // 800 or greater loop
+            foreach (ITemplateRegister reg in lateInterruptList.Values)
+            {
+                // Interrupt target set?
+                if (reg.interrupt == -1) continue;
+                if (reg.checkInterrupt())
+                {
+                    fireInterrupt(reg);
+                    return;
+                }
+            }
+        }
+        
+        private bool checkPendingInterrupts()
+        {
+            if (!interruptsEnabled) return false;
+            
+            // Find the next register and dequeue it.
+            while (true)
+            {
+                if (interruptQueue.Count == 0) return false;
+                
+                // Pop
+                ITemplateRegister reg = interruptQueue.Values[0];
+                interruptQueue.Remove(reg.order);
+                
+                // Skip if the target was unset
+                if (reg.interrupt != -1)
+                {
+                    fireInterrupt(reg);
+                    return true;
+                }
+            }
+        }
+        
+        private void fireInterrupt(ITemplateRegister reg)
+        {
+            // The robot should clean up with RTI (or INTON).
+            // These instructions will cause the next pending interrupt to dequeue
+            interruptsEnabled = false;
+            
+            try
+            {
+                stack.Push(pc);
+            }
+            catch (StackOverflowException e)
+            {
+                throw new StackOverflowException("Interrupt caused stack overflow", e);
+            }
+            
+            pc = reg.interrupt;
         }
         
         // Execute a single operation, and return it's cost

@@ -102,15 +102,6 @@ namespace RoboWarX.Weapons.Bullet
         {
             return new BulletRegister();
         }
-
-        public override bool checkInterrupt()
-        {
-            return false;
-        }
-
-        public override void updateInterruptState()
-        {
-        }
     }
 
     // Used to shoot bullets. Returns 0 if read, shoots bullet with energy investment equal to
@@ -149,25 +140,9 @@ namespace RoboWarX.Weapons.Bullet
             }
         }
 
-        public override Int16 param
-        {
-            set
-            {
-            }
-        }
-
         public override Object Clone()
         {
             return new FireRegister();
-        }
-
-        public override bool checkInterrupt()
-        {
-            return false;
-        }
-
-        public override void updateInterruptState()
-        {
         }
     }
 
