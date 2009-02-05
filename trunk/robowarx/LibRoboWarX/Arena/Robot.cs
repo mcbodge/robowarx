@@ -304,8 +304,7 @@ namespace RoboWarX.Arena
                 projectile.onSpawn(this, 0, 0);
             }
 
-            if (parameters.Length > 0)
-                projectile.onShoot(energy, parameters);
+            projectile.onShoot(energy, parameters);
             parent.RegisterObject(projectile);
 
             return projectile;
