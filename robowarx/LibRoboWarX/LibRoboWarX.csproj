@@ -56,6 +56,7 @@
     <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Arena\BaseExplosion.cs" />
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="Arena\Arena.cs" />
     <Compile Include="Arena\ArenaObject.cs" />
