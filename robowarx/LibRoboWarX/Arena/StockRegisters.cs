@@ -676,6 +676,7 @@ namespace RoboWarX.Arena.StockRegisters
         {
             name = "RANGE";
             code = (Int16)Bytecodes.REG_RANGE;
+            param = 600;
         }
 
         public override Int16 value
@@ -722,6 +723,16 @@ namespace RoboWarX.Arena.StockRegisters
                 return (Int16)retval;
             }
             set {}
+        }
+        
+        public override int order { get { return 900; } }        
+        
+        public override bool checkInterrupt() {
+            Int16 dist = this.value;
+            if (dist > 0 && dist < this.param)
+                return true;
+            else
+                return false;
         }
 
         public override Object Clone() { return new RangeRegister(); }

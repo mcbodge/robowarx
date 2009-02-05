@@ -21,6 +21,8 @@ namespace RoboWarX.Arena
 
         // Core functionality
         public abstract Int16 value { get; set; }
+        
+        // Interrupt processing
         public virtual Int16 param {
             get { return 0; }
             set
@@ -36,11 +38,8 @@ namespace RoboWarX.Arena
                 throw new RobotException(robot, "Illegal interrupt name");
             }
         }
-
-        // Interrupt processing
-        internal void fireInterrupt() {}
+        public virtual int order { get { return -1; } }
         public virtual bool checkInterrupt() { return false; }
-        public virtual void updateInterruptState() {}
     }
     
     public abstract class InterruptRegister : Register
@@ -52,8 +51,5 @@ namespace RoboWarX.Arena
         // FIXME: ditto
         private Int16 interrupt_;
         public override Int16 interrupt { get { return interrupt_; } set { interrupt_ = value;} }
-        
-        public override bool checkInterrupt() { return false; }
-        public override void updateInterruptState() {}
     }
 }

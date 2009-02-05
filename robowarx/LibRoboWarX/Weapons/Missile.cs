@@ -52,8 +52,6 @@ namespace RoboWarX.Weapons.Missile
     // shot was fired. Missiles cannot be used unless they were first enabled at the hardware store.
     internal class MissileRegister : Register
     {
-
-
         internal MissileRegister() {
             name = "MISSILE";
             code = (Int16)Bytecodes.REG_MISSILE;
@@ -78,25 +76,9 @@ namespace RoboWarX.Weapons.Missile
             }
         }
 
-        public override Int16 param
-        {
-            set
-            {
-            }
-        }
-
         public override Object Clone()
         {
             return new MissileRegister();
-        }
-
-        public override bool checkInterrupt()
-        {
-            return false;
-        }
-
-        public override void updateInterruptState()
-        {
         }
     }
 

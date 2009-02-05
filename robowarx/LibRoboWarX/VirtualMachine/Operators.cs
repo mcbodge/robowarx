@@ -452,33 +452,50 @@ namespace RoboWarX.VM
 
         private int doIntOn()
         {
+            interruptsEnabled = true;
+            checkPendingInterrupts();
             return 1;
         }
 
         private int doIntOff()
         {
+            interruptsEnabled = false;
             return 1;
         }
 
         private int doRti()
         {
-            doIntOn();
             doJump();
+            doIntOn();
             return 2;
         }
 
         private int doSetInt()
         {
+            Int16 where = stack.Pop();
+            if (where < (int)Bytecodes.REG_MIN_CODE)
+                throw new VMachineException(this, "Illegal interrupt name.");
+            ITemplateRegister whereobj = registerMap[where];
+            Int16 target = stack.Pop();
+            if (target < 0 || target >= program.Count)
+                throw new VMachineException(this, "Interrupt destination not in program.");
+            whereobj.interrupt = target;
             return 1;
         }
 
         private int doSetParam()
         {
+            Int16 where = stack.Pop();
+            if (where < (int)Bytecodes.REG_MIN_CODE)
+                throw new VMachineException(this, "Illegal interrupt name.");
+            ITemplateRegister whereobj = registerMap[where];
+            whereobj.param = stack.Pop();
             return 1;
         }
 
         private int doFlushInt()
         {
+            interruptQueue.Clear();
             return 1;
         }
 

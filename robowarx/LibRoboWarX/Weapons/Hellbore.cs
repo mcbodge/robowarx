@@ -101,25 +101,9 @@ namespace RoboWarX.Weapons.Hellbore
             }
         }
 
-        public override Int16 param
-        {
-            set
-            {
-            }
-        }
-
         public override Object Clone()
         {
             return new HellboreRegister();
-        }
-
-        public override bool checkInterrupt()
-        {
-            return false;
-        }
-
-        public override void updateInterruptState()
-        {
         }
     }
 

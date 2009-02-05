@@ -103,25 +103,9 @@ namespace RoboWarX.Weapons.Stunner
             }
         }
 
-        public override Int16 param
-        {
-            set
-            {
-            }
-        }
-
         public override Object Clone()
         {
             return new StunnerRegister();
-        }
-
-        public override bool checkInterrupt()
-        {
-            return false;
-        }
-
-        public override void updateInterruptState()
-        {
         }
     }
 
