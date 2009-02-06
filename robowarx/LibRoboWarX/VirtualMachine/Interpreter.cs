@@ -13,7 +13,7 @@ namespace RoboWarX.VM
         // Complete list of registers
         private List<ITemplateRegister> registerList;
         
-        // Ordered list of interrupts, split at the 800 threshold
+        // Ordered list of interrupts, split at the 1000 threshold
         private SortedList<int, ITemplateRegister> interruptList;
         private SortedList<int, ITemplateRegister> lateInterruptList;
         // Queue of pending interrupts
@@ -89,7 +89,7 @@ namespace RoboWarX.VM
             registerList.Add(register);
             if (register.order != -1)
             {
-                if (register.order < 800)
+                if (register.order < 1000)
                     interruptList.Add(register.order, register);
                 else
                     lateInterruptList.Add(register.order, register);
@@ -104,7 +104,7 @@ namespace RoboWarX.VM
 
         public void processInterrupts()
         {
-            // Lower than 800 loop
+            // Lower than 1000 loop
             foreach (ITemplateRegister reg in interruptList.Values)
             {
                 // Interrupt target set?
@@ -123,7 +123,7 @@ namespace RoboWarX.VM
             if (!interruptsEnabled)
                 return;
             
-            // 800 or greater loop
+            // 1000 or greater loop
             foreach (ITemplateRegister reg in lateInterruptList.Values)
             {
                 // Interrupt target set?

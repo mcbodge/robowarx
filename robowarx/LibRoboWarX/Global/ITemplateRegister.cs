@@ -42,7 +42,7 @@ namespace RoboWarX
         
         // The index used for ordering interrupts. Typically in the range 0 to 1000, where lower
         // numbers have higher priority.
-        // Interrupts ordered 800 or higher are special, in that they never fire or queue
+        // Interrupts ordered 1000 or higher are special, in that they never fire or queue
         // themselves as long as other interrupts are pending. (This is used for RADAR, RANGE and
         // CHRONON.)
         // A value of -1 is used for non-interrupt controllers.
