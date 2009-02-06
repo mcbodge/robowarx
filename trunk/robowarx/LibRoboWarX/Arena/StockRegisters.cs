@@ -51,19 +51,32 @@ namespace RoboWarX.Arena.StockRegisters
     // The bottom interrupt is triggered whenever a robot moves too close to the bottom wall.
     // SETPARAM determines the y coordinate at which the interrupt is triggered; by default, it is
     // 280.
-    //
-    // FIXME: interrupt support
-    internal class BottomRegister : Register
+    internal class BottomRegister : InterruptRegister
     {
         public override string[] names { get { return new String[] { "BOT", "BOTTOM" }; } }
         internal BottomRegister() {
             code = (Int16)Bytecodes.REG_BOTTOM;
+            param = 280;
         }
 
         public override Int16 value
         {
             get { return 0; }
             set {}
+        }
+        
+        public override int order { get { return 550; } }
+        
+        // Interrupt triggers when the robot crosses the threshold distance from the bottom wall.
+        private int oldY;
+        public override bool checkInterrupt() {
+            bool retval = false;
+            if (robot.y >= param && oldY < param)
+                retval = true;
+
+            oldY = (int)robot.y;
+            
+            return retval;
         }
 
         public override Object Clone() { return new BottomRegister(); }
@@ -96,20 +109,25 @@ namespace RoboWarX.Arena.StockRegisters
     // This interrupt is triggered at the start of each chronon, starting at the chronon set by the
     // parameter. By default, the parameter is set to 0. This interrupt is useful for animated
     // icons or to change behavior after a specific amount of time.
-    //
-    // FIXME: interrupt support
-    internal class ChrononRegister : Register
+    internal class ChrononRegister : InterruptRegister
     {
         internal ChrononRegister()
         {
             name = "CHRONON";
             code = (Int16)Bytecodes.REG_CHRONON;
+            param = 0;
         }
 
         public override Int16 value
         {
             get { return (Int16)robot.parent.chronon; }
             set {}
+        }
+        
+        public override int order { get { return 1400; } }
+        
+        public override bool checkInterrupt() {
+            return robot.parent.chronon >= param;
         }
 
         public override Object Clone() { return new ChrononRegister(); }
@@ -122,19 +140,32 @@ namespace RoboWarX.Arena.StockRegisters
     //
     // Sets the collision interrupt, to occur whenever the collision register of a robot changes
     // from 0 to 1. SETPARAM has no effect on the collision interrupt.
-    //
-    // FIXME: interrupt support
-    internal class CollisionRegister : Register
+    internal class CollisionRegister : InterruptRegister
     {
         internal CollisionRegister() {
             name = "COLLISION";
             code = (Int16)Bytecodes.REG_COLLISION;
+            oldCollision = false;
         }
 
         public override Int16 value
         {
             get { return (Int16) (robot.collision ? 1 : 0); }
             set {}
+        }
+        
+        public override int order { get { return 300; } }
+        
+        // Interrupt triggers on the rising edge of robot.collision.
+        private bool oldCollision;
+        public override bool checkInterrupt() {
+            bool retval = false;
+            if (robot.collision && !oldCollision)
+                retval = true;
+
+            oldCollision = robot.collision;
+            
+            return retval;
         }
 
         public override Object Clone() { return new CollisionRegister(); }
@@ -148,19 +179,33 @@ namespace RoboWarX.Arena.StockRegisters
     // The damage interrupt is triggered whenever a robot takes damage. SETPARAM sets the minimum
     // threshold required for the damage interrupt to occur; by default it is set to 150. This is
     // useful if a robot should only change its behavior when it is damaged beyond a certain point.
-    //
-    // FIXME: interrupt support
-    internal class DamageRegister : Register
+    internal class DamageRegister : InterruptRegister
     {
         internal DamageRegister() {
             name = "DAMAGE";
             code = (Int16)Bytecodes.REG_DAMAGE;
+            param = 150;
         }
 
         public override Int16 value
         {
             get { return (Int16)robot.damage; }
             set {}
+        }
+        
+        public override int order { get { return 400; } }
+        
+        // Interrupt triggers when robot.damage on each impact when the resulting damage
+        // is below the threshold set in the param.
+        private int oldDamage;
+        public override bool checkInterrupt() {
+            bool retval = false;
+            if (robot.damage != oldDamage && robot.damage < param)
+                retval = true;
+
+            oldDamage = robot.damage;
+            
+            return retval;
         }
 
         public override Object Clone() { return new DamageRegister(); }
@@ -394,20 +439,33 @@ namespace RoboWarX.Arena.StockRegisters
     //
     // The left interrupt is triggered whenever a robot moves too close to the left wall. SETPARAM
     // determines the x coordinate at which the interrupt is triggered; by default, it is 20.
-    //
-    // FIXME: interrupt support
-    internal class LeftRegister : Register
+    internal class LeftRegister : InterruptRegister
     {
         internal LeftRegister()
         {
             name = "LEFT";
             code = (Int16)Bytecodes.REG_LEFT;
+            param = 20;
         }
 
         public override Int16 value
         {
             get { return 0; }
             set {}
+        }
+        
+        public override int order { get { return 600; } }
+        
+        // Interrupt triggers when the robot crosses the threshold distance from the left wall.
+        private int oldX;
+        public override bool checkInterrupt() {
+            bool retval = false;
+            if (robot.x <= param && oldX > param)
+                retval = true;
+
+            oldX = (int)robot.x;
+            
+            return retval;
         }
 
         public override Object Clone() { return new LeftRegister(); }
@@ -605,13 +663,12 @@ namespace RoboWarX.Arena.StockRegisters
     // registers change and the RADAR register is nonzero. SETPARAM determines the maximum distance
     // at which a projectile will set off the interrupt; by default it is 600 to trigger on
     // anything.
-    //
-    // FIXME: interrupt support
-    internal class RadarRegister : Register
+    internal class RadarRegister : InterruptRegister
     {
         internal RadarRegister() {
             name = "RADAR";
             code = (Int16)Bytecodes.REG_RADAR;
+            param = 600;
         }
 
         public override Int16 value
@@ -638,6 +695,13 @@ namespace RoboWarX.Arena.StockRegisters
                 return (Int16)Math.Sqrt(close);
             }
             set {}
+        }
+        
+        public override int order { get { return 1200; } }
+        
+        public override bool checkInterrupt() {
+            Int16 dist = value;
+            return dist > 0 && dist <= param;
         }
 
         public override Object Clone() { return new RadarRegister(); }
@@ -668,8 +732,6 @@ namespace RoboWarX.Arena.StockRegisters
     // when the aim or look registers change and RANGE is nonzero. SETPARAM determines the maximum
     // range that will trigger an interrupt and is also 600 by default.
     // anything.
-    //
-    // FIXME: interrupt support
     internal class RangeRegister : InterruptRegister
     {
         internal RangeRegister()
@@ -725,7 +787,7 @@ namespace RoboWarX.Arena.StockRegisters
             set {}
         }
         
-        public override int order { get { return 900; } }        
+        public override int order { get { return 1300; } }
         
         public override bool checkInterrupt() {
             Int16 dist = this.value;
@@ -744,20 +806,33 @@ namespace RoboWarX.Arena.StockRegisters
     // The right interrupt is triggered whenever a robot moves too close to the right wall.
     // SETPARAM determines the x coordinate at which theinterrupt is triggered; by default, it is
     // 280.
-    //
-    // FIXME: interrupt support
-    internal class RightRegister : Register
+    internal class RightRegister : InterruptRegister
     {
         internal RightRegister()
         {
             name = "RIGHT";
             code = (Int16)Bytecodes.REG_RIGHT;
+            param = 280;
         }
 
         public override Int16 value
         {
             get { return 0; }
             set {}
+        }
+        
+        public override int order { get { return 650; } }
+        
+        // Interrupt triggers when the robot crosses the threshold distance from the right wall.
+        private int oldX;
+        public override bool checkInterrupt() {
+            bool retval = false;
+            if (robot.x >= param && oldX < param)
+                retval = true;
+
+            oldX = (int)robot.x;
+            
+            return retval;
         }
 
         public override Object Clone() { return new RightRegister(); }
@@ -771,14 +846,13 @@ namespace RoboWarX.Arena.StockRegisters
     // using SETPARAM. For instance, to only interrupt when all other robots are dead, set the
     // parameter to 2. By default, the parameter is set to 6, causing an interrupt when any robot
     // dies.
-    //
-    // FIXME: interrupt support
-    internal class RobotsRegister : Register
+    internal class RobotsRegister : InterruptRegister
     {
         internal RobotsRegister()
         {
             name = "ROBOTS";
             code = (Int16)Bytecodes.REG_ROBOTS;
+            param = 6;
         }
 
         public override Int16 value
@@ -792,6 +866,22 @@ namespace RoboWarX.Arena.StockRegisters
                 return retval;
             }
             set {}
+        }
+        
+        public override int order { get { return 750; } }
+        
+        // Interrupt triggers every time a robot is killed while below the threshold param.
+        private int oldRobots;
+        public override bool checkInterrupt() {
+            Int16 temp = value;
+            
+            bool retval = false;
+            if (oldRobots <= param && temp < oldRobots)
+                retval = true;
+
+            oldRobots = temp;
+            
+            return retval;
         }
 
         public override Object Clone() { return new RobotsRegister(); }
@@ -841,15 +931,13 @@ namespace RoboWarX.Arena.StockRegisters
     //
     // The shield interrupt is triggered whenever a robot's shield transitions from above to below
     // a predetermined threshold. SETPARAM sets this threshold; by default it is 25.
-    //
-    // FIXME: interrupt support
-    internal class ShieldRegister : Register
+    internal class ShieldRegister : InterruptRegister
     {
-
         internal ShieldRegister()
         {
             name = "SHIELD";
             code = (Int16)Bytecodes.REG_SHIELD;
+            param = 25;
         }
 
         public override Int16 value
@@ -868,6 +956,20 @@ namespace RoboWarX.Arena.StockRegisters
                 robot.energy += Math.Min(old - v, robot.hardware.energyMax);
             }
         }
+        
+        public override int order { get { return 450; } }
+        
+        // Interrupt triggers when robot shield level drops below the threshold param.
+        private int oldShield;
+        public override bool checkInterrupt() {
+            bool retval = false;
+            if (oldShield >= param && robot.shield < param)
+                retval = true;
+
+            oldShield = robot.shield;
+            
+            return retval;
+        }
 
         public override Object Clone() { return new ShieldRegister(); }
     }
@@ -884,14 +986,13 @@ namespace RoboWarX.Arena.StockRegisters
     // channels to prevent one robot from overwriting the data sent by the other. Also, since
     // multiple messages that are rapidly sent might be lost, it is generally wise for the RoboTalk
     // hacker to devise some protocol for teammates to acknowledge each other's transmissions.
-    //
-    // FIXME: interrupt support
-    internal class SignalRegister : Register
+    internal class SignalRegister : InterruptRegister
     {
         internal SignalRegister()
         {
             name = "SIGNAL";
             code = (Int16)Bytecodes.REG_SIGNAL;
+            param = 0;
         }
 
         public override Int16 value
@@ -908,6 +1009,13 @@ namespace RoboWarX.Arena.StockRegisters
                             other.signals[robot.channel] = value;
                 }
             }
+        }
+        
+        public override int order { get { return 800; } }
+        
+        public override bool checkInterrupt() {
+            // FIXME
+            return false;
         }
 
         public override Object Clone() { return new SignalRegister(); }
@@ -995,14 +1103,13 @@ namespace RoboWarX.Arena.StockRegisters
     // particular value by using SETPARAM. For instance, to only interrupt when all of your
     // teammates are dead, set the parameter to 1. By default, the parameter is set to 5, causing
     // an interrupt when any teammate dies.
-    //
-    // FIXME: interrupt support
-    internal class TeamMatesRegister : Register
+    internal class TeamMatesRegister : InterruptRegister
     {
         internal TeamMatesRegister()
         {
             name = "TEAMMATES";
             code = (Int16)Bytecodes.REG_TEAMMATES;
+            param = 5;
         }
 
         public override Int16 value
@@ -1021,6 +1128,22 @@ namespace RoboWarX.Arena.StockRegisters
             set {}
         }
         
+        public override int order { get { return 700; } }
+        
+        // Interrupt triggers every time a teammate is killed while below the threshold.
+        private int oldTeamMates;
+        public override bool checkInterrupt() {
+            Int16 temp = value;
+            
+            bool retval = false;
+            if (oldTeamMates <= param && temp < oldTeamMates)
+                retval = true;
+
+            oldTeamMates = temp;
+            
+            return retval;
+        }
+        
         public override Object Clone() { return new TeamMatesRegister(); }
     }
     
@@ -1031,19 +1154,32 @@ namespace RoboWarX.Arena.StockRegisters
     // determines the y coordinate at which the interrupt is triggered; by default, it is 20.
     // Note that the directional interrupts are only triggered once when the robot crosses the
     // threshold.
-    //
-    // FIXME: interrupt support
-    internal class TopRegister : Register
+    internal class TopRegister : InterruptRegister
     {
         internal TopRegister() {
             name = "TOP";
             code = (Int16)Bytecodes.REG_TOP;
+            param = 20;
         }
 
         public override Int16 value
         {
             get { return 0; }
             set {}
+        }
+        
+        public override int order { get { return 500; } }
+        
+        // Interrupt triggers when the robot crosses the threshold distance from the bottom wall.
+        private int oldY;
+        public override bool checkInterrupt() {
+            bool retval = false;
+            if (robot.y <= param && oldY > param)
+                retval = true;
+
+            oldY = (int)robot.y;
+            
+            return retval;
         }
 
         public override Object Clone() { return new TopRegister(); }
@@ -1053,9 +1189,7 @@ namespace RoboWarX.Arena.StockRegisters
     // the wall, or 0 otherwise. No effect if written.
     //
     // Much like collision, but occurs when a robot runs into a wall. SETPARAM also has no effect.
-    //
-    // FIXME: interrupt support
-    internal class WallRegister : Register
+    internal class WallRegister : InterruptRegister
     {
         internal WallRegister()
         {
@@ -1067,6 +1201,26 @@ namespace RoboWarX.Arena.StockRegisters
         {
             get { return (Int16) (robot.wall ? 1 : 0); }
             set {}
+        }
+        
+        public override int order { get { return 350; } }
+        
+        // Interrupt triggers when the robot crosses the threshold distance from the bottom wall.
+        private bool oldWall;
+        public override bool checkInterrupt() {
+            bool newWall =
+                robot.y < Constants.ROBOT_RADIUS ||
+                robot.y > Constants.ARENA_SIZE - Constants.ROBOT_RADIUS ||
+                robot.x < Constants.ROBOT_RADIUS ||
+                robot.x > Constants.ARENA_SIZE - Constants.ROBOT_RADIUS;
+            
+            bool retval = false;
+            if (!oldWall && newWall)
+                retval = true;
+
+            oldWall = newWall;
+            
+            return retval;
         }
 
         public override Object Clone() { return new WallRegister(); }
