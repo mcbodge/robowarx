@@ -29,20 +29,40 @@ namespace RoboWarX.Arena
         internal LinkedList<ArenaObject> delObjects { get; set; }
 
         // This matters when deciding a win
-        private bool teamBattle;
-        public int chrononLimit { get; set; }
+        private bool teamBattle_;
+        public bool teamBattle
+        {
+            get { return teamBattle_; }
+            set
+            {
+                if (chronon > 0)
+                    throw new FieldAccessException("Simulation has already been started.");
+                teamBattle_ = value;
+            }
+        }
+        
+        // Simulation time
+        public int chronon { get; private set; }
+        public bool finished { get; private set; }
+        private int chrononLimit_;
+        public int chrononLimit
+        {
+            get { return chrononLimit_; }
+            set
+            {
+                if (chronon > 0)
+                    throw new FieldAccessException("Simulation has already been started.");
+                chrononLimit_ = value;
+            }
+        }
 
-        // State. state. state.
-        public int chronon { get; internal set; }
+        // Some additional internal state
         private byte numBots;
         private byte numAlive;
         private byte onlyTrackingShots; // game has ended, but loop just a tad more
-        public bool finished { get; private set; }
 
         public Arena(int seed)
         {
-            numBots = 0;
-            numAlive = 0;
             registers = new List<ITemplateRegister>(67);
             robots = new Robot[Constants.MAX_ROBOTS];
             objects = new LinkedList<ArenaObject>();
@@ -52,9 +72,12 @@ namespace RoboWarX.Arena
             teamBattle = false;
 
             chronon = 0;
-            chrononLimit = -1;
-            onlyTrackingShots = 0;
             finished = false;
+            chrononLimit = -1;
+            
+            numBots = 0;
+            numAlive = 0;
+            onlyTrackingShots = 0;
 
             this.seed = seed;
             prng = new Random(seed);

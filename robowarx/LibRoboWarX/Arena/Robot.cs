@@ -142,44 +142,43 @@ namespace RoboWarX.Arena
 
     public sealed class Robot : ArenaObject
     {
-        public RobotFile file { get; internal set; }
+        public RobotFile file { get; private set; }
         
         public int number { get; internal set; }
         public int team { get; internal set; }
 
-        public bool alive { get; internal set; }
+        public bool alive { get; private set; }
         public DeathReason deathReason { get; internal set; }
-        public int deathTime { get; internal set; }
-        public Robot killer { get; internal set; }
-        public RobotException bug { get; internal set; }
+        public int deathTime { get; private set; }
+        public Robot killer { get; private set; }
+        public RobotException bug { get; private set; }
 
-        internal int icon { get; set; }
+        public int icon { get; internal set; }
 
-        internal Interpreter interp { get; set; }
-        internal bool interrupts { get; set; }
+        public Interpreter interp { get; private set; }
 
-        public HardwareInfo hardware { get; internal set; }
+        public HardwareInfo hardware { get; private set; }
 
         public int energy { get; internal set; }
         public int damage { get; internal set; }
-        internal int shield { get; set; }
-        internal int aim { get; set; }
-        internal int look { get; set; }
-        internal int scan { get; set; }
+        public int shield { get; internal set; }
+        public int aim { get; internal set; }
+        public int look { get; internal set; }
+        public int scan { get; internal set; }
 
-        internal bool collision { get; set; }
-        internal bool wall { get; set; }
-        internal bool friend { get; set; }
-        internal int stunned { get; set; }
-        internal int hit { get; set; }
+        public bool collision { get; internal set; }
+        public bool wall { get; internal set; }
+        public bool friend { get; internal set; }
+        public int stunned { get; internal set; }
+        public int hit { get; internal set; }
 
-        internal int kills { get; set; }
-        internal int survival { get; set; }
+        public int kills { get; internal set; }
+        public int survival { get; internal set; }
         internal int[] killTime { get; set; }
 
         internal Int16[] history { get; set; }
 
-        internal int channel { get; set; }
+        public int channel { get; internal set; }
         internal Int16[] signals { get; set; }
 
         // Some defaults that will be overridden in OnSpawn
@@ -191,7 +190,6 @@ namespace RoboWarX.Arena
             alive = true;
             deathReason = DeathReason.Suicided;
             icon = 0;
-            interrupts = false;
             
             hardware = new HardwareInfo();
             energy = hardware.energyMax;
