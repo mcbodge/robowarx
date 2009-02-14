@@ -9,10 +9,8 @@ Items suffixed with bold names are being worked on by that person.
 
 = The list =
 
- * Interrupts
+ * Interrupts - *Stéphan* (half-assed implementation in trunk)
  * Weapons
-   * Hellbores
-   * Stunners
    * TacNukes
    * Mines
    * Lasers _(undocumented, thus low prio)_
@@ -37,10 +35,10 @@ Items suffixed with bold names are being worked on by that person.
    * Jump to source
    * Interactive stepping
    * Runtime stack and register inspection
- * Headless / command-line interface - *Jeff*
  * Sounds
  * Icons
- * GUI polish - *Stéphan*
+ * GTK+ GUI polish
+ * Windows GUI polish (and may also be outdated in general, at the moment)
  * A Mac OS X native interface?
  * Refactoring
    * Consistent naming _(suggest we use CamelCase in line with the rest of .NET, --Stéphan)_
