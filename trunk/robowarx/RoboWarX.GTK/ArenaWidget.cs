@@ -20,7 +20,7 @@ namespace RoboWarX.GTK
     }
 
     // Widget for displaying the arena
-	[System.ComponentModel.ToolboxItem(true)]
+    [System.ComponentModel.ToolboxItem(true)]
     public partial class ArenaWidget : Gtk.Bin
     {
         private Arena.Arena arena_ = null;

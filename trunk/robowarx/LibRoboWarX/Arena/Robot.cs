@@ -185,8 +185,8 @@ namespace RoboWarX.Arena
         internal Robot(Arena P, double X, double Y, int number, RobotFile file) : base(P, X, Y)
         {
             this.number = number;
-			this.file = file;
-			
+            this.file = file;
+            
             interp = new Interpreter(new MemoryStream(file.program));
             
             team = 0;
