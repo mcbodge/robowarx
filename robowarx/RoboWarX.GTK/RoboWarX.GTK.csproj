@@ -8,7 +8,7 @@
     <ProjectGuid>{A51FA552-8463-4F27-9A3F-E6974DFEDDFE}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AssemblyName>RoboWarX.GTK</AssemblyName>
-    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <RootNamespace>RoboWarX.GTK</RootNamespace>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -22,6 +22,8 @@
     <EnvironmentVariables>
       <EnvironmentVariables />
     </EnvironmentVariables>
+    <StartupObject>RoboWarX.GTK.MainClass</StartupObject>
+    <CodePage>65001</CodePage>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>none</DebugType>
@@ -29,6 +31,8 @@
     <OutputPath>bin\Release</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <StartupObject>RoboWarX.GTK.MainClass</StartupObject>
+    <CodePage>65001</CodePage>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
