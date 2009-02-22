@@ -32,7 +32,7 @@ namespace RoboWarX.Arena
 
         public void destroy()
         {
-            parent.delObjects.AddLast(this);
+            parent.delObjects.Add(this);
         }
 
         // FIXME: Perhaps this should be moved outside of the library?

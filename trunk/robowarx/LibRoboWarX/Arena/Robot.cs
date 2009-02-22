@@ -181,17 +181,20 @@ namespace RoboWarX.Arena
         public int channel { get; internal set; }
         internal Int16[] signals { get; set; }
 
-        // Some defaults that will be overridden in OnSpawn
-        public Robot(Arena P, double X, double Y) : base(P, X, Y)
+        // Robot is the only ArenaObject with no OnSpawn.
+        internal Robot(Arena P, double X, double Y, int number, RobotFile file) : base(P, X, Y)
         {
-            number = -1;
+            this.number = number;
+			this.file = file;
+			
+            interp = new Interpreter(new MemoryStream(file.program));
             
             team = 0;
             alive = true;
             deathReason = DeathReason.Suicided;
             icon = 0;
             
-            hardware = new HardwareInfo();
+            hardware = file.hardware;
             energy = hardware.energyMax;
             damage = hardware.damageMax;
             shield = 0;
@@ -216,18 +219,6 @@ namespace RoboWarX.Arena
             
             // FIXME: actually implement signals
             signals = new Int16[10];
-        }
-
-        public void onSpawn(int number_, RobotFile file_)
-        {
-            this.number = number_;
-            this.file = file_;
-            
-            interp = new Interpreter(new MemoryStream(file_.program));
-
-            hardware = file_.hardware;
-            energy = hardware.energyMax;
-            damage = hardware.damageMax;
         }
 
         public String name

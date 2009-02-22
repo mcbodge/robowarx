@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Drawing;
 using System.Reflection;
+using System.Collections.ObjectModel;
 using System.Collections.Generic;
 using RoboWarX;
 using RoboWarX.FileFormats;
@@ -19,14 +20,16 @@ namespace RoboWarX.Arena
         // Registers are loaded into the arena, which in turn loads them into the robot's
         // interpreter
         private List<ITemplateRegister> registers;
-        internal Robot[] robots { get; set; }
+		private List<Robot> robots_;
+        public IList<Robot> robots { get; private set; }
         
         // The object list to walk when updating. EXCLUDES robots!
-        internal LinkedList<ArenaObject> objects { get; set; }
+        private List<ArenaObject> objects_;
+		public ICollection<ArenaObject> objects { get; private set; }
         // Objects scheduled to be added into the update list
-        internal LinkedList<ArenaObject> newObjects { get; set; }
+        internal List<ArenaObject> newObjects { get; private set; }
         // Objects scheduled to be deleted from the update list
-        internal LinkedList<ArenaObject> delObjects { get; set; }
+        internal List<ArenaObject> delObjects { get; private set; }
 
         // This matters when deciding a win
         private bool teamBattle_;
@@ -64,10 +67,14 @@ namespace RoboWarX.Arena
         public Arena(int seed)
         {
             registers = new List<ITemplateRegister>(67);
-            robots = new Robot[Constants.MAX_ROBOTS];
-            objects = new LinkedList<ArenaObject>();
-            newObjects = new LinkedList<ArenaObject>();
-            delObjects = new LinkedList<ArenaObject>();
+			
+            robots_ = new List<Robot>(Constants.MAX_ROBOTS);
+            robots = new ReadOnlyCollection<Robot>(robots_);
+			
+            objects_ = new List<ArenaObject>();
+			objects = new ReadOnlyCollection<ArenaObject>(objects_);
+            newObjects = new List<ArenaObject>();
+            delObjects = new List<ArenaObject>();
 
             teamBattle = false;
 
@@ -94,7 +101,7 @@ namespace RoboWarX.Arena
 
             foreach (Robot robot in robots)
             {
-                if (robot == null || robot == who || !robot.alive)
+                if (robot == who || !robot.alive)
                     continue;
 
                 deltaX = (long)(who.x - robot.x);
@@ -156,8 +163,8 @@ namespace RoboWarX.Arena
             if (numAlive > 1)
             {
                 int loop;
-                for (loop = 0; loop < Constants.MAX_ROBOTS; loop++)
-                    if (robots[loop] != null && robots[loop].alive)
+                for (loop = 0; loop < robots.Count; loop++)
+                    if (robots[loop].alive)
                         break;
 
                 int firstTeam = robots[loop].team;
@@ -165,7 +172,7 @@ namespace RoboWarX.Arena
                     return;
                 else
                     foreach (Robot robot in robots)
-                        if (robot != null && robot.team != firstTeam && robot.alive)
+                        if (robot.team != firstTeam && robot.alive)
                             return;
             }
 
@@ -199,13 +206,13 @@ namespace RoboWarX.Arena
                 if (numAlive == 3)
                 {
                     foreach (Robot robot in robots)
-                        if (robot != null && robot.alive)
+                        if (robot.alive)
                             robot.survival = 1;
                 }
                 else if (numAlive == 2)
                 {
                     foreach (Robot robot in robots)
-                        if (robot != null && robot.alive)
+                        if (robot.alive)
                             robot.survival = 2;
                 }
             }
@@ -216,10 +223,10 @@ namespace RoboWarX.Arena
         private void updateObjects()
         {
             foreach (ArenaObject obj in newObjects)
-                objects.AddLast(obj);
+                objects_.Add(obj);
             newObjects.Clear();
             foreach (ArenaObject obj in delObjects)
-                objects.Remove(obj);
+                objects_.Remove(obj);
             delObjects.Clear();
         }
 
@@ -232,9 +239,6 @@ namespace RoboWarX.Arena
             // Reset some variables at the start of a chronon
             foreach (Robot robot in robots)
             {
-                if (robot == null)
-                    continue;
-
                 robot.collision = false;
                 robot.friend = false;
                 robot.wall = false;
@@ -245,16 +249,13 @@ namespace RoboWarX.Arena
             List<RobotException> errors = new List<RobotException>();
 
             updateObjects();
-            foreach (ArenaObject obj in objects)
+            foreach (ArenaObject obj in objects_)
                 obj.update();
             updateObjects();
 
             // Update all robots
             foreach (Robot robot in robots)
             {
-                if (robot == null)
-                    continue;
-
                 try
                 {
                     robot.update();
@@ -275,16 +276,16 @@ namespace RoboWarX.Arena
 
             foreach (Robot robot in robots)
             {
-                if (robot == null || !robot.alive)
+                if (!robot.alive)
                     continue;
 
                 doCollisionDamage(robot);
                 checkDeath(robot);
             }
 
-            // Interpret all robots
+            // Interpret all robots FIXME
             byte[] order = { 0, 1, 2, 3, 4, 5 };
-            for (int loop = 0; loop < numBots; loop++)
+            for (int loop = 0; loop < robots.Count; loop++)
             {
                 // Pick a random order
                 int pos = prng.Next() % (numBots - loop);
@@ -339,6 +340,8 @@ namespace RoboWarX.Arena
             if (!objtype.IsSubclassOf(typeof(ArenaObject)))
                 throw new ArenaObjectExtensionException(
                     "Object type is not an ArenaObject subclass");
+            if (objtype == typeof(Robot))
+				throw new ArgumentException("I won't allow you to spawn Robots!");
 
             List<Type> types = new List<Type>(parameters.Length);
 
@@ -357,15 +360,13 @@ namespace RoboWarX.Arena
                 throw new ArenaObjectExtensionException(
                     "Cannot find a suitable onSpawn method for ArenaObject");
 
-            // FIXME: prevent non-arena code from spawning robots?
-            if (objtype != typeof(Robot))
-                newObjects.AddLast(retval);
+			newObjects.Add(retval);
             return retval;
         }
 
         internal void RegisterObject(ArenaObject obj)
         {
-            newObjects.AddLast(obj);
+            newObjects.Add(obj);
         }
 
         // Load registers implemented by DLLs in the current directory
@@ -380,11 +381,7 @@ namespace RoboWarX.Arena
             // FIXME: Can this be done during a match?
             
             // Arena full?
-            int i;
-            for (i = 0; i < Constants.MAX_ROBOTS; i++)
-                if (robots[i] == null)
-                    break;
-            if (i == Constants.MAX_ROBOTS)
+            if (robots.Count == Constants.MAX_ROBOTS)
                 return null;
 
             // Try to find a starting position not too close to the other robots.
@@ -399,8 +396,6 @@ namespace RoboWarX.Arena
                 dist = 1000;
                 foreach (Robot other in robots)
                 {
-                    if (other == null)
-                        continue;
                     double test = Math.Pow(x - other.x, 2) + Math.Pow(y - other.y, 2);
                     if (test < dist)
                         dist = test;
@@ -408,7 +403,7 @@ namespace RoboWarX.Arena
             } while (dist < 625);
 
             // Instantiate
-            Robot robot = spawn(typeof(Robot), x, y, i, f) as Robot;
+            Robot robot = new Robot(this, x, y, robots.Count, f);
 
             // Insert the loaded registers
             foreach (ITemplateRegister register in registers)
@@ -419,37 +414,19 @@ namespace RoboWarX.Arena
             }
 
             // Update state
-            robots[i] = robot;
+            robots_.Add(robot);
             numBots++;
             numAlive++;
 
             return robot;
         }
 
-        public Robot getRobot(int i)
-        {
-            return robots[i];
-        }
-
-        public bool ejectRobot(Robot robot)
-        {
-            // FIXME: Can this be done during a match?
-            for (int i = 0; i < Constants.MAX_ROBOTS; i++)
-                if (robots[i] == robot)
-                {
-                    robots[i] = null;
-                    return true;
-                }
-            return false;
-        }
-
         public void draw(Graphics gfx)
         {
-            foreach (ArenaObject obj in objects)
+            foreach (ArenaObject obj in objects_)
                 obj.draw(gfx);
             foreach (Robot robot in robots)
-                if (robot != null)
-                    robot.draw(gfx);
+                robot.draw(gfx);
         }
     }
 }
