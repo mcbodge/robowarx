@@ -60,7 +60,6 @@ namespace RoboWarX.Arena
         }
 
         // Some additional internal state
-        private byte numBots;
         private byte numAlive;
         private byte onlyTrackingShots; // game has ended, but loop just a tad more
 
@@ -82,7 +81,6 @@ namespace RoboWarX.Arena
             finished = false;
             chrononLimit = -1;
             
-            numBots = 0;
             numAlive = 0;
             onlyTrackingShots = 0;
 
@@ -201,7 +199,7 @@ namespace RoboWarX.Arena
 
             // Give every robot alive, if there's less than 4 and more than 1, a survival point.
             // If there's only one robot, wait 5 chronons before awarding a survival point.
-            if (numBots > 2 && teamBattle)
+            if (robots.Count > 2 && teamBattle)
             {
                 if (numAlive == 3)
                 {
@@ -288,9 +286,9 @@ namespace RoboWarX.Arena
             for (int loop = 0; loop < robots.Count; loop++)
             {
                 // Pick a random order
-                int pos = prng.Next() % (numBots - loop);
+                int pos = prng.Next() % (robots.Count - loop);
                 Robot who = robots[order[pos]];
-                order[pos] = order[numBots - loop - 1];
+                order[pos] = order[robots.Count - loop - 1];
 
                 try
                 {
@@ -415,7 +413,6 @@ namespace RoboWarX.Arena
 
             // Update state
             robots_.Add(robot);
-            numBots++;
             numAlive++;
 
             return robot;
