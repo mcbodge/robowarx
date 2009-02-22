@@ -29,7 +29,7 @@ namespace RoboWarX.GTK
         
         public MainWindow(string[] files) : base(Gtk.WindowType.Toplevel)
         {
-            this.Build();
+            Build();
             
             this.files = new RobotFile[Constants.MAX_ROBOTS];
             robotlist = new RobotWidget[Constants.MAX_ROBOTS];

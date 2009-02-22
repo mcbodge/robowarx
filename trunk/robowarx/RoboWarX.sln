@@ -1,11 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RoboWarX.WinForms", "RoboWarX.WinForms\RoboWarX.WinForms.csproj", "{2AEB7C5C-BBDC-4567-9F95-A94299D971DF}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibRoboWarX", "LibRoboWarX\LibRoboWarX.csproj", "{10E2457E-E356-4B1E-B2C0-81C1B45E8D54}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RoboWarX.GTK", "RoboWarX.GTK\RoboWarX.GTK.csproj", "{A51FA552-8463-4F27-9A3F-E6974DFEDDFE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RoboWarX.WinForms", "RoboWarX.WinForms\RoboWarX.WinForms.csproj", "{2AEB7C5C-BBDC-4567-9F95-A94299D971DF}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RoboWarX.Headless", "RoboWarX.Headless\RoboWarX.Headless.csproj", "{DF4F5C0D-1931-46B9-B27E-019B5CEC7602}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RoboWarX.DumpTest", "RoboWarX.DumpTest\RoboWarX.DumpTest.csproj", "{4F30C423-5DDA-4D65-8968-F23058629405}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,18 +17,31 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{2AEB7C5C-BBDC-4567-9F95-A94299D971DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2AEB7C5C-BBDC-4567-9F95-A94299D971DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2AEB7C5C-BBDC-4567-9F95-A94299D971DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2AEB7C5C-BBDC-4567-9F95-A94299D971DF}.Release|Any CPU.Build.0 = Release|Any CPU
 		{10E2457E-E356-4B1E-B2C0-81C1B45E8D54}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{10E2457E-E356-4B1E-B2C0-81C1B45E8D54}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{10E2457E-E356-4B1E-B2C0-81C1B45E8D54}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{10E2457E-E356-4B1E-B2C0-81C1B45E8D54}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2AEB7C5C-BBDC-4567-9F95-A94299D971DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2AEB7C5C-BBDC-4567-9F95-A94299D971DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2AEB7C5C-BBDC-4567-9F95-A94299D971DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2AEB7C5C-BBDC-4567-9F95-A94299D971DF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4F30C423-5DDA-4D65-8968-F23058629405}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4F30C423-5DDA-4D65-8968-F23058629405}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4F30C423-5DDA-4D65-8968-F23058629405}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4F30C423-5DDA-4D65-8968-F23058629405}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A51FA552-8463-4F27-9A3F-E6974DFEDDFE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A51FA552-8463-4F27-9A3F-E6974DFEDDFE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A51FA552-8463-4F27-9A3F-E6974DFEDDFE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A51FA552-8463-4F27-9A3F-E6974DFEDDFE}.Release|Any CPU.Build.0 = Release|Any CPU
 		{DF4F5C0D-1931-46B9-B27E-019B5CEC7602}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{DF4F5C0D-1931-46B9-B27E-019B5CEC7602}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DF4F5C0D-1931-46B9-B27E-019B5CEC7602}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DF4F5C0D-1931-46B9-B27E-019B5CEC7602}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		name = RoboWarX
+		version = 0.1
+		StartupItem = RoboWarX.GTK\RoboWarX.GTK.csproj
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

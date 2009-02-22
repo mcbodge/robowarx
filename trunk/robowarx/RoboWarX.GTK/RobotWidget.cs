@@ -7,6 +7,7 @@ using RoboWarX.Arena;
 
 namespace RoboWarX.GTK
 {
+	[System.ComponentModel.ToolboxItem(true)]
     public partial class RobotWidget : Gtk.Bin
     {
         private Robot robot_;
