@@ -90,7 +90,6 @@ namespace RoboWarX.FileFormats
             f.name = Path.GetFileNameWithoutExtension(filename);
 
             // Determine which file format class to use based on extension
-            Type format;
             switch (System.IO.Path.GetExtension(filename).ToLower())
             {
             case ".bin":    ClassicMBinRobot.read(f, s);    break;
