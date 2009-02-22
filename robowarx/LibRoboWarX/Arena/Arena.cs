@@ -20,12 +20,12 @@ namespace RoboWarX.Arena
         // Registers are loaded into the arena, which in turn loads them into the robot's
         // interpreter
         private List<ITemplateRegister> registers;
-		private List<Robot> robots_;
+        private List<Robot> robots_;
         public IList<Robot> robots { get; private set; }
         
         // The object list to walk when updating. EXCLUDES robots!
         private List<ArenaObject> objects_;
-		public ICollection<ArenaObject> objects { get; private set; }
+        public ICollection<ArenaObject> objects { get; private set; }
         // Objects scheduled to be added into the update list
         internal List<ArenaObject> newObjects { get; private set; }
         // Objects scheduled to be deleted from the update list
@@ -67,12 +67,12 @@ namespace RoboWarX.Arena
         public Arena(int seed)
         {
             registers = new List<ITemplateRegister>(67);
-			
+            
             robots_ = new List<Robot>(Constants.MAX_ROBOTS);
             robots = new ReadOnlyCollection<Robot>(robots_);
-			
+            
             objects_ = new List<ArenaObject>();
-			objects = new ReadOnlyCollection<ArenaObject>(objects_);
+            objects = new ReadOnlyCollection<ArenaObject>(objects_);
             newObjects = new List<ArenaObject>();
             delObjects = new List<ArenaObject>();
 
@@ -341,7 +341,7 @@ namespace RoboWarX.Arena
                 throw new ArenaObjectExtensionException(
                     "Object type is not an ArenaObject subclass");
             if (objtype == typeof(Robot))
-				throw new ArgumentException("I won't allow you to spawn Robots!");
+                throw new ArgumentException("I won't allow you to spawn Robots!");
 
             List<Type> types = new List<Type>(parameters.Length);
 
@@ -360,7 +360,7 @@ namespace RoboWarX.Arena
                 throw new ArenaObjectExtensionException(
                     "Cannot find a suitable onSpawn method for ArenaObject");
 
-			newObjects.Add(retval);
+            newObjects.Add(retval);
             return retval;
         }
 
