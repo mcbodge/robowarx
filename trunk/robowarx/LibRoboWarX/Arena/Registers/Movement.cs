@@ -54,7 +54,7 @@ namespace RoboWarX.Arena.Registers
             }
         }
     }
-	
+    
     // Speed of robot in left-right direction. May be read or written. Positive speeds move right,
     // while negative speeds move to the left of the screen. If SPEEDX is read, it returns the
     // current velocity; if it is written, it sets the velocity. Speeds must be in the range of -20

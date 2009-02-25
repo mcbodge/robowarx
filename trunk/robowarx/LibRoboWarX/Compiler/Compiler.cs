@@ -17,16 +17,16 @@ namespace RoboWarX.Compiler
             tokenizer = new Tokenizer(input);
             this.output = output;
             registers = new Dictionary<String, Register>(67);
-			
-			// Load all the default registers
-			Arena.StockRegisters.inject(this);
+            
+            // Load all the default registers
+            Arena.StockRegisters.inject(this);
         }
-		
-		public void addRegister(Register register)
-		{
+        
+        public void addRegister(Register register)
+        {
             foreach (String name in register.names)
                 registers.Add(name, register);
-		}
+        }
 
         // Read text from input, compile, write binary to output
         public void compile()

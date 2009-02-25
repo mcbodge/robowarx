@@ -17,7 +17,7 @@ namespace RoboWarX.Arena
         // FIXME: I doubt Random's behavior matches the routines used two decades ago.
         internal Random prng { get; set; }
         
-		// The robots in the arena
+        // The robots in the arena
         private List<Robot> robots_;
         public IList<Robot> robots { get; private set; }
         

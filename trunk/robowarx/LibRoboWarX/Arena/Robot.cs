@@ -190,9 +190,9 @@ namespace RoboWarX.Arena
             this.file = file;
             
             interp = new Interpreter(new MemoryStream(file.program));
-			
-			// Load all the default registers
-			StockRegisters.inject(this);
+            
+            // Load all the default registers
+            StockRegisters.inject(this);
             
             team = 0;
             alive = true;
@@ -225,12 +225,12 @@ namespace RoboWarX.Arena
             // FIXME: actually implement signals
             signals = new Int16[10];
         }
-		
-		public void addRegister(Register register)
-		{
-			register.robot = this;
-			interp.addRegister(register);
-		}
+        
+        public void addRegister(Register register)
+        {
+            register.robot = this;
+            interp.addRegister(register);
+        }
 
         // We got hit by someone
         public bool doShotDamage(int amount, Robot from)

@@ -57,9 +57,9 @@ namespace RoboWarX.VM
         {
             loadProgram(source);
         }
-		
-		public void addRegister(Register register)
-		{
+        
+        public void addRegister(Register register)
+        {
             registerMap.Add(register.code, register);
             registerList.Add(register);
             if (register.order != -1)
@@ -68,8 +68,8 @@ namespace RoboWarX.VM
                     interruptList.Add(register.order, register);
                 else
                     lateInterruptList.Add(register.order, register);
-			}
-		}
+            }
+        }
 
         // Load the program from the stream, byte swapping along the way
         public void loadProgram(Stream source)

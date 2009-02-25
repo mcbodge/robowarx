@@ -10,7 +10,7 @@ namespace RoboWarX.Arena
         public static Register[] instantiate()
         {
             Register[] retval = new Register[61];
-			
+            
             for (char c = 'A'; c <= 'Z'; c++)
             {
                 if (c == 'X' || c == 'Y')
@@ -19,7 +19,7 @@ namespace RoboWarX.Arena
             }
             retval[23] = new XRegister();
             retval[24] = new YRegister();
-			
+            
             retval[26] = new AimRegister();
             retval[27] = new BottomRegister();
             retval[28] = new ChannelRegister();
@@ -50,21 +50,21 @@ namespace RoboWarX.Arena
             retval[53] = new TeamMatesRegister();
             retval[54] = new TopRegister();
             retval[55] = new WallRegister();
-			
-			retval[56] = new BulletRegister();
-			retval[57] = new FireRegister();
-			retval[58] = new MissileRegister();
-			retval[59] = new HellboreRegister();
-			retval[60] = new StunnerRegister();
-			
+            
+            retval[56] = new BulletRegister();
+            retval[57] = new FireRegister();
+            retval[58] = new MissileRegister();
+            retval[59] = new HellboreRegister();
+            retval[60] = new StunnerRegister();
+            
             return retval;
         }
-		
-		public static void inject(IRegisterBin bin)
-		{
-			Register[] defaultRegisters = instantiate();
-			foreach (Register register in defaultRegisters)
-				bin.addRegister(register);
-		}
+        
+        public static void inject(IRegisterBin bin)
+        {
+            Register[] defaultRegisters = instantiate();
+            foreach (Register register in defaultRegisters)
+                bin.addRegister(register);
+        }
     }
 }

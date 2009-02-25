@@ -39,7 +39,7 @@ namespace RoboWarX.Arena.Registers
             return retval;
         }
     }
-	
+    
     // Is the robot sensed in a collision on your team? FRIEND can only be read. If the collision
     // register holds a 1, the FRIEND register holds a 1 if the robot collided with is on the same
     // team. Otherwise, the FRIEND register holds a 0. This is useful to determine if a collision
@@ -58,7 +58,7 @@ namespace RoboWarX.Arena.Registers
             set {}
         }
     }
-	
+    
     // Long range probe of opponent's systems. Returns information about the target in the
     // direction of the AIM register when read; no effect if written. The register to probe is
     // chosen with the SETPARAM command (e.g. SHIELD' PROBE' SETPARAM to select the SHIELD register
@@ -158,7 +158,7 @@ namespace RoboWarX.Arena.Registers
             }
         }
     }
-	
+    
     // Range to nearest bullet, missile, mine, stunner or TacNuke in the path of AIM. May only be
     // read. RADAR checks a path 40 degrees wide centered on the AIM (actually AIM+SCAN, but SCAN
     // defaults to 0). It returns the distance to the nearest bullet, missile, or TacNuke in this
@@ -210,7 +210,7 @@ namespace RoboWarX.Arena.Registers
             return dist > 0 && dist <= param;
         }
     }
-	
+    
     // Range to nearest target in sights. May only be read. If there is a target in the direction
     // the robot’s AIM points, RANGE returns the distance. Actually checks in direction AIM+LOOK,
     // but look defaults to 0. Otherwise, it returns 0.
