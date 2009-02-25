@@ -3,14 +3,14 @@ using System.Drawing;
 using RoboWarX;
 using RoboWarX.Arena;
 
-namespace RoboWarX.Weapons.Stunner
+namespace RoboWarX.Arena.Weapons
 {
     // Our small explosion type
     internal class StunnerExplosion : BaseExplosion
     {
         private int energy;
         
-        public StunnerExplosion(Arena.Arena P, double X, double Y) : base(P, X, Y) { }
+        public StunnerExplosion(Arena P, double X, double Y) : base(P, X, Y) { }
         
         public void onSpawn(Robot owner_, Robot target_, int energy_)
         {
@@ -32,7 +32,7 @@ namespace RoboWarX.Weapons.Stunner
         public override bool offset { get { return true; } }
         public override bool collideProjectiles { get { return false; } }
 
-        public StunnerObject(Arena.Arena P, double X, double Y) : base(P, X, Y) { }
+        public StunnerObject(Arena P, double X, double Y) : base(P, X, Y) { }
         public StunnerObject() { }
 
         public override void onShoot(int energy_, params object[] args)
@@ -106,16 +106,6 @@ namespace RoboWarX.Weapons.Stunner
         public override Object Clone()
         {
             return new StunnerRegister();
-        }
-    }
-
-    // Stunner plugin entry
-    public class StunnerEntry : IPluginEntry
-    {
-        public ITemplateRegister[] getPrototypes()
-        {
-            StunnerRegister stunner = new StunnerRegister();
-            return new ITemplateRegister[] { stunner };
         }
     }
 }

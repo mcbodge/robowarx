@@ -1,6 +1,7 @@
 using System;
 using RoboWarX;
 using RoboWarX.Arena;
+using RoboWarX.Arena.Weapons;
 
 namespace RoboWarX.Arena.StockRegisters
 {
@@ -1267,13 +1268,16 @@ namespace RoboWarX.Arena.StockRegisters
     {
         public ITemplateRegister[] getPrototypes()
         {
-            ITemplateRegister[] retval = new ITemplateRegister[56];
+            ITemplateRegister[] retval = new ITemplateRegister[61];
             for (char c = 'A'; c <= 'Z'; c++)
             {
                 if (c == 'X' || c == 'Y')
                     continue;
                 retval[c - 'A'] = new CustomRegister(c);
             }
+            retval[23] = new XRegister();
+            retval[24] = new YRegister();
+			
             retval[26] = new AimRegister();
             retval[27] = new BottomRegister();
             retval[28] = new ChannelRegister();
@@ -1304,8 +1308,12 @@ namespace RoboWarX.Arena.StockRegisters
             retval[53] = new TeamMatesRegister();
             retval[54] = new TopRegister();
             retval[55] = new WallRegister();
-            retval[23] = new XRegister();
-            retval[24] = new YRegister();
+			retval[56] = new BulletRegister();
+			retval[57] = new FireRegister();
+			retval[58] = new MissileRegister();
+			retval[59] = new HellboreRegister();
+			retval[60] = new StunnerRegister();
+			
             return retval;
         }
     }

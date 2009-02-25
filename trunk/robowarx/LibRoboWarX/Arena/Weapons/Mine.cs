@@ -2,7 +2,7 @@ using System;
 using RoboWarX;
 using RoboWarX.Arena;
 
-namespace RoboWarX.Weapons.Mine
+namespace RoboWarX.Arena.Weapons
 {
     // Used to lay atomic land mines. Returns 0 if read, places a mine with energy investment equal
     // to the amount written. The mine is stationary and becomes active ten chronons after

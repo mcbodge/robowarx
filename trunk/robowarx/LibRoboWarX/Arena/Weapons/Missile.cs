@@ -3,7 +3,7 @@ using System.Drawing;
 using RoboWarX;
 using RoboWarX.Arena;
 
-namespace RoboWarX.Weapons.Missile
+namespace RoboWarX.Arena.Weapons
 {
     // Missile projectile class
     internal class MissileObject : Projectile
@@ -13,7 +13,7 @@ namespace RoboWarX.Weapons.Missile
         public override bool offset { get { return true; } }
         public override bool collideProjectiles  { get { return false; } }
 
-        public MissileObject(Arena.Arena P, double X, double Y) : base(P, X, Y) { }
+        public MissileObject(Arena P, double X, double Y) : base(P, X, Y) { }
         public MissileObject() { }
         public override void onShoot(int energy_, params object[] args)
         {
@@ -79,16 +79,6 @@ namespace RoboWarX.Weapons.Missile
         public override Object Clone()
         {
             return new MissileRegister();
-        }
-    }
-
-    // Missile plugin entry
-    public class MissileEntry : IPluginEntry
-    {
-        public ITemplateRegister[] getPrototypes()
-        {
-            MissileRegister missile = new MissileRegister();
-            return new ITemplateRegister[] { missile };
         }
     }
 }

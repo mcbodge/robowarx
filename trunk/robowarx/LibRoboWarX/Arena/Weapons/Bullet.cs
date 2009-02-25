@@ -3,7 +3,7 @@ using System.Drawing;
 using RoboWarX;
 using RoboWarX.Arena;
 
-namespace RoboWarX.Weapons.Bullet
+namespace RoboWarX.Arena.Weapons
 {
     // Bullet projectile class
     internal class BulletObject : Projectile
@@ -14,7 +14,7 @@ namespace RoboWarX.Weapons.Bullet
         public override bool offset { get { return true; } }
         public override bool collideProjectiles { get { return false; } }
 
-        public BulletObject(Arena.Arena P, double X, double Y) : base(P, X, Y) { }
+        public BulletObject(Arena P, double X, double Y) : base(P, X, Y) { }
         public BulletObject() { }
         public override void onShoot(int energy_, params object[] args)
         {
@@ -143,17 +143,6 @@ namespace RoboWarX.Weapons.Bullet
         public override Object Clone()
         {
             return new FireRegister();
-        }
-    }
-
-    // Bullet plugin entry
-    public class BulletEntry : IPluginEntry
-    {
-        public ITemplateRegister[] getPrototypes()
-        {
-            BulletRegister bullet = new BulletRegister();
-            FireRegister fire = new FireRegister();
-            return new ITemplateRegister[] { bullet, fire };
         }
     }
 }
