@@ -9,131 +9,131 @@ namespace RoboWarX.VM
     {
         private int doPlus()
         {
-            long val = stack.Pop() + stack.Pop();
+            long val = stack_.Pop() + stack_.Pop();
             if (val < (int)Bytecodes.NUM_MIN_CODE &&
                 val > (int)Bytecodes.NUM_MAX_CODE)
                 throw new OutOfBoundsException(this);
-            stack.Push((Int16)val);
+            stack_.Push((Int16)val);
             return 1;
         }
 
         private int doMinus()
         {
-            Int16 top = stack.Pop();
-            long val = stack.Pop() - top;
+            Int16 top = stack_.Pop();
+            long val = stack_.Pop() - top;
             if (val < (int)Bytecodes.NUM_MIN_CODE &&
                 val > (int)Bytecodes.NUM_MAX_CODE)
                 throw new OutOfBoundsException(this);
-            stack.Push((Int16)val);
+            stack_.Push((Int16)val);
             return 1;
         }
 
         private int doTimes()
         {
-            long val = stack.Pop() * stack.Pop();
+            long val = stack_.Pop() * stack_.Pop();
             if (val < (int)Bytecodes.NUM_MIN_CODE &&
                 val > (int)Bytecodes.NUM_MAX_CODE)
                 throw new OutOfBoundsException(this);
-            stack.Push((Int16)val);
+            stack_.Push((Int16)val);
             return 1;
         }
 
         private int doDivide()
         {
-            Int16 top = stack.Pop();
-            long val = stack.Pop() / top;
+            Int16 top = stack_.Pop();
+            long val = stack_.Pop() / top;
             if (val < (int)Bytecodes.NUM_MIN_CODE &&
                 val > (int)Bytecodes.NUM_MAX_CODE)
                 throw new OutOfBoundsException(this);
-            stack.Push((Int16)val);
+            stack_.Push((Int16)val);
             return 1;
         }
 
         private int doGreater()
         {
-            Int16 top = stack.Pop();
-            if (stack.Pop() > top)
-                stack.Push(1);
+            Int16 top = stack_.Pop();
+            if (stack_.Pop() > top)
+                stack_.Push(1);
             else
-                stack.Push(0);
+                stack_.Push(0);
             return 1;
         }
 
         private int doLess()
         {
-            Int16 top = stack.Pop();
-            if (stack.Pop() < top)
-                stack.Push(1);
+            Int16 top = stack_.Pop();
+            if (stack_.Pop() < top)
+                stack_.Push(1);
             else
-                stack.Push(0);
+                stack_.Push(0);
             return 1;
         }
 
         private int doEqual()
         {
-            if (stack.Pop() == stack.Pop())
-                stack.Push(1);
+            if (stack_.Pop() == stack_.Pop())
+                stack_.Push(1);
             else
-                stack.Push(0);
+                stack_.Push(0);
             return 1;
         }
 
         private int doNotEqual()
         {
-            if (stack.Pop() != stack.Pop())
-                stack.Push(1);
+            if (stack_.Pop() != stack_.Pop())
+                stack_.Push(1);
             else
-                stack.Push(0);
+                stack_.Push(0);
             return 1;
         }
 
         private int doStore()
         {
-            Int16 where = stack.Pop();
+            Int16 where = stack_.Pop();
             if (where < (int)Bytecodes.REG_MIN_CODE)
                 throw new VMachineException(this, "Invalid destination register.");
             ITemplateRegister whereobj = registerMap[where];
-            whereobj.value = stack.Pop();
+            whereobj.value = stack_.Pop();
             return 1;
         }
 
         private int doDrop()
         {
-            stack.Pop();
+            stack_.Pop();
             return 1;
         }
 
         private int doSwap()
         {
-            Int16 val1 = stack.Pop();
-            Int16 val2 = stack.Pop();
-            stack.Push(val1);
-            stack.Push(val2);
+            Int16 val1 = stack_.Pop();
+            Int16 val2 = stack_.Pop();
+            stack_.Push(val1);
+            stack_.Push(val2);
             return 1;
         }
 
         private int doRoll()
         {
-            Int16 places = stack.Pop();
+            Int16 places = stack_.Pop();
             if (places < 0)
                 throw new VMachineException(this, "Cannot roll back a negative amount of places.");
 
-            Int16 val = stack.Pop();
+            Int16 val = stack_.Pop();
             Stack<Int16> elements = new Stack<Int16>(places);
 
             for (Int16 i = places; i != 0; i--)
-                elements.Push(stack.Pop());
+                elements.Push(stack_.Pop());
 
-            stack.Push(val);
+            stack_.Push(val);
 
             for (Int16 i = places; i != 0; i--)
-                stack.Push(elements.Pop());
+                stack_.Push(elements.Pop());
             return 1;
         }
 
         private int doJump()
         {
-            Int16 where = stack.Pop();
+            Int16 where = stack_.Pop();
             if (where < 0 || where >= program.Count)
                 throw new VMachineException(this, "Jump destination not in program.");
             pc = where;
@@ -142,29 +142,29 @@ namespace RoboWarX.VM
 
         private int doCall()
         {
-            Int16 where = stack.Pop();
+            Int16 where = stack_.Pop();
             if (where < 0 || where >= program.Count)
                 throw new VMachineException(this, "Jump destination not in program.");
-            stack.Push(pc);
+            stack_.Push(pc);
             pc = where;
             return 1;
         }
 
         private int doDuplicate()
         {
-            stack.Push(stack.Peek());
+            stack_.Push(stack_.Peek());
             return 1;
         }
 
         private int doIf()
         {
-            Int16 where = stack.Pop();
+            Int16 where = stack_.Pop();
 
-            if (stack.Pop() != 0)
+            if (stack_.Pop() != 0)
             {
                 if (where < 0 || where >= program.Count)
                     throw new VMachineException(this, "Jump destination not in program.");
-                stack.Push(pc);
+                stack_.Push(pc);
                 pc = where;
             }
             return 1;
@@ -172,21 +172,21 @@ namespace RoboWarX.VM
 
         private int doIfe()
         {
-            Int16 where1 = stack.Pop();
-            Int16 where2 = stack.Pop();
+            Int16 where1 = stack_.Pop();
+            Int16 where2 = stack_.Pop();
 
-            if (stack.Pop() != 0)
+            if (stack_.Pop() != 0)
             {
                 if (where2 < 0 || where2 >= program.Count)
                     throw new VMachineException(this, "Jump destination not in program.");
-                stack.Push(pc);
+                stack_.Push(pc);
                 pc = where2;
             }
             else
             {
                 if (where1 < 0 || where1 >= program.Count)
                     throw new ArgumentException("Jump destination not in program.");
-                stack.Push(pc);
+                stack_.Push(pc);
                 pc = where1;
             }
             return 1;
@@ -194,46 +194,46 @@ namespace RoboWarX.VM
 
         private int doRecall()
         {
-            Int16 what = stack.Pop();
+            Int16 what = stack_.Pop();
             if (what < (int)Bytecodes.REG_MIN_CODE)
                 throw new VMachineException(this, "Invalid register.");
             ITemplateRegister whatobj = registerMap[what];
-            stack.Push(whatobj.value);
+            stack_.Push(whatobj.value);
             return 1;
         }
 
         private int doAnd()
         {
-            if ((stack.Pop() != 0) & (stack.Pop() != 0))
-                stack.Push(1);
+            if ((stack_.Pop() != 0) & (stack_.Pop() != 0))
+                stack_.Push(1);
             else
-                stack.Push(0);
+                stack_.Push(0);
             return 1;
         }
 
         private int doOr()
         {
-            if ((stack.Pop() != 0) | (stack.Pop() != 0))
-                stack.Push(1);
+            if ((stack_.Pop() != 0) | (stack_.Pop() != 0))
+                stack_.Push(1);
             else
-                stack.Push(0);
+                stack_.Push(0);
             return 1;
         }
 
         private int doEor()
         {
-            if ((stack.Pop() != 0) ^ (stack.Pop() != 0))
-                stack.Push(1);
+            if ((stack_.Pop() != 0) ^ (stack_.Pop() != 0))
+                stack_.Push(1);
             else
-                stack.Push(0);
+                stack_.Push(0);
             return 1;
         }
 
         private int doMod()
         {
-            Int16 top = stack.Pop();
-            long val = stack.Pop() % top;
-            stack.Push((Int16)val);
+            Int16 top = stack_.Pop();
+            long val = stack_.Pop() % top;
+            stack_.Push((Int16)val);
             return 1;
         }
 
@@ -247,74 +247,74 @@ namespace RoboWarX.VM
 
         private int doChs()
         {
-            stack.Push((Int16) (stack.Pop() * -1));
+            stack_.Push((Int16) (stack_.Pop() * -1));
             return 1;
         }
 
         private int doNot()
         {
-            if (stack.Pop() == 0)
-                stack.Push(1);
+            if (stack_.Pop() == 0)
+                stack_.Push(1);
             else
-                stack.Push(0);
+                stack_.Push(0);
             return 1;
         }
 
         private int doArcTan()
         {
-            double y = stack.Pop();
-            double x = stack.Pop();
-            stack.Push((Int16) ((450.5 - Math.Atan2(y, x) * Constants.RAD_TO_DEG) % 360));
+            double y = stack_.Pop();
+            double x = stack_.Pop();
+            stack_.Push((Int16) ((450.5 - Math.Atan2(y, x) * Constants.RAD_TO_DEG) % 360));
             return 1;
         }
 
         private int doAbs()
         {
-            stack.Push(Math.Abs(stack.Pop()));
+            stack_.Push(Math.Abs(stack_.Pop()));
             return 1;
         }
 
         private int doSin()
         {
-            Int16 hyp = stack.Pop();
-            Int16 ang = stack.Pop();
+            Int16 hyp = stack_.Pop();
+            Int16 ang = stack_.Pop();
             int sgn = 1;
             if (ang < 0)
             {
                 ang *= -1;
                 sgn = -1;
             }
-            stack.Push((Int16)(sgn * hyp * Util.Sin((ang + 270) % 360)));
+            stack_.Push((Int16)(sgn * hyp * Util.Sin((ang + 270) % 360)));
             return 1;
         }
 
         private int doCos()
         {
-            Int16 hyp = stack.Pop();
-            Int16 ang = stack.Pop();
+            Int16 hyp = stack_.Pop();
+            Int16 ang = stack_.Pop();
             if (ang < 0)
                 ang *= -1;
-            stack.Push((Int16)(hyp * Util.Cos((ang + 270) % 360)));
+            stack_.Push((Int16)(hyp * Util.Cos((ang + 270) % 360)));
             return 1;
         }
 
         private int doTan()
         {
-            Int16 hyp = stack.Pop();
-            Int16 ang = stack.Pop();
+            Int16 hyp = stack_.Pop();
+            Int16 ang = stack_.Pop();
             int sgn = 1;
             if (ang < 0)
             {
                 ang *= -1;
                 sgn = -1;
             }
-            stack.Push((Int16)(sgn * hyp * Util.Tan((ang + 270) % 360)));
+            stack_.Push((Int16)(sgn * hyp * Util.Tan((ang + 270) % 360)));
             return 1;
         }
 
         private int doSqrt()
         {
-            stack.Push((Int16)Math.Sqrt(stack.Pop()));
+            stack_.Push((Int16)Math.Sqrt(stack_.Pop()));
             return 1;
         }
 
@@ -378,8 +378,8 @@ namespace RoboWarX.VM
 
         private int doVStore()
         {
-            Int16 where = stack.Pop();
-            Int16 what = stack.Pop();
+            Int16 where = stack_.Pop();
+            Int16 what = stack_.Pop();
             if (where >= 0 && where <= 100)
                 vector[where] = what;
             return 1;
@@ -387,27 +387,27 @@ namespace RoboWarX.VM
 
         private int doVRecall()
         {
-            Int16 where = stack.Pop();
+            Int16 where = stack_.Pop();
             if (where >= 0 && where <= 100)
-                stack.Push(vector[where]);
+                stack_.Push(vector[where]);
             else
-                stack.Push(0);
+                stack_.Push(0);
             return 1;
         }
 
         private int doDist()
         {
-            Int16 a = stack.Pop();
-            Int16 b = stack.Pop();
-            stack.Push((Int16) Math.Sqrt(a * a + b * b));
+            Int16 a = stack_.Pop();
+            Int16 b = stack_.Pop();
+            stack_.Push((Int16) Math.Sqrt(a * a + b * b));
             return 1;
         }
 
         private int doIfg()
         {
-            Int16 where = stack.Pop();
+            Int16 where = stack_.Pop();
 
-            if (stack.Pop() != 0)
+            if (stack_.Pop() != 0)
             {
                 if (where < 0 || where >= program.Count)
                     throw new VMachineException(this, "Jump destination not in program.");
@@ -418,10 +418,10 @@ namespace RoboWarX.VM
 
         private int doIfeg()
         {
-            Int16 where2 = stack.Pop();
-            Int16 where1 = stack.Pop();
+            Int16 where2 = stack_.Pop();
+            Int16 where1 = stack_.Pop();
 
-            if (stack.Pop() != 0)
+            if (stack_.Pop() != 0)
             {
                 if (where2 < 0 || where2 >= program.Count)
                     throw new VMachineException(this, "Jump destination not in program.");
@@ -472,11 +472,11 @@ namespace RoboWarX.VM
 
         private int doSetInt()
         {
-            Int16 where = stack.Pop();
+            Int16 where = stack_.Pop();
             if (where < (int)Bytecodes.REG_MIN_CODE)
                 throw new VMachineException(this, "Illegal interrupt name.");
             ITemplateRegister whereobj = registerMap[where];
-            Int16 target = stack.Pop();
+            Int16 target = stack_.Pop();
             if (target < 0 || target >= program.Count)
                 throw new VMachineException(this, "Interrupt destination not in program.");
             whereobj.interrupt = target;
@@ -485,11 +485,11 @@ namespace RoboWarX.VM
 
         private int doSetParam()
         {
-            Int16 where = stack.Pop();
+            Int16 where = stack_.Pop();
             if (where < (int)Bytecodes.REG_MIN_CODE)
                 throw new VMachineException(this, "Illegal interrupt name.");
             ITemplateRegister whereobj = registerMap[where];
-            whereobj.param = stack.Pop();
+            whereobj.param = stack_.Pop();
             return 1;
         }
 
@@ -535,45 +535,45 @@ namespace RoboWarX.VM
 
         private int doDropAll()
         {
-            stack.Clear();
+            stack_.Clear();
             return 1;
         }
 
         private int doMax()
         {
-            Int16 a = stack.Pop();
-            Int16 b = stack.Pop();
-            stack.Push(Math.Max(a, b));
+            Int16 a = stack_.Pop();
+            Int16 b = stack_.Pop();
+            stack_.Push(Math.Max(a, b));
             return 1;
         }
 
         private int doMin()
         {
-            Int16 a = stack.Pop();
-            Int16 b = stack.Pop();
-            stack.Push(Math.Min(a, b));
+            Int16 a = stack_.Pop();
+            Int16 b = stack_.Pop();
+            stack_.Push(Math.Min(a, b));
             return 1;
         }
 
         private int doArcCos()
         {
-            double val = (double)stack.Pop() / (double)stack.Pop();
+            double val = (double)stack_.Pop() / (double)stack_.Pop();
             if (val < -1 || val > 1)
                 throw new VMachineException(this, "-1 ≤ Num / Denom ≤ 1 for arccos.");
             
             val = Math.Acos(val);
-            stack.Push((Int16)(val * Constants.RAD_TO_DEG));
+            stack_.Push((Int16)(val * Constants.RAD_TO_DEG));
             return 1;
         }
 
         private int doArcSin()
         {
-            double val = (double)stack.Pop() / (double)stack.Pop();
+            double val = (double)stack_.Pop() / (double)stack_.Pop();
             if (val < -1 || val > 1)
                 throw new VMachineException(this, "-1 ≤ Num / Denom ≤ 1 for arcsin.");
             
             val = Math.Asin(val);
-            stack.Push((Int16)(val * Constants.RAD_TO_DEG));
+            stack_.Push((Int16)(val * Constants.RAD_TO_DEG));
             return 1;
         }
     }

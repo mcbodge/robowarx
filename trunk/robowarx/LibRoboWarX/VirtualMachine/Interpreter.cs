@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Reflection;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using RoboWarX;
 
 namespace RoboWarX.VM
@@ -12,6 +13,7 @@ namespace RoboWarX.VM
         private Dictionary<Int16, ITemplateRegister> registerMap;
         // Complete list of registers
         private List<ITemplateRegister> registerList;
+        public ReadOnlyCollection<ITemplateRegister> registers { get; private set; }
         
         // Ordered list of interrupts, split at the 1000 threshold
         private SortedList<int, ITemplateRegister> interruptList;
@@ -21,14 +23,16 @@ namespace RoboWarX.VM
         // the interrupt's order.
         private SortedList<int, ITemplateRegister> interruptQueue;
         // Interrupts enabled?
-        private bool interruptsEnabled;
+        public bool interruptsEnabled { get; private set; }
 
         // The program
-        internal List<Int16> program;
+        private List<Int16> program_;
+        public ReadOnlyCollection<Int16> program { get; private set; }
         // The program stack
-        internal Stack<Int16> stack;
+        private Stack<Int16> stack_;
+        public IEnumerable<Int16> stack { get { return stack_; } }
         // The program counter
-        internal Int16 pc;
+        public Int16 pc { get; private set; }
         
         // Vector storage
         private Int16[] vector;
@@ -37,12 +41,14 @@ namespace RoboWarX.VM
         {
             registerMap = new Dictionary<Int16, ITemplateRegister>(67);
             registerList = new List<ITemplateRegister>(67);
+            registers = new ReadOnlyCollection<ITemplateRegister>(registerList);
             interruptList = new SortedList<int,ITemplateRegister>(11);
             lateInterruptList = new SortedList<int,ITemplateRegister>(3);
             interruptQueue = new SortedList<int,ITemplateRegister>(11);
             interruptsEnabled = false;
-            program = new List<Int16>(512);
-            stack = new Stack<Int16>(100);
+            program_ = new List<Int16>(512);
+            program = new ReadOnlyCollection<Int16>(program_);
+            stack_ = new Stack<Int16>(100);
             pc = 0;
             vector = new Int16[101];
         }
@@ -56,7 +62,7 @@ namespace RoboWarX.VM
         // Load the program from the stream, byte swapping along the way
         public void loadProgram(Stream source)
         {
-            if (program.Count > 0)
+            if (program_.Count > 0)
                 throw new ArgumentException("Program already loaded.");
 
             Int16 op = (Int16)Bytecodes.INVALID_CODE;
@@ -71,8 +77,8 @@ namespace RoboWarX.VM
                 else
                     op = BitConverter.ToInt16(bytes, 0);
                 
-                program.Add(op);
-                if (program.Count > (int)Bytecodes.NUM_MAX_CODE)
+                program_.Add(op);
+                if (program_.Count > (int)Bytecodes.NUM_MAX_CODE)
                     throw new OverflowException("Program exceeds maximum size.");
             }
         }
@@ -166,7 +172,7 @@ namespace RoboWarX.VM
             
             try
             {
-                stack.Push(pc);
+                stack_.Push(pc);
             }
             catch (StackOverflowException e)
             {
@@ -182,7 +188,7 @@ namespace RoboWarX.VM
             if ((code >= (int)Bytecodes.NUM_MIN_CODE && code <= (int)Bytecodes.NUM_MAX_CODE) ||
                 code >= (int)Bytecodes.REG_MIN_CODE)
             {
-                stack.Push(code);
+                stack_.Push(code);
                 return 1;
             }
             else if (code >= (int)Bytecodes.OP_MIN_CODE && code <= (int)Bytecodes.OP_MAX_CODE)
@@ -265,7 +271,7 @@ namespace RoboWarX.VM
 
             int cost = opcode(program[pc++]);
             
-            if (stack.Count > 100)
+            if (stack_.Count > 100)
                 throw new VMachineException(this, "Stack overflow.");
             
             return cost;
