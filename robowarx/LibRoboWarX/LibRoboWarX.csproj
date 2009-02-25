@@ -97,14 +97,14 @@
     <Compile Include="Resources.cs" />
     <Compile Include="VirtualMachine\Interpreter.cs" />
     <Compile Include="VirtualMachine\Operators.cs" />
-    <Compile Include="Weapons\Bullet.cs" />
-    <Compile Include="Weapons\Drone.cs" />
-    <Compile Include="Weapons\Hellbore.cs" />
-    <Compile Include="Weapons\Laser.cs" />
-    <Compile Include="Weapons\Mine.cs" />
-    <Compile Include="Weapons\Missile.cs" />
-    <Compile Include="Weapons\Stunner.cs" />
-    <Compile Include="Weapons\TacNuke.cs" />
+    <Compile Include="Arena\Weapons\Bullet.cs" />
+    <Compile Include="Arena\Weapons\Drone.cs" />
+    <Compile Include="Arena\Weapons\Hellbore.cs" />
+    <Compile Include="Arena\Weapons\Laser.cs" />
+    <Compile Include="Arena\Weapons\Mine.cs" />
+    <Compile Include="Arena\Weapons\Missile.cs" />
+    <Compile Include="Arena\Weapons\Stunner.cs" />
+    <Compile Include="Arena\Weapons\TacNuke.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Graphics\armedmine.png">
