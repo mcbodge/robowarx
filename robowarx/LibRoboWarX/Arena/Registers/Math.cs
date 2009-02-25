@@ -86,7 +86,7 @@ namespace RoboWarX.Arena.Registers
             set {}
         }
     }
-	
+    
     // A random number from 0 to 359. May only be read.
     internal class RandomRegister : Register
     {
