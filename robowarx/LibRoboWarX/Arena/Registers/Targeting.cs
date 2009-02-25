@@ -24,8 +24,6 @@ namespace RoboWarX.Arena.Registers
                     robot.aim += 360;
             }
         }
-
-        public override Object Clone() { return new AimRegister(); }
     }
 
     // Targeting offset from AIM. The RANGE command returns a distance to the nearest robot in the
@@ -49,8 +47,6 @@ namespace RoboWarX.Arena.Registers
                     robot.look += 360;
             }
         }
-
-        public override Object Clone() { return new LookRegister(); }
     }
 
     // Similar to LOOK, the radar offset from the AIM. The RADAR command searches for projectiles
@@ -74,7 +70,5 @@ namespace RoboWarX.Arena.Registers
                     robot.scan += 360;
             }
         }
-
-        public override Object Clone() { return new ScanRegister(); }
     }
 }

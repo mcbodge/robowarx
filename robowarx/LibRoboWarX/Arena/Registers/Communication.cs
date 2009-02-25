@@ -22,8 +22,6 @@ namespace RoboWarX.Arena.Registers
                 robot.channel = value;
             }
         }
-
-        public override Object Clone() { return new ChannelRegister(); }
     }
     
     // The signal value on the robot’s current channel. May be read or written. If it is read, it
@@ -69,7 +67,5 @@ namespace RoboWarX.Arena.Registers
             // FIXME
             return false;
         }
-
-        public override Object Clone() { return new SignalRegister(); }
     }
 }

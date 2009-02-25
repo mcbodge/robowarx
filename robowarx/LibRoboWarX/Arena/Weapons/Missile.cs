@@ -75,10 +75,5 @@ namespace RoboWarX.Arena.Weapons
                     robot.shoot(new MissileObject(), power);
             }
         }
-
-        public override Object Clone()
-        {
-            return new MissileRegister();
-        }
     }
 }

@@ -28,8 +28,6 @@ namespace RoboWarX.Arena.Registers
                 robot.x = newx;
             }
         }
-                    
-        public override Object Clone() { return new MoveXRegister(); }
     }
 
     // Used to move the robot a given distance in the Y direction without changing SPEEDY. MOVEY
@@ -55,8 +53,6 @@ namespace RoboWarX.Arena.Registers
                 robot.y = newy;
             }
         }
-        
-        public override Object Clone() { return new MoveYRegister(); }
     }
 	
     // Speed of robot in left-right direction. May be read or written. Positive speeds move right,
@@ -94,8 +90,6 @@ namespace RoboWarX.Arena.Registers
                 }
             }
         }
-
-        public override Object Clone() { return new SpeedXRegister(); }
     }
     
     // Speed of robot in up-down direction. May be read or written. Positive values move down,
@@ -130,7 +124,5 @@ namespace RoboWarX.Arena.Registers
                 }
             }
         }
-
-        public override Object Clone() { return new SpeedYRegister(); }
     }
 }

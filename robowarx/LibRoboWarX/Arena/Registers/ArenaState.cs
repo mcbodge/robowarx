@@ -29,8 +29,6 @@ namespace RoboWarX.Arena.Registers
         public override bool checkInterrupt() {
             return robot.parent.chronon >= param;
         }
-
-        public override Object Clone() { return new ChrononRegister(); }
     }
     
     // Number of robots alive. Returns the number of robots alive in the arena, including the robot
@@ -78,8 +76,6 @@ namespace RoboWarX.Arena.Registers
             
             return retval;
         }
-
-        public override Object Clone() { return new RobotsRegister(); }
     }
     
     // Number of living teammates, not including self. May only be read.
@@ -129,7 +125,5 @@ namespace RoboWarX.Arena.Registers
             
             return retval;
         }
-        
-        public override Object Clone() { return new TeamMatesRegister(); }
     }
 }

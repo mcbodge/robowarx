@@ -6,36 +6,27 @@ using RoboWarX;
 
 namespace RoboWarX.Compiler
 {
-    public class Compiler
+    public class Compiler : IRegisterBin
     {
         private Tokenizer tokenizer;
         private Stream output;
-        private Dictionary<String, ITemplateRegister> registers;
+        private Dictionary<String, Register> registers;
 
         public Compiler(TextReader input, Stream output)
         {
             tokenizer = new Tokenizer(input);
             this.output = output;
-            registers = new Dictionary<String, ITemplateRegister>(67);
+            registers = new Dictionary<String, Register>(67);
+			
+			// Load all the default registers
+			Arena.StockRegisters.inject(this);
         }
-
-        // Add the provided register to the registers attribute
-        public void loadRegister(ITemplateRegister register)
-        {
+		
+		public void addRegister(Register register)
+		{
             foreach (String name in register.names)
-            {
-                if (registers.ContainsKey(name))
-                    throw new ArgumentException("Register already loaded");
-
                 registers.Add(name, register);
-            }
-        }
-
-        // Load registers implemented by DLLs in the current directory
-        public void loadDefaults()
-        {
-            Util.loadDefaults(loadRegister);
-        }
+		}
 
         // Read text from input, compile, write binary to output
         public void compile()

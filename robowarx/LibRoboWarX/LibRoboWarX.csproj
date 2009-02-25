@@ -77,7 +77,6 @@
     <Compile Include="Arena\BigExplosion.cs" />
     <Compile Include="Arena\Explosion.cs" />
     <Compile Include="Arena\Projectile.cs" />
-    <Compile Include="Arena\Register.cs" />
     <Compile Include="Arena\Robot.cs" />
     <Compile Include="Arena\StockRegisters.cs" />
     <Compile Include="Compiler\Compiler.cs" />
@@ -91,8 +90,6 @@
     <Compile Include="FileFormats\WinRoboWar5.cs" />
     <Compile Include="Global\Bytescodes.cs" />
     <Compile Include="Global\Constants.cs" />
-    <Compile Include="Global\IPluginEntry.cs" />
-    <Compile Include="Global\ITemplateRegister.cs" />
     <Compile Include="Global\Util.cs" />
     <Compile Include="Resources.cs" />
     <Compile Include="VirtualMachine\Interpreter.cs" />
@@ -115,6 +112,8 @@
     <Compile Include="Arena\Registers\Communication.cs" />
     <Compile Include="Arena\Registers\Math.cs" />
     <Compile Include="Arena\Registers\Scanners.cs" />
+    <Compile Include="Global\Register.cs" />
+    <Compile Include="Global\IRegisterBin.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Graphics\armedmine.png">

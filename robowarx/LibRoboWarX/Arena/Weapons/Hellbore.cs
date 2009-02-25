@@ -100,10 +100,5 @@ namespace RoboWarX.Arena.Weapons
                     robot.shoot(new HellboreObject(), power);
             }
         }
-
-        public override Object Clone()
-        {
-            return new HellboreRegister();
-        }
     }
 }

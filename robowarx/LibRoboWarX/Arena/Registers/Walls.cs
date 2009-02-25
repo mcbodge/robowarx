@@ -37,8 +37,6 @@ namespace RoboWarX.Arena.Registers
             
             return retval;
         }
-
-        public override Object Clone() { return new BottomRegister(); }
     }
     
     // This register is used exclusively for interrupts. It has no effect if written and returns 0
@@ -74,8 +72,6 @@ namespace RoboWarX.Arena.Registers
             
             return retval;
         }
-
-        public override Object Clone() { return new LeftRegister(); }
     }
     
     // This register is used exclusively for interrupts. It has no effect if written and returns 0
@@ -112,8 +108,6 @@ namespace RoboWarX.Arena.Registers
             
             return retval;
         }
-
-        public override Object Clone() { return new RightRegister(); }
     }
     
     // This register is used exclusively for interrupts. It has no effect if written and returns 0
@@ -150,8 +144,6 @@ namespace RoboWarX.Arena.Registers
             
             return retval;
         }
-
-        public override Object Clone() { return new TopRegister(); }
     }
 
     // Is the robot touching the electrified walls? Returns 1 when read if the robot is touching
@@ -191,7 +183,5 @@ namespace RoboWarX.Arena.Registers
             
             return retval;
         }
-
-        public override Object Clone() { return new WallRegister(); }
     }
 }

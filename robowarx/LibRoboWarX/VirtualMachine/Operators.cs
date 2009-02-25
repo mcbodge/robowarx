@@ -92,7 +92,7 @@ namespace RoboWarX.VM
             Int16 where = stack_.Pop();
             if (where < (int)Bytecodes.REG_MIN_CODE)
                 throw new VMachineException(this, "Invalid destination register.");
-            ITemplateRegister whereobj = registerMap[where];
+            Register whereobj = registerMap[where];
             whereobj.value = stack_.Pop();
             return 1;
         }
@@ -197,7 +197,7 @@ namespace RoboWarX.VM
             Int16 what = stack_.Pop();
             if (what < (int)Bytecodes.REG_MIN_CODE)
                 throw new VMachineException(this, "Invalid register.");
-            ITemplateRegister whatobj = registerMap[what];
+            Register whatobj = registerMap[what];
             stack_.Push(whatobj.value);
             return 1;
         }
@@ -475,7 +475,7 @@ namespace RoboWarX.VM
             Int16 where = stack_.Pop();
             if (where < (int)Bytecodes.REG_MIN_CODE)
                 throw new VMachineException(this, "Illegal interrupt name.");
-            ITemplateRegister whereobj = registerMap[where];
+            Register whereobj = registerMap[where];
             Int16 target = stack_.Pop();
             if (target < 0 || target >= program.Count)
                 throw new VMachineException(this, "Interrupt destination not in program.");
@@ -488,7 +488,7 @@ namespace RoboWarX.VM
             Int16 where = stack_.Pop();
             if (where < (int)Bytecodes.REG_MIN_CODE)
                 throw new VMachineException(this, "Illegal interrupt name.");
-            ITemplateRegister whereobj = registerMap[where];
+            Register whereobj = registerMap[where];
             whereobj.param = stack_.Pop();
             return 1;
         }

@@ -49,7 +49,6 @@ namespace RoboWarX.FileFormats
             MemoryStream output = new MemoryStream();
             Compiler.Compiler cc = new Compiler.Compiler(
                 new StringReader(code), output);
-            cc.loadDefaults();
             cc.compile();
             program = output.ToArray();
         }

@@ -88,7 +88,6 @@ namespace RoboWarX.GTK
             stop_game();
             
             arena = new Arena.Arena();
-            arena.loadDefaults();
             
             arenaview.arena = arena;
             arenaview.QueueDraw();

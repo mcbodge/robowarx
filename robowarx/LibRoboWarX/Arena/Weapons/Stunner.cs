@@ -102,10 +102,5 @@ namespace RoboWarX.Arena.Weapons
                     robot.shoot(new StunnerObject(), power);
             }
         }
-
-        public override Object Clone()
-        {
-            return new StunnerRegister();
-        }
     }
 }

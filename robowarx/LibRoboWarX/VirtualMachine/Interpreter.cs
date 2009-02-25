@@ -7,21 +7,21 @@ using RoboWarX;
 
 namespace RoboWarX.VM
 {
-    public partial class Interpreter
+    public partial class Interpreter : IRegisterBin
     {
         // Complete map of bytecodes to registers
-        private Dictionary<Int16, ITemplateRegister> registerMap;
+        private Dictionary<Int16, Register> registerMap;
         // Complete list of registers
-        private List<ITemplateRegister> registerList;
-        public ReadOnlyCollection<ITemplateRegister> registers { get; private set; }
+        private List<Register> registerList;
+        public ReadOnlyCollection<Register> registers { get; private set; }
         
         // Ordered list of interrupts, split at the 1000 threshold
-        private SortedList<int, ITemplateRegister> interruptList;
-        private SortedList<int, ITemplateRegister> lateInterruptList;
+        private SortedList<int, Register> interruptList;
+        private SortedList<int, Register> lateInterruptList;
         // Queue of pending interrupts
         // We can't use the Queue type here, because even the queue is kept sorted according to
         // the interrupt's order.
-        private SortedList<int, ITemplateRegister> interruptQueue;
+        private SortedList<int, Register> interruptQueue;
         // Interrupts enabled?
         public bool interruptsEnabled { get; private set; }
 
@@ -39,12 +39,12 @@ namespace RoboWarX.VM
 
         public Interpreter()
         {
-            registerMap = new Dictionary<Int16, ITemplateRegister>(67);
-            registerList = new List<ITemplateRegister>(67);
-            registers = new ReadOnlyCollection<ITemplateRegister>(registerList);
-            interruptList = new SortedList<int,ITemplateRegister>(11);
-            lateInterruptList = new SortedList<int,ITemplateRegister>(3);
-            interruptQueue = new SortedList<int,ITemplateRegister>(11);
+            registerMap = new Dictionary<Int16, Register>(67);
+            registerList = new List<Register>(67);
+            registers = new ReadOnlyCollection<Register>(registerList);
+            interruptList = new SortedList<int,Register>(11);
+            lateInterruptList = new SortedList<int,Register>(3);
+            interruptQueue = new SortedList<int,Register>(11);
             interruptsEnabled = false;
             program_ = new List<Int16>(512);
             program = new ReadOnlyCollection<Int16>(program_);
@@ -58,6 +58,19 @@ namespace RoboWarX.VM
         {
             loadProgram(source);
         }
+		
+		public void addRegister(Register register)
+		{
+            registerMap.Add(register.code, register);
+            registerList.Add(register);
+            if (register.order != -1)
+            {
+                if (register.order < 1000)
+                    interruptList.Add(register.order, register);
+                else
+                    lateInterruptList.Add(register.order, register);
+			}
+		}
 
         // Load the program from the stream, byte swapping along the way
         public void loadProgram(Stream source)
@@ -83,35 +96,10 @@ namespace RoboWarX.VM
             }
         }
 
-        // Add the provided register to the registerMap attribute
-        public void loadRegister(ITemplateRegister register)
-        {
-            Int16 code = register.code;
-
-            if (registerMap.ContainsKey(code))
-                throw new ArgumentException("Register already loaded.");
-
-            registerMap.Add(code, register);
-            registerList.Add(register);
-            if (register.order != -1)
-            {
-                if (register.order < 1000)
-                    interruptList.Add(register.order, register);
-                else
-                    lateInterruptList.Add(register.order, register);
-            }
-        }
-
-        // Load registers implemented by DLLs in the current directory
-        public void loadDefaults()
-        {
-            Util.loadDefaults(loadRegister);
-        }
-
         public void processInterrupts()
         {
             // Lower than 1000 loop
-            foreach (ITemplateRegister reg in interruptList.Values)
+            foreach (Register reg in interruptList.Values)
             {
                 // Interrupt target set?
                 if (reg.interrupt == -1) continue;
@@ -130,7 +118,7 @@ namespace RoboWarX.VM
                 return;
             
             // 1000 or greater loop
-            foreach (ITemplateRegister reg in lateInterruptList.Values)
+            foreach (Register reg in lateInterruptList.Values)
             {
                 // Interrupt target set?
                 if (reg.interrupt == -1) continue;
@@ -152,7 +140,7 @@ namespace RoboWarX.VM
                 if (interruptQueue.Count == 0) return false;
                 
                 // Pop
-                ITemplateRegister reg = interruptQueue.Values[0];
+                Register reg = interruptQueue.Values[0];
                 interruptQueue.Remove(reg.order);
                 
                 // Skip if the target was unset
@@ -164,7 +152,7 @@ namespace RoboWarX.VM
             }
         }
         
-        private void fireInterrupt(ITemplateRegister reg)
+        private void fireInterrupt(Register reg)
         {
             // The robot should clean up with RTI (or INTON).
             // These instructions will cause the next pending interrupt to dequeue

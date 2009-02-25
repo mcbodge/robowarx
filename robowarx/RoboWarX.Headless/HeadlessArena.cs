@@ -67,7 +67,6 @@ namespace RoboWarX.Headless
         private void new_game()
         {
             arena = new Arena.Arena();
-            arena.loadDefaults();
             arena.chrononLimit = ChrononLimit;
             robots.Clear();
         }
