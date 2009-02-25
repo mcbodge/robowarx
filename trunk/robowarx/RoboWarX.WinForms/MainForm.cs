@@ -34,7 +34,6 @@ namespace RoboWarX.WinForms
         private void new_game()
         {
             arena = new Arena.Arena();
-            arena.loadDefaults();
             arenaview.arena = arena;
             chrononlabel.Text = "Chronon 0";
             foreach (RobotControl c in robotlist)

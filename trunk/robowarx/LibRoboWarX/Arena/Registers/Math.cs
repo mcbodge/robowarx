@@ -85,8 +85,6 @@ namespace RoboWarX.Arena.Registers
             }
             set {}
         }
-
-        public override Object Clone() { return new DopplerRegister(); }
     }
 	
     // A random number from 0 to 359. May only be read.
@@ -102,7 +100,5 @@ namespace RoboWarX.Arena.Registers
             get { return (Int16)(robot.parent.prng.Next(0, 359)); }
             set {}
         }
-
-        public override Object Clone() { return new RandomRegister(); }
     }
 }

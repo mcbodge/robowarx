@@ -97,11 +97,6 @@ namespace RoboWarX.Arena.Weapons
             {
             }
         }
-
-        public override Object Clone()
-        {
-            return new BulletRegister();
-        }
     }
 
     // Used to shoot bullets. Returns 0 if read, shoots bullet with energy investment equal to
@@ -138,11 +133,6 @@ namespace RoboWarX.Arena.Weapons
                 if (power > 0)
                     robot.shoot(new BulletObject(), power, robot.hardware.gunType);
             }
-        }
-
-        public override Object Clone()
-        {
-            return new FireRegister();
         }
     }
 }

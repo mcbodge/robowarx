@@ -40,8 +40,6 @@ namespace RoboWarX.Arena.Registers
             
             return retval;
         }
-
-        public override Object Clone() { return new DamageRegister(); }
     }
     
     // Robot’s current energy. May be read, but not written. ENERGY returns the amount of energy
@@ -61,8 +59,6 @@ namespace RoboWarX.Arena.Registers
             get { return (Int16)robot.energy; }
             set {}
         }
-
-        public override Object Clone() { return new EnergyRegister(); }
     }
     
     // Robot's unique ID number. Each robot in the Arena has an ID from 0-5; it can be used to tell
@@ -79,8 +75,6 @@ namespace RoboWarX.Arena.Registers
             get { return (Int16)robot.number; }
             set {}
         }
-
-        public override Object Clone() { return new IDRegister(); }
     }
 
     // Robot’s current shield level. May be read or written. If read, it returns the current level
@@ -141,8 +135,6 @@ namespace RoboWarX.Arena.Registers
             
             return retval;
         }
-
-        public override Object Clone() { return new ShieldRegister(); }
     }
     
     // X position of robot. May range from 0 to 300 (the boundaries of the board). 0 is the left
@@ -159,8 +151,6 @@ namespace RoboWarX.Arena.Registers
             get { return (Int16)robot.x; }
             set {}
         }
-
-        public override Object Clone() { return new XRegister(); }
     }
     
     // Y position of robot. May range from 0 to 300. 0 is the top; 300 is the bottom. Y may be read
@@ -177,7 +167,5 @@ namespace RoboWarX.Arena.Registers
             get { return (Int16)robot.y; }
             set {}
         }
-
-        public override Object Clone() { return new YRegister(); }
     }
 }

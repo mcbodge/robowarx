@@ -38,8 +38,6 @@ namespace RoboWarX.Arena.Registers
             
             return retval;
         }
-
-        public override Object Clone() { return new CollisionRegister(); }
     }
 	
     // Is the robot sensed in a collision on your team? FRIEND can only be read. If the collision
@@ -59,8 +57,6 @@ namespace RoboWarX.Arena.Registers
             get { return (Int16)(robot.friend ? 1 : 0); }
             set {}
         }
-
-        public override Object Clone() { return new FriendRegister(); }
     }
 	
     // Long range probe of opponent's systems. Returns information about the target in the
@@ -161,8 +157,6 @@ namespace RoboWarX.Arena.Registers
                 }
             }
         }
-        
-        public override Object Clone() { return new ProbeRegister(); }
     }
 	
     // Range to nearest bullet, missile, mine, stunner or TacNuke in the path of AIM. May only be
@@ -215,8 +209,6 @@ namespace RoboWarX.Arena.Registers
             Int16 dist = value;
             return dist > 0 && dist <= param;
         }
-
-        public override Object Clone() { return new RadarRegister(); }
     }
 	
     // Range to nearest target in sights. May only be read. If there is a target in the direction
@@ -291,7 +283,5 @@ namespace RoboWarX.Arena.Registers
             else
                 return false;
         }
-
-        public override Object Clone() { return new RangeRegister(); }
     }
 }

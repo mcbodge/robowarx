@@ -60,8 +60,6 @@ namespace RoboWarX.Arena.Registers
                 index = value - 1;
             }
         }
-
-        public override Object Clone() { return new HistoryRegister(); }
     }
     
     // The number of kills the robot has made in this battle. A robot gets no credit for killing
@@ -78,7 +76,5 @@ namespace RoboWarX.Arena.Registers
             get { return (Int16)robot.kills; }
             set {}
         }
-
-        public override Object Clone() { return new KillsRegister(); }
     }
 }

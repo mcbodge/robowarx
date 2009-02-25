@@ -17,9 +17,7 @@ namespace RoboWarX.Arena
         // FIXME: I doubt Random's behavior matches the routines used two decades ago.
         internal Random prng { get; set; }
         
-        // Registers are loaded into the arena, which in turn loads them into the robot's
-        // interpreter
-        private List<ITemplateRegister> registers;
+		// The robots in the arena
         private List<Robot> robots_;
         public IList<Robot> robots { get; private set; }
         
@@ -65,8 +63,6 @@ namespace RoboWarX.Arena
 
         public Arena(int seed)
         {
-            registers = new List<ITemplateRegister>(67);
-            
             robots_ = new List<Robot>(Constants.MAX_ROBOTS);
             robots = new ReadOnlyCollection<Robot>(robots_);
             
@@ -367,12 +363,6 @@ namespace RoboWarX.Arena
             newObjects.Add(obj);
         }
 
-        // Load registers implemented by DLLs in the current directory
-        public void loadDefaults()
-        {
-            Util.loadDefaults(delegate(ITemplateRegister register) { registers.Add(register); });
-        }
-
         // Instantiate a Robot based on the loaded RobotFile
         public Robot loadRobot(RobotFile f)
         {
@@ -402,14 +392,6 @@ namespace RoboWarX.Arena
 
             // Instantiate
             Robot robot = new Robot(this, x, y, robots.Count, f);
-
-            // Insert the loaded registers
-            foreach (ITemplateRegister register in registers)
-            {
-                Register clone = register.Clone() as Register;
-                clone.robot = robot;
-                robot.interp.loadRegister(clone);
-            }
 
             // Update state
             robots_.Add(robot);

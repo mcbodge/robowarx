@@ -140,7 +140,7 @@ namespace RoboWarX.Arena
         Buggy
     }
 
-    public sealed class Robot : ArenaObject
+    public sealed class Robot : ArenaObject, IRegisterBin
     {
         public RobotFile file { get; private set; }
         
@@ -188,6 +188,9 @@ namespace RoboWarX.Arena
             this.file = file;
             
             interp = new Interpreter(new MemoryStream(file.program));
+			
+			// Load all the default registers
+			StockRegisters.inject(this);
             
             team = 0;
             alive = true;
@@ -225,6 +228,12 @@ namespace RoboWarX.Arena
         {
             get { return file.name; }
         }
+		
+		public void addRegister(Register register)
+		{
+			register.robot = this;
+			interp.addRegister(register);
+		}
 
         // We got hit by someone
         public bool doShotDamage(int amount, Robot from)

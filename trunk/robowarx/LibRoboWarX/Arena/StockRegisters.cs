@@ -3,13 +3,14 @@ using RoboWarX;
 using RoboWarX.Arena.Registers;
 using RoboWarX.Arena.Weapons;
 
-namespace RoboWarX.Arena.StockRegisters
+namespace RoboWarX.Arena
 {
-    public class StockPluginEntry : IPluginEntry
+    public static class StockRegisters
     {
-        public ITemplateRegister[] getPrototypes()
+        public static Register[] instantiate()
         {
-            ITemplateRegister[] retval = new ITemplateRegister[61];
+            Register[] retval = new Register[61];
+			
             for (char c = 'A'; c <= 'Z'; c++)
             {
                 if (c == 'X' || c == 'Y')
@@ -49,6 +50,7 @@ namespace RoboWarX.Arena.StockRegisters
             retval[53] = new TeamMatesRegister();
             retval[54] = new TopRegister();
             retval[55] = new WallRegister();
+			
 			retval[56] = new BulletRegister();
 			retval[57] = new FireRegister();
 			retval[58] = new MissileRegister();
@@ -57,5 +59,12 @@ namespace RoboWarX.Arena.StockRegisters
 			
             return retval;
         }
+		
+		public static void inject(IRegisterBin bin)
+		{
+			Register[] defaultRegisters = instantiate();
+			foreach (Register register in defaultRegisters)
+				bin.addRegister(register);
+		}
     }
 }

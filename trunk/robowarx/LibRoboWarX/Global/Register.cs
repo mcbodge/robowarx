@@ -1,23 +1,18 @@
 using System;
 using RoboWarX;
-using RoboWarX.VM;
 
-namespace RoboWarX.Arena
+namespace RoboWarX
 {
     // Convenience base class for registers.
-    public abstract class Register : ITemplateRegister
+    public abstract class Register
     {
-        // For IClonable
-        public abstract Object Clone();
-
         // Naming
         public virtual Int16 code { get; protected set; }
         protected virtual string name { get; set; }
         public virtual String[] names { get { return new string[] { name }; } }
         
-        // Upward accessors
-        public Robot robot { get; internal set; }
-        public Interpreter interp { get { return robot.interp; } }
+        // Upward accessor
+        public Arena.Robot robot { get; internal set; }
 
         // Core functionality
         public abstract Int16 value { get; set; }
