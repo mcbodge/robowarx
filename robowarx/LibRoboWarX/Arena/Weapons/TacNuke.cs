@@ -2,7 +2,7 @@ using System;
 using RoboWarX;
 using RoboWarX.Arena;
 
-namespace RoboWarX.Weapons.TacNuke
+namespace RoboWarX.Arena.Weapons
 {
     // FIXME: undocumented
     // FIXME: implement

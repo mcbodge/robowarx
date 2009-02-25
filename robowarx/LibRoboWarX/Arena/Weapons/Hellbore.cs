@@ -3,12 +3,12 @@ using System.Drawing;
 using RoboWarX;
 using RoboWarX.Arena;
 
-namespace RoboWarX.Weapons.Hellbore
+namespace RoboWarX.Arena.Weapons
 {
     // Our small explosion type
     internal class HellboreExplosion : BaseExplosion
     {
-        public HellboreExplosion(Arena.Arena P, double X, double Y) : base(P, X, Y) { }
+        public HellboreExplosion(Arena P, double X, double Y) : base(P, X, Y) { }
         
         public void onSpawn(Robot owner_, Robot target_)
         {
@@ -27,7 +27,7 @@ namespace RoboWarX.Weapons.Hellbore
         public override bool offset { get { return true; } }
         public override bool collideProjectiles { get { return false; } }
 
-        public HellboreObject(Arena.Arena P, double X, double Y) : base(P, X, Y) { }
+        public HellboreObject(Arena P, double X, double Y) : base(P, X, Y) { }
         public HellboreObject() { }
         public override void onShoot(int energy_, params object[] args )
         {
@@ -104,16 +104,6 @@ namespace RoboWarX.Weapons.Hellbore
         public override Object Clone()
         {
             return new HellboreRegister();
-        }
-    }
-
-    // Hellbore plugin entry
-    public class HellboreEntry : IPluginEntry
-    {
-        public ITemplateRegister[] getPrototypes()
-        {
-            HellboreRegister hellbore = new HellboreRegister();
-            return new ITemplateRegister[] { hellbore };
         }
     }
 }
