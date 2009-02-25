@@ -105,6 +105,16 @@
     <Compile Include="Arena\Weapons\Missile.cs" />
     <Compile Include="Arena\Weapons\Stunner.cs" />
     <Compile Include="Arena\Weapons\TacNuke.cs" />
+    <Compile Include="Arena\Registers\Custom.cs" />
+    <Compile Include="Arena\Registers\Targeting.cs" />
+    <Compile Include="Arena\Registers\RobotState.cs" />
+    <Compile Include="Arena\Registers\ArenaState.cs" />
+    <Compile Include="Arena\Registers\Walls.cs" />
+    <Compile Include="Arena\Registers\Movement.cs" />
+    <Compile Include="Arena\Registers\Statistics.cs" />
+    <Compile Include="Arena\Registers\Communication.cs" />
+    <Compile Include="Arena\Registers\Math.cs" />
+    <Compile Include="Arena\Registers\Scanners.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Graphics\armedmine.png">
@@ -192,4 +202,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <Folder Include="Arena\Registers/" />
+  </ItemGroup>
 </Project>
