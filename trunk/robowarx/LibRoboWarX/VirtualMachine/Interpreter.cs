@@ -53,8 +53,7 @@ namespace RoboWarX.VM
             vector = new Int16[101];
         }
 
-        public Interpreter(Stream source)
-            : this()
+        public Interpreter(Stream source) : this()
         {
             loadProgram(source);
         }
