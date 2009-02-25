@@ -181,6 +181,8 @@ namespace RoboWarX.Arena
         public int channel { get; internal set; }
         internal Int16[] signals { get; set; }
 
+        public String name { get { return file.name; } }
+
         // Robot is the only ArenaObject with no OnSpawn.
         internal Robot(Arena P, double X, double Y, int number, RobotFile file) : base(P, X, Y)
         {
@@ -222,11 +224,6 @@ namespace RoboWarX.Arena
             
             // FIXME: actually implement signals
             signals = new Int16[10];
-        }
-
-        public String name
-        {
-            get { return file.name; }
         }
 		
 		public void addRegister(Register register)
