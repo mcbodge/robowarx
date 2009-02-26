@@ -86,6 +86,43 @@ namespace RoboWarX.Arena
 
         public Arena() : this(new Random().Next()) {}
 
+        // Instantiate a Robot based on the loaded RobotFile
+        public Robot loadRobot(RobotFile f)
+        {
+            // FIXME: Can this be done during a match?
+            
+            // Arena full?
+            if (robots.Count == Constants.MAX_ROBOTS)
+                return null;
+
+            // Try to find a starting position not too close to the other robots.
+            // FIXME: construct a list of starting positions in the constructor
+            // so the outcome of prng.Next() is consistent.
+            int x, y;
+            double dist;
+            do
+            {
+                x = prng.Next(Constants.ARENA_SIZE - 30) + 15;
+                y = prng.Next(Constants.ARENA_SIZE - 30) + 15;
+                dist = 1000;
+                foreach (Robot other in robots)
+                {
+                    double test = Math.Pow(x - other.x, 2) + Math.Pow(y - other.y, 2);
+                    if (test < dist)
+                        dist = test;
+                }
+            } while (dist < 625);
+
+            // Instantiate
+            Robot robot = new Robot(this, x, y, robots.Count, f);
+
+            // Update state
+            robots_.Add(robot);
+            numAlive++;
+
+            return robot;
+        }
+
         // Check whether a robot is colliding with another or the wall.
         // Also sets some critical attributes used by registers, like friend and wall.
         // Pretty much an exact translation of the original routine.
@@ -212,6 +249,41 @@ namespace RoboWarX.Arena
             }
         }
 
+        // Instantiate a new ArenaObject subclass
+        internal ArenaObject spawn(Type objtype, double x, double y, params object[] parameters)
+        {
+            if (!objtype.IsSubclassOf(typeof(ArenaObject)))
+                throw new ArenaObjectExtensionException(
+                    "Object type is not an ArenaObject subclass");
+            if (objtype == typeof(Robot))
+                throw new ArgumentException("I won't allow you to spawn Robots!");
+
+            List<Type> types = new List<Type>(parameters.Length);
+
+            // Create the ArenaObject. Subclasses should implement
+            // minimal constructors, and instead do most things in onSpawn.
+            ArenaObject retval = Activator.CreateInstance(objtype, this, x, y) as ArenaObject;
+
+            // Call onSpawn if applicable
+            types.Clear();
+            foreach (object parameter in parameters)
+                types.Add(parameter.GetType());
+            MethodInfo minfo = objtype.GetMethod("onSpawn", types.ToArray());
+            if (minfo != null)
+                minfo.Invoke(retval, parameters);
+            else if (parameters.Length > 0)
+                throw new ArenaObjectExtensionException(
+                    "Cannot find a suitable onSpawn method for ArenaObject");
+
+            newObjects.Add(retval);
+            return retval;
+        }
+
+        internal void RegisterObject(ArenaObject obj)
+        {
+            newObjects.Add(obj);
+        }
+
         // This is so the loop doesn't do unexpected things when the
         // object lists change during an object update.
         private void updateObjects()
@@ -326,78 +398,6 @@ namespace RoboWarX.Arena
                 throw errors[0];
             else if (errors.Count > 1)
                 throw new MultipleErrorsException(errors.ToArray());
-        }
-
-        // Instantiate a new ArenaObject subclass
-        internal ArenaObject spawn(Type objtype, double x, double y, params object[] parameters)
-        {
-            if (!objtype.IsSubclassOf(typeof(ArenaObject)))
-                throw new ArenaObjectExtensionException(
-                    "Object type is not an ArenaObject subclass");
-            if (objtype == typeof(Robot))
-                throw new ArgumentException("I won't allow you to spawn Robots!");
-
-            List<Type> types = new List<Type>(parameters.Length);
-
-            // Create the ArenaObject. Subclasses should implement
-            // minimal constructors, and instead do most things in onSpawn.
-            ArenaObject retval = Activator.CreateInstance(objtype, this, x, y) as ArenaObject;
-
-            // Call onSpawn if applicable
-            types.Clear();
-            foreach (object parameter in parameters)
-                types.Add(parameter.GetType());
-            MethodInfo minfo = objtype.GetMethod("onSpawn", types.ToArray());
-            if (minfo != null)
-                minfo.Invoke(retval, parameters);
-            else if (parameters.Length > 0)
-                throw new ArenaObjectExtensionException(
-                    "Cannot find a suitable onSpawn method for ArenaObject");
-
-            newObjects.Add(retval);
-            return retval;
-        }
-
-        internal void RegisterObject(ArenaObject obj)
-        {
-            newObjects.Add(obj);
-        }
-
-        // Instantiate a Robot based on the loaded RobotFile
-        public Robot loadRobot(RobotFile f)
-        {
-            // FIXME: Can this be done during a match?
-            
-            // Arena full?
-            if (robots.Count == Constants.MAX_ROBOTS)
-                return null;
-
-            // Try to find a starting position not too close to the other robots.
-            // FIXME: construct a list of starting positions in the constructor
-            // so the outcome of prng.Next() is consistent.
-            int x, y;
-            double dist;
-            do
-            {
-                x = prng.Next(Constants.ARENA_SIZE - 30) + 15;
-                y = prng.Next(Constants.ARENA_SIZE - 30) + 15;
-                dist = 1000;
-                foreach (Robot other in robots)
-                {
-                    double test = Math.Pow(x - other.x, 2) + Math.Pow(y - other.y, 2);
-                    if (test < dist)
-                        dist = test;
-                }
-            } while (dist < 625);
-
-            // Instantiate
-            Robot robot = new Robot(this, x, y, robots.Count, f);
-
-            // Update state
-            robots_.Add(robot);
-            numAlive++;
-
-            return robot;
         }
 
         public void draw(Graphics gfx)
