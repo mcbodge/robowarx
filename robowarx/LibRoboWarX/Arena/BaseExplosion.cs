@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 
 namespace RoboWarX.Arena
@@ -19,9 +20,10 @@ namespace RoboWarX.Arena
             target = target_;
         }
 
-        public override void update()
+        public override IEnumerable<SimulationEvent> update()
         {
-            base.update();
+            foreach (SimulationEvent e in base.update())
+                yield return e;
 
             if (target != null)
                 impact();

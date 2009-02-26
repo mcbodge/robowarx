@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 
 namespace RoboWarX.Arena
@@ -24,10 +25,11 @@ namespace RoboWarX.Arena
 
         protected ArenaObject() { }
 
-        public virtual void update()
+        public virtual IEnumerable<SimulationEvent> update()
         {
             x += speedx;
             y += speedy;
+            yield break;
         }
 
         public void destroy()

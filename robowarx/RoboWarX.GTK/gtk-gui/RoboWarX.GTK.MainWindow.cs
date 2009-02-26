@@ -122,6 +122,7 @@ namespace RoboWarX.GTK {
             this.hbox8.Spacing = 12;
             // Container child hbox8.Gtk.Box+BoxChild
             this.hbuttonbox1 = new Gtk.HButtonBox();
+            this.hbuttonbox1.Name = "hbuttonbox1";
             this.hbuttonbox1.Spacing = 6;
             // Container child hbuttonbox1.Gtk.ButtonBox+ButtonBoxChild
             this.newbutton = new Gtk.Button();

@@ -95,7 +95,7 @@ namespace RoboWarX.VM
             }
         }
 
-        public void processInterrupts()
+        public Int16 processInterrupts()
         {
             // Lower than 1000 loop
             foreach (Register reg in interruptList.Values)
@@ -110,11 +110,12 @@ namespace RoboWarX.VM
             }
             
             // If an interrupt fires here, then late interrupts do not receive our love.
-            if (checkPendingInterrupts())
-                return;
+            Int16 retval = checkPendingInterrupts();
+            if (retval != (Int16)Bytecodes.INVALID_CODE)
+                return retval;
             // Even with interrupts disabled, the above queue fills up.
             if (!interruptsEnabled)
-                return;
+                return (Int16)Bytecodes.INVALID_CODE;
             
             // 1000 or greater loop
             foreach (Register reg in lateInterruptList.Values)
@@ -124,19 +125,23 @@ namespace RoboWarX.VM
                 if (reg.checkInterrupt())
                 {
                     fireInterrupt(reg);
-                    return;
+                    return reg.code;
                 }
             }
+            
+            return (Int16)Bytecodes.INVALID_CODE;
         }
         
-        private bool checkPendingInterrupts()
+        private Int16 checkPendingInterrupts()
         {
-            if (!interruptsEnabled) return false;
+            if (!interruptsEnabled)
+                return (Int16)Bytecodes.INVALID_CODE;
             
             // Find the next register and dequeue it.
             while (true)
             {
-                if (interruptQueue.Count == 0) return false;
+                if (interruptQueue.Count == 0)
+                    return (Int16)Bytecodes.INVALID_CODE;
                 
                 // Pop
                 Register reg = interruptQueue.Values[0];
@@ -146,7 +151,7 @@ namespace RoboWarX.VM
                 if (reg.interrupt != -1)
                 {
                     fireInterrupt(reg);
-                    return true;
+                    return reg.code;
                 }
             }
         }

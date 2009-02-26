@@ -114,6 +114,7 @@
     <Compile Include="Arena\Registers\Scanners.cs" />
     <Compile Include="Global\Register.cs" />
     <Compile Include="Global\IRegisterBin.cs" />
+    <Compile Include="Global\SimulationEvent.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Graphics\armedmine.png">
