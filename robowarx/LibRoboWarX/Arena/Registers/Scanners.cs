@@ -22,7 +22,7 @@ namespace RoboWarX.Arena.Registers
         public override Int16 value
         {
             get { return (Int16) (robot.collision ? 1 : 0); }
-            set {}
+            internal set {}
         }
         
         public override int order { get { return 300; } }
@@ -55,7 +55,7 @@ namespace RoboWarX.Arena.Registers
         public override Int16 value
         {
             get { return (Int16)(robot.friend ? 1 : 0); }
-            set {}
+            internal set {}
         }
     }
     
@@ -136,12 +136,12 @@ namespace RoboWarX.Arena.Registers
                 // FIXME: "not all code paths return a value".. Huh?
                 throw new Exception("RoboWarX internal error: should not reach.");
             }
-            set {}
+            internal set {}
         }
         
         public override Int16 param
         {
-            set
+            internal set
             {
                 switch (value)
                 {
@@ -200,7 +200,7 @@ namespace RoboWarX.Arena.Registers
                     return 0;
                 return (Int16)Math.Sqrt(close);
             }
-            set {}
+            internal set {}
         }
         
         public override int order { get { return 1200; } }
@@ -271,7 +271,7 @@ namespace RoboWarX.Arena.Registers
                     return 0;
                 return (Int16)retval;
             }
-            set {}
+            internal set {}
         }
         
         public override int order { get { return 1300; } }

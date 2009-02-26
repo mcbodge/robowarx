@@ -83,7 +83,7 @@ namespace RoboWarX.Arena.Registers
                 }
                 return 0;
             }
-            set {}
+            internal set {}
         }
     }
     
@@ -98,7 +98,7 @@ namespace RoboWarX.Arena.Registers
         public override Int16 value
         {
             get { return (Int16)(robot.parent.prng.Next(0, 359)); }
-            set {}
+            internal set {}
         }
     }
 }

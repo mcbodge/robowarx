@@ -16,6 +16,6 @@ namespace RoboWarX.Arena.Registers
         
         // FIXME: mono doesn't like autoimpl property overrides
         private Int16 value_;
-        public override Int16 value { get { return value_; } set { value_ = value; } }
+        public override Int16 value { get { return value_; } internal set { value_ = value; } }
     }
 }

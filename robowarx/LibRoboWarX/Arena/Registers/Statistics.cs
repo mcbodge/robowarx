@@ -43,7 +43,7 @@ namespace RoboWarX.Arena.Registers
         public override Int16 value
         {
             get { return robot.history[index]; }
-            set
+            internal set
             {
                 if (index < 30)
                     throw new HardwareException(this.robot, "Store to reserved history register.");
@@ -53,7 +53,7 @@ namespace RoboWarX.Arena.Registers
 
         public override Int16 param
         {
-            set
+            internal set
             {
                 if (value <= 0 || value > robot.history.Length)
                     throw new HardwareException(this.robot, "Illegal history value.");
@@ -74,7 +74,7 @@ namespace RoboWarX.Arena.Registers
         public override Int16 value
         {
             get { return (Int16)robot.kills; }
-            set {}
+            internal set {}
         }
     }
 }

@@ -21,7 +21,7 @@ namespace RoboWarX.Arena.Registers
         public override Int16 value
         {
             get { return (Int16)robot.parent.chronon; }
-            set {}
+            internal set {}
         }
         
         public override int order { get { return 1400; } }
@@ -58,7 +58,7 @@ namespace RoboWarX.Arena.Registers
                         retval++;
                 return retval;
             }
-            set {}
+            internal set {}
         }
         
         public override int order { get { return 750; } }
@@ -107,7 +107,7 @@ namespace RoboWarX.Arena.Registers
                         retval++;
                 return retval;
             }
-            set {}
+            internal set {}
         }
         
         public override int order { get { return 700; } }

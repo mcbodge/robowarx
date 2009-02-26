@@ -80,7 +80,7 @@ namespace RoboWarX.Arena.Weapons
                 return 0;
             }
 
-            set
+            internal set
             {
                 if (robot.hardware.gunType == BulletType.None ||
                         robot.hardware.gunType == BulletType.Rubber)
@@ -93,7 +93,7 @@ namespace RoboWarX.Arena.Weapons
 
         public override Int16 param
         {
-            set
+            internal set
             {
             }
         }
@@ -125,7 +125,7 @@ namespace RoboWarX.Arena.Weapons
                 return 0;
             }
 
-            set
+            internal set
             {
                 if (robot.hardware.gunType == BulletType.None)
                     throw new HardwareException(this.robot, "Gun not enabled.");

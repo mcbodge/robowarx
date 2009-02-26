@@ -15,12 +15,12 @@ namespace RoboWarX
         public Arena.Robot robot { get; internal set; }
 
         // Core functionality
-        public abstract Int16 value { get; set; }
+        public abstract Int16 value { get; internal set; }
         
         // Interrupt processing
         public virtual Int16 param {
             get { return 0; }
-            set
+            internal set
             {
                 throw new RobotException(robot, "Illegal interrupt name");
             }
@@ -28,7 +28,7 @@ namespace RoboWarX
         public virtual Int16 interrupt
         {
             get { return -1; }
-            set
+            internal set
             {
                 throw new RobotException(robot, "Illegal interrupt name");
             }
@@ -41,10 +41,10 @@ namespace RoboWarX
     {
         // FIXME: mono doesn't like autoimpl property overrides
         private Int16 param_;
-        public override Int16 param { get { return param_; } set { param_ = value;} }
+        public override Int16 param { get { return param_; } internal set { param_ = value;} }
         
         // FIXME: ditto
         private Int16 interrupt_;
-        public override Int16 interrupt { get { return interrupt_; } set { interrupt_ = value;} }
+        public override Int16 interrupt { get { return interrupt_; } internal set { interrupt_ = value;} }
     }
 }

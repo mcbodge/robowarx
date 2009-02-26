@@ -15,7 +15,7 @@ namespace RoboWarX.Arena.Registers
         public override Int16 value
         {
             get { return (Int16) robot.channel; }
-            set
+            internal set
             {
                 if (value < 1 || value > 10)
                     throw new HardwareException(this.robot, "Invalid channel (1-10).");
@@ -48,7 +48,7 @@ namespace RoboWarX.Arena.Registers
         public override Int16 value
         {
             get { return robot.signals[robot.channel]; }
-            set
+            internal set
             {
                 if (robot.team == 0)
                     robot.signals[robot.channel] = value;

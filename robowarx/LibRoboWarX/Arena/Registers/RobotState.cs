@@ -23,7 +23,7 @@ namespace RoboWarX.Arena.Registers
         public override Int16 value
         {
             get { return (Int16)robot.damage; }
-            set {}
+            internal set {}
         }
         
         public override int order { get { return 400; } }
@@ -57,7 +57,7 @@ namespace RoboWarX.Arena.Registers
         public override Int16 value
         {
             get { return (Int16)robot.energy; }
-            set {}
+            internal set {}
         }
     }
     
@@ -73,7 +73,7 @@ namespace RoboWarX.Arena.Registers
         public override Int16 value
         {
             get { return (Int16)robot.number; }
-            set {}
+            internal set {}
         }
     }
 
@@ -108,7 +108,7 @@ namespace RoboWarX.Arena.Registers
         public override Int16 value
         {
             get { return (Int16)robot.shield; }
-            set
+            internal set
             {
                 if (value < 0)
                     throw new HardwareException(this.robot, "Cannot set shield below zero.");
@@ -149,7 +149,7 @@ namespace RoboWarX.Arena.Registers
         public override Int16 value
         {
             get { return (Int16)robot.x; }
-            set {}
+            internal set {}
         }
     }
     
@@ -165,7 +165,7 @@ namespace RoboWarX.Arena.Registers
         public override Int16 value
         {
             get { return (Int16)robot.y; }
-            set {}
+            internal set {}
         }
     }
 }

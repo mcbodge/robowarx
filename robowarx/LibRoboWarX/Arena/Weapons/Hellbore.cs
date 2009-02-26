@@ -89,7 +89,7 @@ namespace RoboWarX.Arena.Weapons
                 return 0;
             }
 
-            set
+            internal set
             {
                 if (value < 4 || value > 20)
                     return;
