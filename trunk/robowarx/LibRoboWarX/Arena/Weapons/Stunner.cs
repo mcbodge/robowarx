@@ -91,7 +91,7 @@ namespace RoboWarX.Arena.Weapons
                 return 0;
             }
 
-            set
+            internal set
             {
                 if (value <= 0)
                     return;

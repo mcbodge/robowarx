@@ -21,7 +21,7 @@ namespace RoboWarX.Arena.Registers
         public override Int16 value
         {
             get { return 0; }
-            set {}
+            internal set {}
         }
         
         public override int order { get { return 550; } }
@@ -56,7 +56,7 @@ namespace RoboWarX.Arena.Registers
         public override Int16 value
         {
             get { return 0; }
-            set {}
+            internal set {}
         }
         
         public override int order { get { return 600; } }
@@ -92,7 +92,7 @@ namespace RoboWarX.Arena.Registers
         public override Int16 value
         {
             get { return 0; }
-            set {}
+            internal set {}
         }
         
         public override int order { get { return 650; } }
@@ -128,7 +128,7 @@ namespace RoboWarX.Arena.Registers
         public override Int16 value
         {
             get { return 0; }
-            set {}
+            internal set {}
         }
         
         public override int order { get { return 500; } }
@@ -161,7 +161,7 @@ namespace RoboWarX.Arena.Registers
         public override Int16 value
         {
             get { return (Int16) (robot.wall ? 1 : 0); }
-            set {}
+            internal set {}
         }
         
         public override int order { get { return 350; } }

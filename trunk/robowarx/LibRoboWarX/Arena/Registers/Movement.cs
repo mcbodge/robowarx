@@ -19,7 +19,7 @@ namespace RoboWarX.Arena.Registers
         public override Int16 value
         {
             get { return 0; }
-            set
+            internal set
             {
                 int energy = robot.useEnergy(Math.Abs(value) * 2);
                 double newx = robot.x + Math.Sign(value) * Math.Floor((float)energy / 2);
@@ -44,7 +44,7 @@ namespace RoboWarX.Arena.Registers
         public override Int16 value
         {
             get { return 0; }
-            set
+            internal set
             {
                 int energy = robot.useEnergy(Math.Abs(value) * 2);
                 double newy = robot.y + Math.Sign(value) * Math.Floor((float)energy / 2);
@@ -71,7 +71,7 @@ namespace RoboWarX.Arena.Registers
         public override Int16 value
         {
             get { return (Int16) robot.speedx; }
-            set
+            internal set
             {
                 int old = value;
                 if (value > 20) value = 20;
@@ -105,7 +105,7 @@ namespace RoboWarX.Arena.Registers
         public override Int16 value
         {
             get { return (Int16) robot.speedy; }
-            set
+            internal set
             {
                 int old = value;
                 if (value > 20) value = 20;

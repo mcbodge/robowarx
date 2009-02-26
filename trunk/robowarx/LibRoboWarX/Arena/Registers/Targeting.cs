@@ -17,7 +17,7 @@ namespace RoboWarX.Arena.Registers
         public override Int16 value
         {
             get { return (Int16) robot.aim; }
-            set
+            internal set
             {
                 robot.aim = (Int16)(value % 360);
                 if (robot.aim < 0)
@@ -40,7 +40,7 @@ namespace RoboWarX.Arena.Registers
         public override Int16 value
         {
             get { return (Int16)robot.look; }
-            set
+            internal set
             {
                 robot.look = (Int16)(value % 360);
                 if (robot.look < 0)
@@ -63,7 +63,7 @@ namespace RoboWarX.Arena.Registers
         public override Int16 value
         {
             get { return (Int16)robot.scan; }
-            set
+            internal set
             {
                 robot.scan = (Int16)(value % 360);
                 if (robot.scan < 0)
