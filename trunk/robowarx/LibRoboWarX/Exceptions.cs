@@ -5,18 +5,6 @@ using RoboWarX.VM;
 
 namespace RoboWarX
 {
-    /// Exception class for collecting multiple exceptions that happen during a single chronon.
-    public class MultipleErrorsException : Exception
-    {
-        public readonly RobotException[] InnerExceptions;
-        
-        internal MultipleErrorsException(RobotException[] inner) :
-            base("Multiple exceptions caught.")
-        {
-            InnerExceptions = inner;
-        }
-    }
-    
     /// Exception class for illegal operations in the specific object state.
     public class StateException : Exception
     {

@@ -21,9 +21,10 @@ namespace RoboWarX.Arena
             frame = 0;
         }
 
-        public override void update()
+        public override IEnumerable<SimulationEvent> update()
         {
-            base.update();
+            foreach (SimulationEvent e in base.update())
+                yield return e;
 
             if (frame < 3)
                 frame++;
@@ -59,6 +60,7 @@ namespace RoboWarX.Arena
                 */
                 destroy();
             }
+            yield break;
         }
 
         public override void draw(Graphics gfx)

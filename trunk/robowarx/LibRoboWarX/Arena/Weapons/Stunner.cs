@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using RoboWarX;
 using RoboWarX.Arena;
@@ -42,12 +43,14 @@ namespace RoboWarX.Arena.Weapons
             speedy = angley * 7;
         }
 
-        public override void update()
+        public override IEnumerable<SimulationEvent> update()
         {
             // Stunners update twice in a chronon
-            base.update();
+            foreach (SimulationEvent e in base.update())
+                yield return e;
             // FIXME: do we need to check destruction here?
-            base.update();
+            foreach (SimulationEvent e in base.update())
+                yield return e;
         }
 
         public override bool onHit(ArenaObject other)

@@ -317,14 +317,19 @@ namespace RoboWarX.Arena
         }
 
         // First kind of update, the 'environmental update'
-        public override void update()
+        public override IEnumerable<SimulationEvent> update()
         {
             if (alive && stunned == 0)
             {
                 if (energy < hardware.energyMax)
+                {
                     energy = Math.Min(energy + 2, hardware.energyMax);
+                }
                 else if (energy > hardware.energyMax)
-                    throw new HardwareException(this, "Maximum energy exceeded.");
+                {
+                    yield return new RobotFaultEvent(this, new HardwareException(this, "Maximum energy exceeded."));
+                    yield break;
+                }
 
                 if (shield != 0)
                 {
@@ -336,7 +341,9 @@ namespace RoboWarX.Arena
                         shield = 0;
                 }
                 if (energy > 0)
-                    base.update(); // Move
+                    // Move
+                    foreach (SimulationEvent e in base.update())
+                        yield return e;
                 if (energy < -200)
                 {
                     damage = -10;
@@ -346,11 +353,13 @@ namespace RoboWarX.Arena
         }
 
         // Second kind of update, where the program is executed
-        internal void executeChronon()
+        internal IEnumerable<SimulationEvent> executeChronon()
         {
             if (alive)
             {
-                interp.processInterrupts();
+                Int16 interruptCode = interp.processInterrupts();
+                if (interruptCode != (Int16)Bytecodes.INVALID_CODE)
+                    yield return new InterruptEvent(this, interruptCode);
 
                 if (stunned > 0)
                     stunned--;
@@ -361,18 +370,26 @@ namespace RoboWarX.Arena
                         int cycleNum = hardware.processorSpeed;
                         while (cycleNum > 0)
                         {
+                            Exception err = null;
                             try
                             {
                                 cycleNum -= interp.step();
                             }
-                            catch (RobotException)
+                            catch (RobotException e)
                             {
-                                throw;
+                                err = e;
                             }
                             catch (VMachineException e)
                             {
-                                throw new RobotException(this, e);
+                                err = e;
                             }
+                            if (err != null)
+                            {
+                                yield return new RobotFaultEvent(this, err);
+                                yield break;
+                            }
+                            
+                            yield return new StepEvent(this);
                         }
                     }
 

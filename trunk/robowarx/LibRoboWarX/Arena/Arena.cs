@@ -36,7 +36,7 @@ namespace RoboWarX.Arena
             get { return teamBattle_; }
             set
             {
-                if (chronon > 0)
+                if (simulationStarted)
                     throw new FieldAccessException("Simulation has already been started.");
                 teamBattle_ = value;
             }
@@ -51,13 +51,14 @@ namespace RoboWarX.Arena
             get { return chrononLimit_; }
             set
             {
-                if (chronon > 0)
+                if (simulationStarted)
                     throw new FieldAccessException("Simulation has already been started.");
                 chrononLimit_ = value;
             }
         }
 
         // Some additional internal state
+        private bool simulationStarted;
         private byte numAlive;
         private byte onlyTrackingShots; // game has ended, but loop just a tad more
 
@@ -77,6 +78,7 @@ namespace RoboWarX.Arena
             finished = false;
             chrononLimit = -1;
             
+            simulationStarted = false;
             numAlive = 0;
             onlyTrackingShots = 0;
 
@@ -296,108 +298,102 @@ namespace RoboWarX.Arena
             delObjects.Clear();
         }
 
-        // Step a full chronon for all objects
-        public void stepChronon()
+        // Run the simulation.
+        public IEnumerable<SimulationEvent> run()
         {
-            if (finished)
-                throw new StateException("Game has already finished.");
+            if (simulationStarted)
+                throw new StateException("Simulation has already been started.");
 
-            // Reset some variables at the start of a chronon
-            foreach (Robot robot in robots)
+            while (!finished)
             {
-                robot.collision = false;
-                robot.friend = false;
-                robot.wall = false;
-                robot.hit = 0;
-            }
-            
-            // FIXME: handle non-robot extension errors in a special way.
-            List<RobotException> errors = new List<RobotException>();
-
-            updateObjects();
-            foreach (ArenaObject obj in objects_)
-                obj.update();
-            updateObjects();
-
-            // Update all robots
-            foreach (Robot robot in robots)
-            {
-                try
+                // Reset some variables at the start of a chronon
+                foreach (Robot robot in robots)
                 {
-                    robot.update();
+                    robot.collision = false;
+                    robot.friend = false;
+                    robot.wall = false;
+                    robot.hit = 0;
                 }
-                catch (RobotException e)
+    
+                updateObjects();
+                foreach (ArenaObject obj in objects_)
+                    foreach (SimulationEvent e in obj.update())
+                        yield return e;
+                updateObjects();
+    
+                // Update all robots
+                foreach (Robot robot in robots)
                 {
-                    errors.Add(e);
-                    robot.damage = -10;
-                    robot.deathReason = DeathReason.Buggy;
+                    foreach (SimulationEvent e in robot.update())
+                    {
+                        if (e.GetType() == typeof(RobotFaultEvent))
+                        {
+                            robot.damage = -10;
+                            robot.deathReason = DeathReason.Buggy;
+                            checkDeath(robot);
+                            yield return e;
+                            break;
+                        }
+                        
+                        yield return e;
+                    }
+    
+                    if (robot.alive)
+                        checkCollisions(robot);
+    
+                    calcKillPoints(robot);
+                }
+    
+                foreach (Robot robot in robots)
+                {
+                    if (!robot.alive)
+                        continue;
+    
+                    doCollisionDamage(robot);
                     checkDeath(robot);
                 }
-
-                if (robot.alive)
-                    checkCollisions(robot);
-
-                calcKillPoints(robot);
-            }
-
-            foreach (Robot robot in robots)
-            {
-                if (!robot.alive)
-                    continue;
-
-                doCollisionDamage(robot);
-                checkDeath(robot);
-            }
-
-            // Interpret all robots FIXME
-            byte[] order = { 0, 1, 2, 3, 4, 5 };
-            for (int loop = 0; loop < robots.Count; loop++)
-            {
-                // Pick a random order
-                int pos = prng.Next() % (robots.Count - loop);
-                Robot who = robots[order[pos]];
-                order[pos] = order[robots.Count - loop - 1];
-
-                try
+    
+                // Interpret all robots FIXME
+                byte[] order = { 0, 1, 2, 3, 4, 5 };
+                for (int loop = 0; loop < robots.Count; loop++)
                 {
-                    who.executeChronon();
+                    // Pick a random order
+                    int pos = prng.Next() % (robots.Count - loop);
+                    Robot who = robots[order[pos]];
+                    order[pos] = order[robots.Count - loop - 1];
+    
+                    foreach (SimulationEvent e in who.executeChronon())
+                    {
+                        if (e.GetType() == typeof(RobotFaultEvent))
+                        {
+                            who.damage = -10;
+                            who.deathReason = DeathReason.Buggy;
+                            yield return e;
+                            break;
+                        }
+                        
+                        yield return e;
+                    }
+    
+                    // This happens when a robot suicides from excessive energy usage or is buggy.
+                    checkDeath(who);
                 }
-                catch (RobotException e)
-                {
-                    errors.Add(e);
-                    who.damage = -10;
-                    who.deathReason = DeathReason.Buggy;
-                }
-                // catch all
-                catch (Exception e)
-                {
-                    errors.Add(new RobotException(who,e.Message, e));
-                    who.damage = -10;
-                    who.deathReason = DeathReason.Buggy;
-                }
-
-                // This happens when a robot suicides from excessive energy usage or is buggy.
-                checkDeath(who);
-            }
-
-            chronon++;
-            if (chrononLimit > 0 && chronon >= chrononLimit)
-                finished = true;
-
-            if (onlyTrackingShots > 0)
-            {
-                onlyTrackingShots--;
-
-                // Conclude after 20 chronons
-                if (onlyTrackingShots == 0)
+    
+                chronon++;
+                if (chrononLimit > 0 && chronon >= chrononLimit)
                     finished = true;
+    
+                if (onlyTrackingShots > 0)
+                {
+                    onlyTrackingShots--;
+    
+                    // Conclude after 20 chronons
+                    if (onlyTrackingShots == 0)
+                        finished = true;
+                }
+                
+                yield return new ChrononEndEvent();
             }
-            
-            // Finish the chronon and throw every exception in one go.
-            if (errors.Count == 1)
-                throw errors[0];
-            else if (errors.Count > 1)
-                throw new MultipleErrorsException(errors.ToArray());
         }
 
         public void draw(Graphics gfx)

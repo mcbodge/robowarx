@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Gtk;
 using RoboWarX;
 using RoboWarX.Arena;
@@ -9,6 +10,7 @@ namespace RoboWarX.GTK
     public partial class MainWindow: Gtk.Window
     {
         private Arena.Arena arena;
+        private IEnumerable<SimulationEvent> arenaIt;
         private uint gametimer; // Glib.Source handle
         
         private Gtk.UIManager uimanager;
@@ -88,6 +90,7 @@ namespace RoboWarX.GTK
             stop_game();
             
             arena = new Arena.Arena();
+            arenaIt = null;
             
             arenaview.arena = arena;
             arenaview.QueueDraw();
@@ -112,52 +115,38 @@ namespace RoboWarX.GTK
         // Timer callback
         private bool frame()
         {
-            int result = (int)Gtk.ResponseType.Close;
+            if (arenaIt == null)
+                arenaIt = arena.run();
             
-            try
+            foreach (SimulationEvent ev in arenaIt)
             {
-                try
-                {
-                    arena.stepChronon();
-                }
-                finally
+                if (ev.GetType() == typeof(ChrononEndEvent))
                 {
                     arenaview.QueueDraw();
                     foreach (RobotWidget w in robotlist)
                         if (w != null)
                             w.update_info();
                     chrononlabel.Text = "Chronon " + arena.chronon.ToString() + " (20 c/s)";
+                    
+                    // Wait a bit
+                    return true;
+                }
+                
+                if (ev.GetType() == typeof(RobotFaultEvent))
+                {
+                    int userAction = new ErrorDialog(ev as RobotFaultEvent).Run();
+                    if (userAction == (int)Gtk.ResponseType.Cancel)
+                    {
+                        stop_game();
+                        return false;
+                    }
                 }
             }
-            catch (RobotException e)
-            {
-                result = new ErrorDialog(e).Run();
-            }
-            catch (MultipleErrorsException m)
-            {
-                foreach (Exception e in m.InnerExceptions)
-                    if (e.GetType() == typeof(RobotException))
-                    {
-                        result = new ErrorDialog(e as RobotException).Run();
-                        if (result == (int)Gtk.ResponseType.Close)
-                            break;
-                    }
-                    else
-                        throw e;
-            }
-                
-            if (arena.finished)
-            {
-                stop_game();
-                playbutton.Sensitive = false;
-                return false;
-            }
-            else if (result == (int)Gtk.ResponseType.Cancel)
-            {
-                stop_game();
-                return false;
-            }
-            return true;
+            
+            // If we fall through the loop, iteration has ended
+            stop_game();
+            playbutton.Sensitive = false;
+            return false;
         }
 
         
