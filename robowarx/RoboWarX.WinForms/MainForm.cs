@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Drawing;
 using System.Windows.Forms;
@@ -10,6 +11,7 @@ namespace RoboWarX.WinForms
     public partial class MainForm : Form
     {
         private Arena.Arena arena;
+        private IEnumerable<SimulationEvent> arenaIt;
         private RobotControl[] robotlist;
 
         public MainForm(string[] files)
@@ -75,18 +77,26 @@ namespace RoboWarX.WinForms
         // Handle for timer ticks, step a chronon
         private void frame(object sender, EventArgs e)
         {
-            arena.stepChronon();
-            arenaview.Invalidate();
-            foreach (RobotControl c in robotlist)
-                c.update_info();
-            chrononlabel.Text = "Chronon " + arena.chronon.ToString();
-
-            if (arena.finished)
+            if (arenaIt == null)
+                arenaIt = arena.run();
+            
+            foreach (SimulationEvent ev in arenaIt)
             {
-                gametimer.Stop();
-                playpausebutton.Text = "Finished";
-                playpausebutton.Enabled = false;
-            }
+                if (ev.GetType() == typeof(ChrononEndEvent))
+                {
+                    arenaview.Invalidate();
+                    foreach (RobotControl c in robotlist)
+                        c.update_info();
+                    chrononlabel.Text = "Chronon " + arena.chronon.ToString();
+                    
+                    // Wait a bit
+                    return;
+                }
+            }     
+
+            gametimer.Stop();
+            playpausebutton.Text = "Finished";
+            playpausebutton.Enabled = false;
         }
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
