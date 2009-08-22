@@ -141,23 +141,24 @@ namespace RoboWarX.Headless
             }
             else
             {
-                while (!arena.finished)
+                IEnumerable<SimulationEvent> arenaIt = arena.run();
+            
+                foreach (SimulationEvent ev in arenaIt)
                 {
-                    try
+                    if (ev.GetType() == typeof(ChrononEndEvent))
                     {
-                        arena.stepChronon();
-
                         if (ChrononsPerUpdate > 0 && arena.chronon % ChrononsPerUpdate == 0)
                             DisplayState();
                     }
-                    catch (Exception e)
+                
+                    if (ev.GetType() == typeof(RobotFaultEvent))
                     {
-                        if (!HandleError(e))
+                        if (!HandleError(ev as RobotFaultEvent))
                             break;
                     }
                 }
                 DisplayState();
-        Console.WriteLine("".PadLeft(40, '#'));
+                Console.WriteLine("".PadLeft(40, '#'));
             }
         }
 
@@ -166,9 +167,9 @@ namespace RoboWarX.Headless
         /// </summary>
         /// <param name="e">The exception to handle</param>
         /// <returns>True if processing should continue, false otherwise</returns>
-        private bool HandleError(Exception e)
+        private bool HandleError(RobotFaultEvent e)
         {
-            Console.WriteLine(String.Format("Encountered an Error: {0}", e.Message));
+            Console.WriteLine(String.Format("Encountered an Error: {0}", e.exception.Message));
             return true;
         }
 
