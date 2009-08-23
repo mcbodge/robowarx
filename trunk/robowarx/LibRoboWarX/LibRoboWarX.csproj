@@ -31,6 +31,7 @@
     <IsWebBootstrapper>true</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <CodePage>65001</CodePage>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -40,12 +41,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>3</WarningLevel>
-    <EnvironmentVariables>
-      <EnvironmentVariables />
-    </EnvironmentVariables>
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
-    <StartupObject />
-    <CodePage>65001</CodePage>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -55,12 +51,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>3</WarningLevel>
     <DebugSymbols>true</DebugSymbols>
-    <EnvironmentVariables>
-      <EnvironmentVariables />
-    </EnvironmentVariables>
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
-    <StartupObject />
-    <CodePage>65001</CodePage>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -203,6 +194,6 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <Folder Include="Arena\Registers/" />
+    <Folder Include="Arena\Registers\" />
   </ItemGroup>
 </Project>

@@ -39,9 +39,17 @@ Global
 		{DF4F5C0D-1931-46B9-B27E-019B5CEC7602}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
-		name = RoboWarX
 		version = 0.1
 		StartupItem = RoboWarX.GTK\RoboWarX.GTK.csproj
+		Policies = $0
+		$0.TextStylePolicy = $1
+		$1.FileWidth = 120
+		$1.TabWidth = 4
+		$1.TabsToSpaces = True
+		$1.NoTabsAfterNonTabs = False
+		$1.RemoveTrailingWhitespace = True
+		$1.EolMarker = Native
+		name = RoboWarX
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
