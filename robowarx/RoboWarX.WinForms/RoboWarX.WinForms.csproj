@@ -17,6 +17,7 @@
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <CodePage>65001</CodePage>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -29,11 +30,6 @@
     <OutputType>WinExe</OutputType>
     <RootNamespace>RoboWarX.WinForms</RootNamespace>
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
-    <StartupObject>RoboWarX.WinForms.Program</StartupObject>
-    <CodePage>65001</CodePage>
-    <EnvironmentVariables>
-      <EnvironmentVariables />
-    </EnvironmentVariables>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -46,11 +42,6 @@
     <DebugSymbols>true</DebugSymbols>
     <RootNamespace>RoboWarX.WinForms</RootNamespace>
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
-    <EnvironmentVariables>
-      <EnvironmentVariables />
-    </EnvironmentVariables>
-    <StartupObject>RoboWarX.WinForms.Program</StartupObject>
-    <CodePage>65001</CodePage>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
