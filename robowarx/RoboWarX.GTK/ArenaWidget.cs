@@ -71,32 +71,50 @@ namespace RoboWarX.GTK
             view.QueueDraw();
         }
 
+        private Gdk.GC whitegc = null, darkgc = null;
+        private Gdk.Pixmap view_pixmap = null;
+        private System.Drawing.Graphics view_graphics = null;
+
+        protected virtual void OnRealized (object sender, System.EventArgs e)
+        {
+            whitegc = new Gdk.GC(GdkWindow);
+            whitegc.Foreground = view.Style.White;
+            
+            darkgc = new Gdk.GC(GdkWindow);
+            darkgc.Foreground = view.Style.Dark(StateType.Normal);
+            
+            view_pixmap = new Gdk.Pixmap(GdkWindow, Constants.ARENA_SIZE, Constants.ARENA_SIZE);
+            view_graphics = Gtk.DotNet.Graphics.FromDrawable(view_pixmap);
+        }
+
+        protected virtual void OnUnrealized (object sender, System.EventArgs e)
+        {
+            whitegc = null;
+            darkgc = null;
+            view_pixmap = null;
+            view_graphics = null;
+        }
+
         protected virtual void OnViewExposeEvent (object o, Gtk.ExposeEventArgs args)
         {
             Gdk.Window win = args.Event.Window;
-            
-            Gdk.GC whitegc = new Gdk.GC(win);
-            whitegc.Foreground = view.Style.White;
-            
-            Gdk.GC darkgc = new Gdk.GC(win);
-            darkgc.Foreground = view.Style.Dark(StateType.Normal);
-            
+
+            // Draw the window border
             win.DrawRectangle(darkgc, false, 0, 0, dimensions + 1, dimensions + 1);
-            win.DrawRectangle(whitegc, true, 1, 1, dimensions, dimensions);
             
             if (arena != null)
             {
                 const int d = Constants.ARENA_SIZE;
                 
-                Gdk.Pixmap pm = new Gdk.Pixmap(win, d, d);
-                pm.DrawRectangle(whitegc, true, 0, 0, d, d);
-                arena.draw(Gtk.DotNet.Graphics.FromDrawable(pm));
+                // Clear the pixmap
+                view_pixmap.DrawRectangle(whitegc, true, 0, 0, d, d);
+                arena.draw(view_graphics);
                 
                 if (scaling_ == ScalingMode.None)
-                    win.DrawDrawable(whitegc, pm, 0, 0, 1, 1, d, d);
+                    win.DrawDrawable(whitegc, view_pixmap, 0, 0, 1, 1, d, d);
                 else
                 {            
-                    Gdk.Pixbuf pb = Gdk.Pixbuf.FromDrawable(pm, win.Screen.DefaultColormap,
+                    Gdk.Pixbuf pb = Gdk.Pixbuf.FromDrawable(view_pixmap, win.Screen.DefaultColormap,
                         0, 0, 0, 0, d, d);
                     
                     Gdk.Pixbuf spb = null;

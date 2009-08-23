@@ -327,6 +327,8 @@ ___</property>
   </widget>
   <widget class="Gtk.Bin" id="RoboWarX.GTK.ArenaWidget" design-size="300 300">
     <property name="MemberName" />
+    <signal name="Realized" handler="OnRealized" />
+    <signal name="Unrealized" handler="OnUnrealized" />
     <child>
       <widget class="Gtk.DrawingArea" id="view">
         <property name="MemberName" />
