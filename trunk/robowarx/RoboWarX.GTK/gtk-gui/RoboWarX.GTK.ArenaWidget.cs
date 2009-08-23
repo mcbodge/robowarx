@@ -30,6 +30,8 @@ namespace RoboWarX.GTK {
                 this.Child.ShowAll();
             }
             this.Show();
+            this.Realized += new System.EventHandler(this.OnRealized);
+            this.Unrealized += new System.EventHandler(this.OnUnrealized);
             this.view.ExposeEvent += new Gtk.ExposeEventHandler(this.OnViewExposeEvent);
         }
     }
