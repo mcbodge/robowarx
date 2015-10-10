@@ -1,0 +1,3 @@
+> “Welcome to RoboWar. In this game, you will pit armored robots against each other in gladitorial combat or build your own robots to vie for championship in the arena! Only clever design and skillful implementation will bring your robot to the top. May victory go to the strongest!”
+
+You are looking at the project page for RoboWarX, a C# reimplementation of the classic Macintosh game of RoboWar. RoboWarX aims to bring the game of RoboWar to all major platforms, while staying close to the original.
